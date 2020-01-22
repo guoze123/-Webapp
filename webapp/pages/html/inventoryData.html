@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../layui/css/layui.css">
+<script src="../layui/layui.js"></script>
+</head>
+<body>
+<div class="layui-form">
+<a onclick="add();" class="layui-btn layui-inline fl w130">添加</a>
+<table id="inventoryTable" class="layui-table" style="text-align:center">
+</table>
+</div>
+<script>
+function add() {
+	layui.use('layer', function(){
+	    layer.open({
+	    title:['添加入库','font-size:18px;color:red'],  //标题
+		  type : 2,  //iframe层
+		  content : '..//html/inventoryForm.html', //content只能
+		  area: ['800px', '400px'], //设置宽800px，高400px
+		  maxmin: true,   //显示最大化最小化按钮
+		  anim: 2    //从最底部往上滑入
+		//  time:5000    //5秒后自动关闭
+	   });
+	 });
+}
+window.onload=function(){
+    getPath();
+}
+
+function getPath(){
+    var pathName = document.location.pathname;
+    var index = pathName.substr(1).indexOf("/");
+    var result = pathName.substr(0,index+1);
+    return result;
+}
+
+layui.use('table', function(){
+  var table = layui.table;
+  //第一个实例
+  table.render({
+    elem: '#inventoryTable'
+    ,height: 312
+    ,url: getPath()+'/configuration/queryWaresInfo' //数据接口
+    ,method:"post"
+    ,contentType:"application/json"
+    ,where: JONS.stringify({})
+    ,page:false
+    ,cols: [[ //表头
+      {field: 'waresId', title: 'ID', width:80, sort: true, fixed: 'left'}
+      ,{field: 'waresName', title: '名称', width:80}
+      ,{field: 'categoryName', title: '类别', width:80, sort: true}
+      ,{field: 'waresPrice', title: '价钱', width:80} 
+      ,{field: 'waresDesc', title: '描述', width: 177}
+    ]]
+  });
+  
+});
+</script>
+</body>
+</html>
