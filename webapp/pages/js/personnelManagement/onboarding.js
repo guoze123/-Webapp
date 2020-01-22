@@ -214,7 +214,6 @@ var employeeId="";
   );
   // 点击查询按钮
   $("#eventqueryBtn").click(function() {
-    $("#employeeInfo").bootstrapTable("selectPage",1);
     $("#employeeInfo").bootstrapTable("destroy");
     initFn();
   });
@@ -314,8 +313,8 @@ var employeeId="";
       console.log(res);
       if (res.resultCode > -1) {
         layer.closeAll("page");
-        $("#employeeInfo").bootstrapTable("selectPage",1);
-        $("#employeeInfo").bootstrapTable("refresh");
+        $("#employeeInfo").bootstrapTable("destroy");
+        initFn();
       } else {
         let tipsText;
         if (isadd) {
