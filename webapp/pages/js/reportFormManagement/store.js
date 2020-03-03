@@ -1,15 +1,7 @@
 (function(document, window, $) {
   "use strict";
 
-  $(".startTime ,.endTime").datepicker({
-    startView: 1,
-    todayBtn: "linked",
-    keyboardNavigation: false,
-    forceParse: false,
-    autoclose: true,
-    minViewMode: 1,
-    format: "yyyy-mm"
-  });
+  monthRange(".startTime",".endTime")
 
   function initFn() {
     $("#storeSales").bootstrapTable({
@@ -26,6 +18,8 @@
       cache: true, // 禁止数据缓存
       search: false, // 是否展示搜索
       showLoading: true,
+      sortable: true,
+      sortOrder: "asc",//排序方式
       queryParams: queryParams,
       contentType: "application/x-www-form-urlencoded",
       // responseHandler: function(res) {
@@ -34,39 +28,32 @@
       columns: [
         {
           title: "时间",
-          field: "bathno"
+          field: "batchno"
         },
         {
           title: "店铺名称",
-          field: "storeName"
+          field: "storeName",
+          sortable: true
         },
         {
-          title: "销售额",
-          field: "sales"
+          title: "月度销售额",
+          field: "avgSales",
+          sortable: true,
         },
         {
-          title: "利润",
-          field: "profit"
+          title: "月度利润",
+          field: "avgProfit",
+          sortable: true,
         },
         {
           title: "等级",
-          field: "alesCategery"
-        },
-        {
-          title: "完成率",
-          field: "alesCategery"
+          field: "avgStoreLevel",
+          sortable: true,
         },
         {
           title: "目标值",
-          field: "targetValue"
-        },
-        {
-          title: "平均值",
-          field: "alesCategery"
-        },
-        {
-          title: "平均等级",
-          field: "alesCategery"
+          field: "targetValue",
+          sortable: true,
         },
         {
           title: "操作",
@@ -94,7 +81,10 @@
         {
           params: {
             jsonStr: JSON.stringify({
-              storeId: row.storeId
+              storeId: row.storeId,
+              storeName:row.storeName,
+              startTime:row.batchno,
+              endTime:row.batchno
             })
           },
           contentType: "application/x-www-form-urlencoded;charset=utf-8"
@@ -108,24 +98,31 @@
             height: $("body").height() < 500 ? $("body").height() - 120 : 300,
             columns: [
               {
-                title: "开支时间",
-                field: "batchno"
+                title: "时间",
+                field: "operationDate"
               },
               {
-                title: "开支的店铺",
-                field: "ownerName"
+                title: "店铺名称",
+                field: "storeName"
               },
               {
-                title: "开支名称",
-                field: "categoryName"
+                title: "销售员",
+                field: "sellers"
               },
               {
-                title: "开支金额",
-                field: "amount"
+                title: "总金额",
+                field: "totalAmount"
+              },
+              {
+                title: "实付金额",
+                field: "payedAmount"
+              },{
+                title: "客户类型",
+                field: "custType"
               }
             ]
           });
-          open_html("详情信息", "#detail", function() {});
+          open_html("详情信息", "#storeDetail", function() {});
         }
       );
     }
@@ -169,13 +166,20 @@
   });
   // 导出
   $(".exportBtn").click(function() {
+    let menuName= $('.J_menuTab.active', parent.document).text().trim();
+    let titleName=$(this).parents(".ibox").find(".ibox-title h5 ").text().trim();
     let form = $('<form id="to_export" style="display:none"></form>').attr({
-      action: base + "/common/exportStoreTargetTemplate",
+      action: base + "/common/exportStoreAnalysis",
       method: "post"
     });
     $("<input>")
-      .attr("name", "batchno")
-      .val($(".startTime").val())
+      .attr("name", "jsonStr")
+      .val(JSON.stringify({
+        startTime: $(".startTime").val()?$(".startTime").val():undefined,
+        endTime:$(".endTime").val()?$(".endTime").val():undefined,
+        storeName:$(".query_storeName").val().trim()?$(".query_storeName").val().trim():undefined,
+        fileName: menuName + "-" + titleName+".csv"
+      }))
       .appendTo(form);
     $("body").append(form);
     $("#to_export")

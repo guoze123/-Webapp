@@ -10,9 +10,12 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+pa
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title></title>
+  <meta name="renderer" content="webkit"/>
+  <meta name="force-rendering" content="webkit"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
   <meta name="keywords" content="" />
   <meta name="description" content="" />
-  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="shortcut icon" href="${pageContext.request.contextPath}/pages/img/favicon.ico" />
   <link href="${pageContext.request.contextPath}/pages/css/bootstrap.min.css?v=3.3.6" rel="stylesheet" />
   <link href="${pageContext.request.contextPath}/pages/css/font-awesome.css?v=4.4.0" rel="stylesheet" />
   <link href="${pageContext.request.contextPath}/pages/css/plugins/bootstrap-table/bootstrap-table.min.css"
@@ -34,22 +37,23 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+pa
   <div class="wrapper wrapper-content animated fadeInRight">
     <div class="ibox float-e-margins">
       <div class="ibox-title">
-        <h5>等级类型</h5>
+        <h5>店铺等级</h5>
         <div class="ibox-tools"></div>
       </div>
       <div class="ibox-content">
         <div class="row row-lg">
           <div class="col-sm-12">
             <div class="example">
-              <div class="searchList" style="float:right;">
-                <span>
-                  <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn" style="width:80px;">
-                    查询
-                  </button>
-                  <button type="button" id="eventqueryBtn" class="btn btn-success submitBtn" style="width:80px;">
-                    提交
-                  </button>
-                </span>
+              <div class="searchList">
+                <div class="left">
+                </div>
+                <div class="right">
+                  <span>
+                    <button type="button" id="eventqueryBtn" class="btn btn-success submitBtn" style="width:80px;">
+                      更新
+                    </button>
+                  </span>
+                </div>
               </div>
               <table id="storeGrade" data-mobile-responsive="true"></table>
             </div>

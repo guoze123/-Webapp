@@ -6,24 +6,8 @@
     $(".main_title").remove()
   }
   var url = "/configuration/queryPlan";
-  $(".startTime").datepicker({
-    startView: 1,
-    todayBtn: "linked",
-    keyboardNavigation: false,
-    forceParse: false,
-    autoclose: true,
-    minViewMode: 1,
-    format: "yyyy-mm"
-  });
-  $(".startYear").datepicker({
-    format: "yyyy",
-    language: "zh-CN",
-    autoclose: true,
-    startView: 2,
-    maxViewMode: 2,
-    minViewMode: 2
-  });
-
+  monthRange(".startTime",".endTime");
+  yearRange(".startYear",".endYear");
   function initFn() {
     ajax_data(
       url,
@@ -34,6 +18,8 @@
         contentType: "application/x-www-form-urlencoded"
       },
       function(res) {
+        $("#companyYearPlan").bootstrapTable("destroy");
+        $("#companyMonthPlan").bootstrapTable("destroy");
         $("#companyYearPlan").bootstrapTable({
           data: res.year,
           striped: true, //是否显示行间隔色
@@ -43,8 +29,12 @@
           pagination: false, //是否分页
           columns: [
             {
-              title: "计划时间",
-              field: "batchno"
+              title: "计划名称",
+              field: "planName"
+            },
+            {
+              title: "计划周期",
+              field: "planPeriod"
             },
             {
               title: "计划内容",
@@ -59,8 +49,8 @@
               field: "progress"
             },
             {
-              title: "描述",
-              field: "planDesc"
+              title: "备注",
+              field: "remark"
             }
           ]
         });
@@ -72,28 +62,33 @@
           pagination: false, //是否分页
           columns: [
             {
-              title: "计划时间",
-              field: "batchno"
+              title: "计划名称",
+              field: "planName"
+            },
+            {
+              title: "计划周期",
+              field: "planPeriod"
             },
             {
               title: "计划内容",
               field: "content"
+            },
+            
+            {
+              title: "部门",
+              field: "department"
             },
             {
               title: "责任人",
               field: "responsible"
             },
             {
-              title: "部门",
-              field: "department"
-            },
-            {
               title: "进度",
               field: "progress"
             },
             {
-              title: "描述",
-              field: "planDesc"
+              title: "备注",
+              field: "remark"
             }
           ]
         });
@@ -111,7 +106,8 @@
         params: {
           jsonStr: JSON.stringify({
             planType: 0,
-            batchno: $(".startYear").val()
+            startTime: $(".startYear").val()?$(".startYear").val() :undefined,
+            endTime: $(".endYear").val()? $(".endYear").val():undefined,
           })
         },
         contentType: "application/x-www-form-urlencoded"
@@ -126,14 +122,21 @@
           pagination: false, //是否分页
           columns: [
             {
-              title: "计划时间",
-              field: "planPeriod"
+              title: "计划名称",
+              field: "planName"
+            },
+            {
+              title: "开始时间",
+              field: "startTime"
+            },
+            {
+              title: "结束时间",
+              field: "endTime"
             },
             {
               title: "计划内容",
               field: "content"
             },
-
             {
               title: "部门",
               field: "department"
@@ -143,7 +146,7 @@
               field: "progress"
             },
             {
-              title: "描述",
+              title: "备注",
               field: "planDesc"
             }
           ]
@@ -159,7 +162,8 @@
         params: {
           jsonStr: JSON.stringify({
             planType: 1,
-            batchno: $(".startTime").val()
+            startTime: $(".startTime").val()? $(".startTime").val():undefined,
+            endTime: $(".endTime").val()? $(".endTime").val():undefined
           })
         },
         contentType: "application/x-www-form-urlencoded"
@@ -174,27 +178,36 @@
           pagination: false, //是否分页
           columns: [
             {
-              title: "计划时间",
-              field: "planPeriod"
+              title: "计划名称",
+              field: "planName"
+            },
+            {
+              title: "开始时间",
+              field: "startTime"
+            },
+            {
+              title: "结束时间",
+              field: "endTime"
             },
             {
               title: "计划内容",
               field: "content"
+            },
+            
+            {
+              title: "部门",
+              field: "department"
             },
             {
               title: "责任人",
               field: "responsible"
             },
             {
-              title: "部门",
-              field: "department"
-            },
-            {
               title: "进度",
               field: "progress"
             },
             {
-              title: "描述",
+              title: "备注",
               field: "planDesc"
             }
           ]
@@ -203,15 +216,35 @@
     );
   });
 
-  // 导出
-  $(".exportBtn").click(function() {
+  // 导出 年导出 月导出
+  $(".yearExport").click(function() {
     let form = $('<form id="to_export" style="display:none"></form>').attr({
       action: base + "/common/exportPlanTemplate",
       method: "post"
     });
     $("<input>")
       .attr("name", "jsonStr")
-      .val(JSON.stringify({}))
+      .val(JSON.stringify({
+        planType:"0",
+        fileName: $(this).parents(".ibox").find(".ibox-title h5 ").text() + ".csv"
+      }))
+      .appendTo(form);
+    $("body").append(form);
+    $("#to_export")
+      .submit()
+      .remove();
+  });
+  $(".monthExport").click(function() {
+    let form = $('<form id="to_export" style="display:none"></form>').attr({
+      action: base + "/common/exportPlanTemplate",
+      method: "post"
+    });
+    $("<input>")
+      .attr("name", "jsonStr")
+      .val(JSON.stringify({
+        planType:"0",
+        fileName: $(this).parents(".ibox").find(".ibox-title h5 ").text()+".csv"
+      }))
       .appendTo(form);
     $("body").append(form);
     $("#to_export")
@@ -219,8 +252,9 @@
       .remove();
   });
   // 导入
-  $("#uploadFile").change(function() {
+  $("#yearUploadFile").change(function() {
     var fromdata = new FormData();
+    fromdata.append("planType", 0);
     fromdata.append("files", $(this)[0].files[0]);
     file_upload("/common/importPlanFile", fromdata, function(res) {
       if (res.length > 0) {
@@ -229,7 +263,22 @@
       } else {
         tips("文件导入失败", 5);
       }
-      $("#uploadFile").val("");
+      $("#yearUploadFile").val("");
+    });
+  });
+
+  $("#monthuploadFile").change(function() {
+    var fromdata = new FormData();
+    fromdata.append("planType", 1);
+    fromdata.append("files", $(this)[0].files[0]);
+    file_upload("/common/importPlanFile", fromdata, function(res) {
+      if (res.length > 0) {
+        initFn();
+        tips("文件导入成功", 6);
+      } else {
+        tips("文件导入失败", 5);
+      }
+      $("#yearUploadFile").val("");
     });
   });
 })(document, window, jQuery);

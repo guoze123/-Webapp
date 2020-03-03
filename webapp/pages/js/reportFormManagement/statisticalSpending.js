@@ -1,16 +1,7 @@
 (function(document, window, $) {
   "use strict";
   var isadd = false;
-  $(".startTime ,.endTime").datepicker({
-    startView: 1,
-    todayBtn: "linked",
-    keyboardNavigation: false,
-    forceParse: false,
-    autoclose: true,
-    minViewMode: 1,
-    format: "yyyy-mm"
-  });
-
+  monthRange(".startTime",".endTime")
   function initFn() {
     $("#statisticalSpending").bootstrapTable({
       method: "post",
@@ -26,22 +17,27 @@
       showRefresh: false, //刷新按钮
       cache: true, // 禁止数据缓存
       search: false, // 是否展示搜索
+      sortable: true,
+      sortOrder: "asc", //排序方式
       showLoading: true,
       contentType: "application/x-www-form-urlencoded",
       queryParams: queryParams,
       columns: [
         {
           title: "开支时间",
-          field: "batchno"
+          field: "batchno",
+          sortable: true
         },
         {
-          title: "开支的店铺",
-          field: "ownerName"
+          title: "核算单元",
+          field: "ownerName",
+          sortable: true
         },
 
         {
           title: "开支金额",
-          field: "amount"
+          field: "amount",
+          sortable: true
         },
         {
           title: "操作",
@@ -51,7 +47,7 @@
         }
       ]
     });
-    queryCostType();
+    //queryCostType();
   }
 
   function operation(vlaue, row) {
@@ -69,13 +65,9 @@
         {
           params: {
             jsonStr: JSON.stringify({
-              ownerId: row.ownerId,
-              startTime: $(".searchList  .startTime")
-                .val()
-                .trim(),
-              endTime: $(".searchList  .endTime")
-                .val()
-                .trim()
+            ownerId: row.ownerId,
+            batchno: row.batchno,
+            ownerName:row.ownerName
             })
           },
           contentType: "application/x-www-form-urlencoded;charset=utf-8"
@@ -87,23 +79,34 @@
             pagination: false, //是否分页,
             data: res,
             height: $("body").height() < 500 ? $("body").height() - 120 : 330,
+            sortable: true,
+            sortOrder: "asc", //排序方式
             columns: [
               {
                 title: "开支时间",
-                field: "batchno"
+                field: "batchno",
+                sortable: true
               },
               {
                 title: "开支的店铺",
-                field: "ownerName"
+                field: "ownerName",
+                sortable: true
               },
               {
                 title: "开支名称",
-                field: "categoryName"
+                field: "categoryName",
+                sortable: true
               },
               {
                 title: "开支金额",
-                field: "amount"
+                field: "amount",
+                sortable: true
+              },
+              {
+                title: "备注",
+                field: "remark",
               }
+
             ]
           });
           open_html("详情信息", "#costDetail", function() {});
@@ -149,7 +152,7 @@
   initFn();
   // 点击查询按钮
   $("#eventqueryBtn").click(function() {
-    $("#payment").bootstrapTable("selectPage",1);
+    $("#payment").bootstrapTable("selectPage", 1);
     $("#statisticalSpending").bootstrapTable("refresh");
   });
 
@@ -165,7 +168,7 @@
     let params = {};
     ajax_data(
       "/cost/queryCostCategory",
-      { params: JSON.stringify(params)},
+      { params: JSON.stringify(params) },
       function(res) {
         let option = "<option value=''>开支分类</option>";
         res.forEach(function(element) {
@@ -176,4 +179,51 @@
       }
     );
   }
+
+   // 导出 当前总开支
+   $(".exportTotal").click(function() {
+    let menuName= $('.J_menuTab.active', parent.document).text().trim();
+    let titleName="总开支";
+    let form = $('<form id="to_export_total" style="display:none"></form>').attr({
+      action: base + "/common/exportCostRecord",
+      method: "post"
+    });
+    $("<input>")
+      .attr("name", "jsonStr")
+      .val(JSON.stringify({
+        startTime:$(".startTime").val()?$(".startTime").val():undefined,
+        endTime:$(".endTime").val()?$(".endTime").val():undefined,
+        ownerName:$(".query_ownerName").val()?$(".query_ownerName").val():undefined,
+        fileName: menuName + "-" + titleName+".csv"
+      }))
+      .appendTo(form);
+    $("body").append(form);
+    $("#to_export_total")
+      .submit()
+      .remove();
+  });
+
+   // 导出所有的详单
+   $(".exportDetails").click(function() {
+    let menuName= $('.J_menuTab.active', parent.document).text().trim();
+    let titleName="详单";
+    let form = $('<form id="to_export" style="display:none"></form>').attr({
+      action: base + "/common/exportCostDetail",
+      method: "post"
+    });
+    $("<input>")
+    .attr("name", "jsonStr")
+    .val(JSON.stringify({
+      startTime:$(".startTime").val()?$(".startTime").val():undefined,
+      endTime:$(".endTime").val()?$(".endTime").val():undefined,
+      ownerName:$(".query_ownerName").val()?$(".query_ownerName").val():undefined,
+      fileName: menuName + "-" + titleName+".csv"
+    }))
+    .appendTo(form);
+    $("body").append(form);
+    $("#to_export")
+      .submit()
+      .remove();
+  });
+
 })(document, window, jQuery);

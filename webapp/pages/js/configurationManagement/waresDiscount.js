@@ -9,11 +9,12 @@
       pageNumber: 1, //初始化加载第一页
       pagination: false, //是否分页
       sidePagination: "client", //server:服务器端分页|client：前端分页
-
       pageSize: 10, //单页记录数
       pageList: [10, 20, 30], //可选择单页记录数
       showRefresh: false, //刷新按钮
-      cache: true, // 禁止数据缓存
+      cache: true, // 禁止数据缓存,
+      sortable: true,
+      sortOrder: "asc",//排序方式
       search: false, // 是否展示搜索
       showLoading: true,
       height: $(window).height() - 150,
@@ -21,16 +22,19 @@
       contentType: "application/x-www-form-urlencoded",
       columns: [
         {
-          title: "商品id",
-          field: "waresId"
+          title: "商品编号",
+          field: "waresId",
+          sortable: true
         },
         {
           title: "商品名称",
-          field: "waresName"
+          field: "waresName",
+          sortable: true
         },
         {
           title: "商品分类",
-          field: "categoryName"
+          field: "categoryName",
+          sortable: true
         },
         {
           title: "商品进货折扣",
@@ -64,7 +68,9 @@
   });
 
   function queryParams() {
-    return {};
+    return {
+      waresName:$(".waresName").val().trim() ? $(".waresName").val().trim():undefined
+    };
   }
   // 点提交按钮
   $(".submitBtn").click(function() {

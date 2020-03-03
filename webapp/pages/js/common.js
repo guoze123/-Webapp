@@ -141,16 +141,24 @@ function file_upload(url, formData, fn) {
 
 function firm(title, txt, fun) {
   // 确认框
-  layer.open({
-    type: 1,
-    title: title,
-    content: txt, //这里content是一个普通的String
-    btn: ["确定", "取消"],
-    area: ["300px", "200px"],
-    yes: function(index, layero) {
-      fun();
-    },
-    btn2: function(index, layero) {}
+  // layer.open({
+  //   type: 1,
+  //   title: title,
+  //   content: txt, //这里content是一个普通的String
+  //   btn: ["确定", "取消"],
+  //   area: ["300px", "200px"],
+  //   yes: function(index, layero) {
+  //     fun();
+  //   },
+  //   btn2: function(index, layero) {}
+  // });
+
+  layer.confirm(txt, {
+    btn: ["确定", "取消"], //按钮
+  }, function(){
+    fun();
+  }, function(){
+    
   });
 }
 
@@ -373,7 +381,7 @@ function uploadFile(that) {
   var allwlmgFileSize = 2100000;
   var file = that[0].files[0];
   var imgUrlBase64;
-  if (!(file.type.indexOf("jp") > -1 || file.type.indexOf("JP") > -1)) {
+  if (!(file.type.indexOf("jp") > -1)) {
     tips("请上传格式为jpg的图片", 5);
     that.val("");
   } else {
@@ -450,7 +458,7 @@ function down_list(dom, url, deftext, queryParams) {
       function(res) {
         console.log(res);
         let option = "";
-        res.forEach(element => {
+        (res.tblData).forEach(element => {
           option += `<li data-id="${element.employeeId}" title="${element.employeeName}"> ${element.employeeName} </li>`;
         });
         $(dom)
@@ -537,3 +545,95 @@ window.onload = function() {
     $(".exportBtn").remove();
   }
 };
+ 
+/*
+* name:时间范围控件
+* start:起始时间表单class值
+* end:结束时间表单class值
+*
+*/
+function monthRange(start,end){//日期范围
+  $(start).datepicker({
+    endDate : new Date(),
+    startView : 1,
+		todayBtn : "linked",
+		keyboardNavigation : false,
+		forceParse : false,
+		autoclose : true,
+		minViewMode : 1,
+		format : "yyyy-mm"
+  }).on('changeDate',function(e){
+      var startTime = e.date;
+      $(end).datepicker('setStartDate',startTime);
+  });
+  //结束时间
+  $(end).datepicker({
+    endDate : new Date(),
+    startView : 1,
+		todayBtn : "linked",
+		keyboardNavigation : false,
+		forceParse : false,
+		autoclose : true,
+		minViewMode : 1,
+		format : "yyyy-mm"
+  }).on('changeDate',function(e){
+      var endTime = e.date;
+      $(start).datepicker('setEndDate',endTime);
+  });
+} 
+
+function dateRange(start,end){//日期范围
+  $(start).datepicker({
+    endDate : new Date(),
+    todayBtn : "linked",
+    keyboardNavigation : false,
+    forceParse : false,
+    autoclose : true,
+    format : "yyyy-mm-dd"
+  }).on('changeDate',function(e){
+      var startTime = e.date;
+      $(end).datepicker('setStartDate',startTime);
+  });
+  //结束时间
+  $(end).datepicker({
+    endDate : new Date(),
+    todayBtn : "linked",
+    keyboardNavigation : false,
+    forceParse : false,
+    autoclose : true,
+    format : "yyyy-mm-dd"
+  }).on('changeDate',function(e){
+      var endTime = e.date;
+      $(start).datepicker('setEndDate',endTime);
+  });
+} 
+
+function yearRange(start,end){//日期范围
+  $(start).datepicker({
+    todayBtn : "linked",
+    keyboardNavigation : false,
+    forceParse : false,
+    autoclose : true,
+    format : "yyyy",
+    startView: 2,
+    maxViewMode: 2,
+    minViewMode: 2
+  }).on('changeDate',function(e){
+      var startTime = e.date;
+      $(end).datepicker('setStartDate',startTime);
+  });
+  //结束时间
+  $(end).datepicker({
+    todayBtn : "linked",
+    keyboardNavigation : false,
+    forceParse : false,
+    autoclose : true,
+    startView: 2,
+    maxViewMode: 2,
+    minViewMode: 2,
+    format : "yyyy"
+  }).on('changeDate',function(e){
+      var endTime = e.date;
+      $(start).datepicker('setEndDate',endTime);
+  });
+} 

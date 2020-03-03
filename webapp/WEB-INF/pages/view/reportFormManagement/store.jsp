@@ -14,7 +14,7 @@ http://www.w3.org/TR/html4/loo">
   <title>利润</title>
   <meta name="keywords" content="" />
   <meta name="description" content="" />
-  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="shortcut icon" href="${pageContext.request.contextPath}/pages/img/favicon.ico" />
   <link href="${pageContext.request.contextPath}/pages/css/bootstrap.min.css?v=3.3.6" rel="stylesheet" />
   <link href="${pageContext.request.contextPath}/pages/css/font-awesome.css?v=4.4.0" rel="stylesheet" />
   <link href="${pageContext.request.contextPath}/pages/css/plugins/bootstrap-table/bootstrap-table.min.css"
@@ -32,23 +32,26 @@ http://www.w3.org/TR/html4/loo">
   <div class="wrapper wrapper-content animated fadeInRight">
     <div class="ibox float-e-margins">
       <div class="ibox-title">
-        <h5>销售额</h5>
+        <h5>店铺销售额</h5>
         <div class="ibox-tools"></div>
       </div>
       <div class="ibox-content">
         <div class="row row-lg">
           <div class="col-sm-12">
             <div class="example">
-              <div class="searchList " style="float:right;">
-                <input id="" class="laydate-icon form-control layer-date startTime" placeholder="开始时间" />
-                <input id="" class="laydate-icon form-control layer-date endTime" placeholder="结束时间" />
-                <input type="text" class="form-control query_storeName" placeholder="店铺名称" />
-                <span>
-                  <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn" style="width:80px;">
-                    查询
-                  </button>
-                  <button type="button" id="" class="btn btn-primary exportBtn" style="width:80px;">导出</button>
-                </span>
+              <div class="searchList " style="">
+                <div class="left"></div>
+                <div class="right">
+                  <input id="" class="laydate-icon form-control layer-date startTime" placeholder="开始时间" />
+                  <input id="" class="laydate-icon form-control layer-date endTime" placeholder="结束时间" />
+                  <input type="text" class="form-control query_storeName" placeholder="店铺名称" />
+                  <span>
+                    <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn" style="width:80px;">
+                      查询
+                    </button>
+                    <button type="button" id="" class="btn btn-success exportBtn" style="width:80px;">导出</button>
+                  </span>
+                </div>
               </div>
               <table id="storeSales" data-mobile-responsive="true"></table>
             </div>
@@ -58,10 +61,9 @@ http://www.w3.org/TR/html4/loo">
     </div>
   </div>
   <!-- 修改/添加模板 -->
-  <div class="return_borrowed" id="detail" style="display: none; margin-bottom: 15px;">
+  <div class="return_borrowed" id="storeDetail" style="display: none; margin-bottom: 15px;">
     <div class="return_top">
       <table id="storeDetailTable" data-mobile-responsive="true"></table>
-
     </div>
   </div>
   <!-- 全局js -->

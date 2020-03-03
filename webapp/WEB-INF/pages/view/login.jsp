@@ -11,8 +11,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <title>登录</title>
+  <meta name="renderer" content="webkit"/>
+  <meta name="force-rendering" content="webkit"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
   <meta name="keywords" content="" />
   <meta name="description" content="" />
+  <link rel="shortcut icon" href="${pageContext.request.contextPath}/pages/img/favicon.ico" />
   <link href="${pageContext.request.contextPath}/pages/css/bootstrap.min.css" rel="stylesheet" />
   <link href="${pageContext.request.contextPath}/pages/css/font-awesome.css?v=4.4.0" rel="stylesheet" />
   <link href="${pageContext.request.contextPath}/pages/css/animate.css" rel="stylesheet" />
@@ -36,7 +40,7 @@
   <div class="signinpanel">
     <div class="login_content">
       <div class="login_header">
-        诗碧曼后台管理系统
+        天健康养后台管理系统
       </div>
       <div class="login_text">
         <input type="text" class="form-control uname" placeholder="手机号" autocomplete="off"
@@ -45,7 +49,10 @@
         <input type="password" class="form-control pword" placeholder="密码" autocomplete="off"
           oninput="validationPassword(this)" />
         <div class="passwordErr"></div>
-        <a href="${pageContext.request.contextPath}/common/userRegister">点击注册</a>
+        <div style="display: flex;justify-content:space-between;">
+          <a href="${pageContext.request.contextPath}/common/userRegister">点击注册</a>
+          <a href="${pageContext.request.contextPath}/common/forgetPassword">忘记密码</a>
+        </div>
         <button class="btn btn-success btn-block btn-login">
           登录
         </button>
@@ -126,6 +133,7 @@
       $(".btn-login").trigger("click");
     }
   });
+ 
 </script>
 
 </html>

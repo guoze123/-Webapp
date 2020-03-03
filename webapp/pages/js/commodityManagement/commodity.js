@@ -15,25 +15,26 @@
       showRefresh: false, //刷新按钮
       cache: true, // 禁止数据缓存
       search: false, // 是否展示搜索
+      sortable: true, //是否启用排序
+      sortOrder: "asc",//排序方式
       showLoading: true,
       height: $(window).height() - 150,
       queryParams: queryParams,
       columns: [
         {
-          title: "商品id",
-          field: "waresId"
-        },
-        {
           title: "商品名称",
-          field: "waresName"
+          field: "waresName",
+          sortable: true
         },
         {
           title: "商品分类",
-          field: "categoryName"
+          field: "categoryName",
+          sortable: true
         },
         {
           title: "商品价格",
-          field: "waresPrice"
+          field: "waresPrice",
+          sortable: true
         },
         {
           title: "商品描述",
@@ -232,14 +233,12 @@
 
   // 导出
   $(".exportBtn").click(function() {
+    let menuName= $('.J_menuTab.active', parent.document).text().trim();
+    let titleName=$(this).parents(".ibox").find(".ibox-title h5 ").text().trim();
     let form = $('<form id="to_export" style="display:none"></form>').attr({
-      action: base + "/common/exportWaresOrCostData",
+      action: base + "/common/exportWaresData",
       method: "post"
     });
-    $("<input>")
-      .attr("name", "type")
-      .val("0")
-      .appendTo(form);
     $("<input>")
       .attr("name", "jsonStr")
       .val(
@@ -249,7 +248,8 @@
             .trim(),
           categoryName: $(".query_category_name")
             .val()
-            .trim()
+            .trim(),
+          fileName: menuName+"-"+titleName + ".csv"
         })
       )
       .appendTo(form);

@@ -1,58 +1,61 @@
 (function(document, window, $) {
   "use strict";
-  $(".query_startTime ,.query_stopTime").datepicker({
-    startView: 1,
-    todayBtn: "linked",
-    keyboardNavigation: false,
-    forceParse: false,
-    autoclose: true,
-    minViewMode: 1,
-    format: "yyyy-mm"
-  });
-
+  monthRange(".query_startTime", ".query_stopTime");
   function initFn() {
     $("#payment").bootstrapTable({
       method: "post",
-      url: base + "/inventory/queryPayment", //请求路径
+      url: base + "/inventory/queryPayment", // 请求路径
       // url: "../../testJson/storeManagement.json", //请求路径
-      striped: true, //是否显示行间隔色
-      pageNumber: 1, //初始化加载第一页
-      pagination: true, //是否分页
-      sidePagination: "client", //server:服务器端分页|client：前端分页
-      pageSize: 10, //单页记录数
+      striped: true, // 是否显示行间隔色
+      pageNumber: 1, // 初始化加载第一页
+      pagination: true, // 是否分页
+      sidePagination: "client", // server:服务器端分页|client：前端分页
+      pageSize: 10, // 单页记录数
       height: $(window).height() - 150,
-      showRefresh: false, //刷新按钮
+      showRefresh: false, // 刷新按钮
       cache: true, // 禁止数据缓存
       contentType: "application/x-www-form-urlencoded",
       search: false, // 是否展示搜索
+      sortable: true,
+      sortOrder: "asc", //排序方式
       showLoading: true,
       queryParams: queryParams,
       columns: [
         {
           title: "店铺id",
-          field: "storeId"
+          field: "storeId",
+          sortable: true
         },
         {
           title: "店铺名称",
-          field: "storeName"
+          field: "storeName",
+          sortable: true
         },
         {
           title: "应付金额",
-          field: "totalAmount"
+          field: "totalAmount",
+          sortable: true
         },
         {
-          title: "实支付金额",
-          field: "payedAmount"
+          title: "实际支付金额",
+          field: "payedAmount",
+          sortable: true
         },
         {
           title: "尾款",
-          field: "balance"
+          field: "balance",
+          sortable: true
+        },
+        {
+          title: "延期时间",
+          field: "delayDays",
+          sortable: true
         },
         {
           title: "操作",
           field: "publicationTime",
           events: operateEvents,
-          formatter: operation //对资源进行操作,
+          formatter: operation
         }
       ]
     });
@@ -71,6 +74,9 @@
   }
   var operateEvents = {
     "click #detailBtn": function(e, v, row) {
+      let params = {
+        stockId: row.stockId
+      };
       ajax_data(
         "/inventory/queryPaymentDetail",
         {
@@ -82,26 +88,30 @@
         function(res) {
           $("#paymentDetailTable").bootstrapTable("destroy");
           $("#paymentDetailTable").bootstrapTable({
-            striped: true, //是否显示行间隔色
-            pagination: false, //是否分页,
+            striped: true, // 是否显示行间隔色
+            pagination: false, // 是否分页,
             data: res,
             height: $("body").height() < 500 ? $("body").height() - 120 : 330,
             columns: [
               {
-                title: "开支时间",
-                field: "batchno"
+                title: "店铺ID",
+                field: "storeId"
               },
               {
-                title: "开支的店铺",
-                field: "ownerName"
+                title: "店铺名称",
+                field: "storeName"
               },
               {
-                title: "开支名称",
-                field: "categoryName"
+                title: "总金额",
+                field: "totalAmount"
               },
               {
-                title: "开支金额",
-                field: "amount"
+                title: "支付金额",
+                field: "payAmount"
+              },
+              {
+                title: "支付时间",
+                field: "paymentTime"
               }
             ]
           });
@@ -134,28 +144,13 @@
 
   function queryParams() {
     return {
-      jsonStr: JSON.stringify({
-        startTime: $(".query_startTime")
-          .val()
-          .trim()
-          ? $(".query_startTime")
-              .val()
-              .trim()
-          : undefined,
-        endTime: $(".query_stopTime")
-          .val()
-          .trim()
-          ? $(".query_stopTime")
-              .val()
-              .trim()
-          : undefined
-      })
+      
     };
   }
   initFn();
   // 点击查询按钮
   $("#eventqueryBtn").click(function() {
-    $("#payment").bootstrapTable("selectPage",1);
+    $("#payment").bootstrapTable("selectPage", 1);
     $("#payment").bootstrapTable("refresh");
   });
   function closeFn() {
@@ -184,9 +179,11 @@
       stockId: $("#keepPaying .storckId")
         .val()
         .trim(),
-      storeId: $("#keepPaying .storeId")
-        .val()
-        .trim(),
+      storeId: Number(
+        $("#keepPaying .storeId")
+          .val()
+          .trim()
+      ),
       paymentTime: $("#keepPaying .payTime")
         .val()
         .trim(),
@@ -196,20 +193,51 @@
       payAmount: $("#keepPaying .amount")
         .val()
         .trim(),
-      payType: $("#keepPaying .payType input[type='radio']:checked")
+      payType: Number(
+        $("#keepPaying .payType input[type='radio']:checked")
+          .val()
+          .trim()
+      ),
+      custPhone: $("#keepPaying .custPhone")
         .val()
         .trim(),
-      custPhone:$("#keepPaying .custPhone").val().trim(),
-      batchno:""
+      batchno: ""
     };
-    ajax_data("/inventory/appendPayment", { params:{ jsonStr:JSON.stringify(params)}, contentType: "application/x-www-form-urlencoded;charset=utf-8" }, function(res) {
-      if (res.resultCode > -1) {
-        layer.closeAll("page");
-        $("#payment").bootstrapTable("selectPage",1);
-        $("#payment").bootstrapTable("refresh");
-      } else {
-        tips("支付失败", 5);
+    ajax_data(
+      "/inventory/appendPayment",
+      {
+        params: {
+          jsonStr: JSON.stringify(params)
+        },
+        contentType: "application/x-www-form-urlencoded;charset=utf-8"
+      },
+      function(res) {
+        if (res.resultCode > -1) {
+          layer.closeAll("page");
+          $("#payment").bootstrapTable("selectPage", 1);
+          $("#payment").bootstrapTable("refresh");
+        } else {
+          tips("支付失败", 5);
+        }
       }
-    });
+    );
   }
+
+  // 导出
+  $(".exportBtn").click(function() {
+    let menuName= $('.J_menuTab.active', parent.document).text().trim();
+    let titleName=$(this).parents(".ibox").find(".ibox-title h5 ").text().trim();
+    let form = $('<form id="to_export" style="display:none"></form>').attr({
+      action: base + "/common/exportPayment",
+      method: "post"
+    });
+    $("<input>")
+      .attr("name", "fileName")
+      .val(menuName + "-" + titleName+".csv")
+      .appendTo(form);
+    $("body").append(form);
+    $("#to_export")
+      .submit()
+      .remove();
+  });
 })(document, window, jQuery);

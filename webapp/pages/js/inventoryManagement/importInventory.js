@@ -1,17 +1,19 @@
 var allwares = ""; //所有商品
+var editOptin = {}; // 存储调拨记录的信息 用于撤回记录
 (function(document, window, $) {
   var isadd = false;
 
   $(".query_startTime").datepicker({
+    startView: 1,
     todayBtn: "linked",
     keyboardNavigation: false,
     forceParse: false,
     autoclose: true,
-    clearBtn: true,
-    format: "yyyy-mm-dd"
+    minViewMode: 1,
+    format: "yyyy-mm"
   });
+  queryWaresInfo();
   function initFn() {
-    queryWaresInfo();
     $("#importInventory").bootstrapTable({
       method: "post",
       url: base + "/inventory/queryEntryStock", //请求路径
@@ -24,42 +26,52 @@ var allwares = ""; //所有商品
       showRefresh: false, //刷新按钮
       cache: true, // 禁止数据缓存
       search: false, // 是否展示搜索
+      sortable: true,
+      sortOrder: "asc", //排序方式
       showLoading: true,
       height: $(window).height() - 150,
       queryParams: queryParams,
       columns: [
         {
           title: " 日期",
-          field: "operationDate"
+          field: "operationDate",
+          sortable: true
         },
         {
           title: "订单号",
-          field: "ordernum"
-        },
-        {
-          title: "应付金额",
-          field: "amount"
+          field: "ordernum",
+          sortable: true
         },
         {
           title: "实付金额",
-          field: "payedAmount"
+          field: "payedAmount",
+          sortable: true
         },
         {
           title: "备注",
-          field: "remark"
+          field: "remark",
+          sortable: true
         },
         {
           title: "发票",
-          
+
           formatter: function(value, row) {
             return `<img  class="viewImg" src="${base +
               "/uploadImgs/" +
               row.stockId +
-              ".jpg"}"  style="width:50px;height:50px">`;
+              ".jpg" +
+              "?t=" +
+              new Date().valueOf()}"  style="width:50px;height:50px">`;
           },
           events: {
             "click .viewImg": function(e, v, row) {
-              let url = base + "/uploadImgs/" + row.stockId + ".jpg";
+              let url =
+                base +
+                "/uploadImgs/" +
+                row.stockId +
+                ".jpg?" +
+                "t=" +
+                new Date().valueOf();
               let image = new Image();
               image.src = url;
               image.onload = function() {
@@ -79,10 +91,7 @@ var allwares = ""; //所有商品
                   area: [width + "px", height + "px"],
                   skin: "layui-layer-nobg", //没有背景色
                   shadeClose: true,
-                  content: `<img src="${base +
-                    "/uploadImgs/" +
-                    row.stockId +
-                    ".jpg"}" style="width:${width}px; height:${height}px "/>`
+                  content: `<img src="${url}" style="width:${width}px; height:${height}px "/>`
                 });
               };
             }
@@ -97,7 +106,6 @@ var allwares = ""; //所有商品
       ]
     });
   }
-
   function operation(vlaue, row) {
     let purviewList = getQueryString("purview").split(",");
     let html = "";
@@ -119,7 +127,7 @@ var allwares = ""; //所有商品
           contentType: "application/x-www-form-urlencoded;charset=utf-8"
         },
         function(res) {
-          let params = {
+          editOptin = {
             startTime: row.operationDate, // 日期
             ordernum: row.ordernum, //订单号
             totalAmount: row.amount, // 应付
@@ -131,22 +139,12 @@ var allwares = ""; //所有商品
             fromStoreId: -1,
             toStoreId: 0
           };
-          ajax_data(
-            "/inventory/modifyEntryStock",
-            {
-              params: {
-                jsonStr: JSON.stringify(params)
-              },
-              contentType: "application/x-www-form-urlencoded;charset=utf-8"
-            },
-            function(res) {}
-          );
           $(".startTime").val(row.operationDate); // 日期
           $(".ordernum").val(row.ordernum); //订单号
           $(".handleAmount").val(row.totalAmount); // 应付
           $(".actualAmount").val(row.payedAmount); // 实付
           $(".remark").val(row.remark); // 备注
-         
+
           // $("#editData img").attr("width","100px");
           function allWares(selectId) {
             let option = "<option value='' data-id=''>选择商品名称</option>";
@@ -202,6 +200,7 @@ var allwares = ""; //所有商品
               $("#editData select").val("");
               $("#editData .newShop").remove();
               $("#editData img").attr("src", "");
+              $(".inputErr").remove();
             },
             function() {
               confirmFn();
@@ -257,8 +256,8 @@ var allwares = ""; //所有商品
         // 图片加载失败  --替换为默认
         elem.src = base + "/pages/img/noImg.png";
         $(elem).css({
-          visibility:"hidden",
-        })
+          visibility: "hidden"
+        });
       }
     },
     true
@@ -266,6 +265,7 @@ var allwares = ""; //所有商品
 
   function queryParams() {
     return {
+      entryType: 0,
       startTime: $(".query_startTime")
         .val()
         .trim()
@@ -293,6 +293,7 @@ var allwares = ""; //所有商品
         $("#editData select").val("");
         $("#editData .newShop").remove();
         $("#editData img").attr("src", "");
+        $(".inputErr").remove();
       },
       function() {
         confirmFn();
@@ -305,7 +306,7 @@ var allwares = ""; //所有商品
   initFn();
   // 点击查询按钮
   $("#eventqueryBtn").click(function() {
-    $("#importInventory").bootstrapTable("selectPage",1);
+    $("#importInventory").bootstrapTable("selectPage", 1);
     $("#importInventory").bootstrapTable("refresh");
   });
   // 上传图片
@@ -333,6 +334,10 @@ var allwares = ""; //所有商品
       });
     if (!required) {
       tips(requiredText, 5);
+      return;
+    }
+    if ($(".textContent .inputErr").length) {
+      tips("填写的信息有误，请修改", 5);
       return;
     }
     let waresList = [];
@@ -382,27 +387,55 @@ var allwares = ""; //所有商品
         $(".uploadimg")[0].files[0] ? $(".uploadimg")[0].files[0] : undefined
       );
     }
-    let url;
-    url = "/inventory/submitEntryStock";
-    file_upload(url, formdata, function(res) {
-      console.log(res);
-      if (res.resultCode > -1) {
-        layer.closeAll("page");
-        $("#importInventory").bootstrapTable("selectPage",1);
-        $("#importInventory").bootstrapTable("refresh");
-      } else {
-        let tipsText;
-        if (isadd) {
-          tipsText = "入库失败";
+    if (isadd) {
+      file_upload("/inventory/submitEntryStock", formdata, function(res) {
+        if (res.resultCode > -1) {
+          layer.closeAll("page");
+          tips("入库成功", 6);
+          $("#importInventory").bootstrapTable("selectPage", 1);
+          $("#importInventory").bootstrapTable("destroy");
+          initFn();
         } else {
-          tipsText = "修改信息失败";
+          let tipsText;
+          if (isadd) {
+            tipsText = "入库失败";
+          } else {
+            tipsText = "修改信息失败";
+          }
+          tips(tipsText, 5);
         }
-        tips(tipsText, 5);
-      }
-    });
+      });
+    } else {
+        let formdata = new FormData();
+        formdata.append("newJsonStr", JSON.stringify(params));
+        formdata.append("oldJsonStr", JSON.stringify(editOptin));
+        if ($(".uploadimg")[0].files[0]) {
+          formdata.append(
+            "file",
+            $(".uploadimg")[0].files[0] ? $(".uploadimg")[0].files[0] : undefined
+          );
+        }
+        file_upload( "/inventory/modifyEntryStock", formdata, function(res) {
+          if (res.resultCode > -1) {
+            layer.closeAll("page");
+            tips("修改信息成功", 6);
+            $("#importInventory").bootstrapTable("selectPage", 1);
+            $("#importInventory").bootstrapTable("destroy");
+            initFn();
+          } else {
+            tips("修改信息失败", 5);
+          }
+        }
+      );
+    }
   }
 
   $(".exportBtn").click(function() {
+    let menuName = $(".J_menuTab.active", parent.document).text().trim().trim();
+    let titleName = $(this)
+      .parents(".ibox")
+      .find(".ibox-title h5 ")
+      .text().trim();
     let form = $('<form id="to_export" style="display:none"></form>').attr({
       action: base + "/common/exportEntryStockData",
       method: "post"
@@ -411,7 +444,8 @@ var allwares = ""; //所有商品
       .attr("name", "jsonStr")
       .val(
         JSON.stringify({
-          entryType:0,
+          fileName: menuName + "-" + titleName+".csv",
+          entryType: 0,
           startTime: $(".query_startTime")
             .val()
             .trim()
@@ -422,6 +456,63 @@ var allwares = ""; //所有商品
     $("#to_export")
       .submit()
       .remove();
+  });
+
+  $(".actualAmount").on("input", function() {
+    let reg = /^[0-9]{0,8}$/;
+    let str = `<span class='red inputErr' style="width:100%; margin-left:${
+      $(this).position().left
+    }px">8位以内的整数</span>`;
+    if (
+      reg.test(
+        $(this)
+          .val()
+          .trim()
+      )
+    ) {
+      $(this)
+        .parent()
+        .find(".inputErr")
+        .remove();
+    } else {
+      if (
+        !$(this)
+          .parent()
+          .find(".inputErr").length
+      ) {
+        $(this)
+          .parent()
+          .append(str);
+      }
+    }
+  });
+  $(".textContent").on("input", ".number", function() {
+    let reg = /^[0-9]{0,8}$/;
+    let str = `<span class='red inputErr' style="width:100%;margin-left:${
+      $(this).position().left
+    }px">8位以内的整数</span>`;
+    if (
+      reg.test(
+        $(this)
+          .val()
+          .trim()
+      )
+    ) {
+      $(this)
+        .parent()
+        .find(".inputErr")
+        .remove();
+    } else {
+      if (
+        !$(this)
+          .parent()
+          .find(".inputErr").length
+      ) {
+        $(this)
+          .parent()
+          .append(str);
+      }
+    }
   });
 })(document, window, jQuery);
 

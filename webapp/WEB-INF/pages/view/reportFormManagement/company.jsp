@@ -15,7 +15,7 @@ http://www.w3.org/TR/html4/loo">
   <title>销售额</title>
   <meta name="keywords" content="">
   <meta name="description" content="">
-  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="shortcut icon" href="${pageContext.request.contextPath}/pages/img/favicon.ico">
   <link href="${pageContext.request.contextPath}/pages/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/pages/css/font-awesome.css?v=4.4.0" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/pages/css/animate.css" rel="stylesheet">
@@ -33,21 +33,28 @@ http://www.w3.org/TR/html4/loo">
       <div class="col-sm-12">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
-            <h5>销售额</h5>
+            <h5>总销售额</h5>
           </div>
           <div class="ibox-content">
-            <div class="searchList" style="float:right;">
-              <div class="salseType">
-                <input type="radio" name="type" value="0" checked id="" style="width: 20px;">公司
-                <input type="radio" name="type" value="1" id="" style="width: 20px; margin-left: 10px;">直营店
-                <input type="radio" name="type" value="2" id="" style="width: 20px;margin-left: 10px;">加盟店
+            <div class="searchList">
+              <div class="left"></div>
+              <div class="right">
+                <div class="salseType">
+                  <input type="radio" name="type" data-name="公司" value="0" checked id="" style="width: 20px;">公司
+                  <input type="radio" name="type" data-name="直营店" value="1" id="" style="width: 20px; margin-left: 10px;">直营店
+                  <input type="radio" name="type" data-name="加盟店" value="2" id="" style="width: 20px;margin-left: 10px;">加盟店
+                </div>
+                <input id="" class="laydate-icon form-control layer-date startTime" placeholder="开始时间" />
+                <input id="" class="laydate-icon form-control layer-date endTime" placeholder="结束时间" />
+                <span>
+                  <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn" style="width:80px;">
+                    查询
+                  </button>
+                  <button type="button" id="" class="btn btn-success exportBtn" style="width:80px;">
+                    导出
+                  </button>
+                </span>
               </div>
-              <input id="" class="laydate-icon form-control layer-date startTime" placeholder="开始时间" />
-              <input id="" class="laydate-icon form-control layer-date endTime" placeholder="结束时间" />
-              <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn" style="width:80px;">
-                查询
-              </button>
-              </span>
             </div>
             <div class="echarts" id="echarts-bar-chart" style="height: calc( 100vh - 212px )"></div>
           </div>

@@ -12,13 +12,17 @@ http://www.w3.org/TR/html4/loo">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title></title>
+  <meta name="renderer" content="webkit"/>
+  <meta name="force-rendering" content="webkit"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
   <meta name="keywords" content="" />
   <meta name="description" content="" />
-  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="shortcut icon" href="${pageContext.request.contextPath}/pages/img/favicon.ico" />
   <link href="${pageContext.request.contextPath}/pages/css/bootstrap.min.css?v=3.3.6" rel="stylesheet" />
   <link href="${pageContext.request.contextPath}/pages/css/font-awesome.css?v=4.4.0" rel="stylesheet" />
   <link href="${pageContext.request.contextPath}/pages/css/plugins/bootstrap-table/bootstrap-table.min.css"
     rel="stylesheet" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/pages/css/plugins/datapicker/datepicker3.css">
   <link href="${pageContext.request.contextPath}/pages/css/animate.css" rel="stylesheet" />
   <link href="${pageContext.request.contextPath}/pages/css/style.css?v=4.1.0" rel="stylesheet" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/pages/css/configurationManagement/storeTarget.css" />
@@ -44,30 +48,27 @@ http://www.w3.org/TR/html4/loo">
           <div class="col-sm-12">
             <div class="example">
               <div class="searchList" style="float:right;">
-                <!-- 时间:
-                  <input
-                    id=""
-                    class="laydate-icon form-control layer-date query_startTime"
-                    onclick="laydate({istime: false, format: 'YYYY-MM'})"
-                    placeholder="时间"
-                  /> -->
-                店铺名称：
-                <input type="text" class="storeName form-control" placeholder="店铺名称" />
-                <span>
-                  <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn" style="width:80px;">
-                    查询
-                  </button>
-                  <button type="button" id="eventqueryBtn" class="btn btn-primary submitBtn" style="width:80px;">
-                    提交
-                  </button>
-                  <button type="button" id="" class="btn btn-info exportBtn" style="width:80px;" aria-label="Export">
-                    导出
-                  </button>
+                <div class="left">
                   <div style="display: inline;">
-                    <label for="uploadFile" class="btn btn-success importBtn" style="margin-bottom: 0;">导入</label>
+                    <label for="uploadFile" class="btn btn-success importBtn" style="width:80px; margin-bottom: 0;">导入</label>
                     <input type="file" name="" id="uploadFile" style="width: 0; height: 0;" accept=".xlsx" />
                   </div>
-                </span>
+                </div>
+                <div class="right">
+                  <input id="" class="laydate-icon form-control layer-date query_startTime" placeholder="时间" />
+                  <input type="text" class="storeName form-control" placeholder="店铺名称" />
+                  <span>
+                    <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn" style="width:80px;">
+                      查询
+                    </button>
+                    <button type="button" id="" class="btn btn-success submitBtn" style="width:80px;">
+                      更新
+                    </button>
+                    <button type="button" id="" class="btn btn-success exportBtn" style="width:80px;" aria-label="Export">
+                      导出
+                    </button>
+                  </span>
+                </div>
               </div>
               <table id="storeTarget" data-mobile-responsive="true"></table>
             </div>
@@ -82,7 +83,7 @@ http://www.w3.org/TR/html4/loo">
       <div class="textContent">
         <div class="list_row">
           <div>
-            <span>店铺id</span>
+            <span>店铺编号</span>
             <input type="text" name="" class="form-control" id="" readonly />
           </div>
           <div>
@@ -109,6 +110,7 @@ http://www.w3.org/TR/html4/loo">
   <script
     src="${pageContext.request.contextPath}/pages/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
   <script src="${pageContext.request.contextPath}/pages/js/plugins/layer/laydate/laydate.js"></script>
+  <script src="${pageContext.request.contextPath}/pages/js/plugins/datapicker/bootstrap-datepicker.js"></script>
   <!-- 自定义js -->
   <script src="${pageContext.request.contextPath}/pages/js/content.js?v=1.0.0"></script>
   <script src="${pageContext.request.contextPath}/pages/js/configurationManagement/storeTarget.js"></script>

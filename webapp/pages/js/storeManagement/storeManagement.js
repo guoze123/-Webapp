@@ -25,39 +25,46 @@
       showRefresh: false, //刷新按钮
       cache: true, // 禁止数据缓存
       search: false, // 是否展示搜索，
+      sortable: true, //是否启用排序
+      sortOrder: "asc",//排序方式
       queryParams: queryParams,
       columns: [
         {
           title: "店铺名称",
-          field: "storeName"
+          field: "storeName",
+          sortable: true
         },
         {
           title: "开店时间",
-          field: "openTime"
+          field: "openTime",
+          sortable: true
         },
         {
           title: "店铺类型",
           field: "storeType",
           formatter: function(vlaue, row) {
             return store_type[row.storeType];
-          }
+          },
+          sortable: true
         },
         {
           title: "店长名称",
-          field: "storeManager"
+          field: "storeManager",
+          sortable: true
         },
         {
           title: "店铺状态",
           field: "openStatus",
           formatter: function(value, row) {
             return store_status[row.openStatus];
-          }
+          },
+          sortable: true
         },
         {
           title: "操作",
           field: "publicationTime",
           events: operateEvents,
-          formatter: operation
+          formatter: operation,
         }
       ]
     });
@@ -210,10 +217,12 @@
       tips(requiredText, 5);
       return;
     }
-    if (!!!$(".manager .selectedValue input").val()) {
-      tips(requiredText, 5);
-      return;
-    }
+
+    // 店长名称必填
+    // if (!!!$(".manager .selectedValue input").val()) {
+    //   tips(requiredText, 5);
+    //   return;
+    // }
     if (
       $(".params_province").val() == "" ||
       $(".params_city").val() == "" ||
@@ -249,7 +258,7 @@
       openStatus: $(".open_status")
         .val()
         .trim(),
-      detailAddress: $(".detailAddress")
+      address: $(".detailAddress")
         .val()
         .trim()
     };

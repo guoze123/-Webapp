@@ -12,9 +12,12 @@ http://www.w3.org/TR/html4/loo">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title></title>
+  <meta name="renderer" content="webkit"/>
+  <meta name="force-rendering" content="webkit"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
   <meta name="keywords" content="" />
   <meta name="description" content="" />
-  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="shortcut icon" href="${pageContext.request.contextPath}/pages/img/favicon.ico" />
   <link href="${pageContext.request.contextPath}/pages/css/bootstrap.min.css" rel="stylesheet" />
   <link href="${pageContext.request.contextPath}/pages/css/font-awesome.css" rel="stylesheet" />
   <link href="${pageContext.request.contextPath}/pages/css/plugins/bootstrap-table/bootstrap-table.min.css"
@@ -44,31 +47,35 @@ http://www.w3.org/TR/html4/loo">
         <div class="row row-lg">
           <div class="col-sm-12">
             <div class="example">
-              <div class="searchList" style="float:right;">
-                <div class="areaSearch">
-                  <select class="form-control m-b query_province">
-                    <option value="">选择省份</option>
-
-                  </select>
-                  <select class="form-control m-b query_city">
-                    <option value="">选择城市</option>
-
-                  </select>
-                  <select class="form-control m-b query_county">
-                    <option value="">选择区县</option>
-                  </select>
-                  <div>
-                    <input type="text" class="form-control query_StoreName" placeholder="输入店铺名称">
-                  </div>
-                </div>
-                <span>
-                  <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn" style="width:80px;">
-                    查询
-                  </button>
-                  <button type="button" id="addBtn" class="btn btn-primary addBtn" style="width:80px;">
+              <div class="searchList">
+                <div class="left">
+                  <button type="button" id="addBtn" class="btn btn-success addBtn" style="width:80px;">
                     添加
                   </button>
-                </span>
+                </div>
+                <div class="right">
+                  <div class="areaSearch">
+                    <select class="form-control m-b query_province">
+                      <option value="">选择省份</option>
+
+                    </select>
+                    <select class="form-control m-b query_city">
+                      <option value="">选择城市</option>
+
+                    </select>
+                    <select class="form-control m-b query_county">
+                      <option value="">选择区县</option>
+                    </select>
+                    <div>
+                      <input type="text" class="form-control query_StoreName" placeholder="输入店铺名称">
+                    </div>
+                  </div>
+                  <span>
+                    <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn" style="width:80px;">
+                      查询
+                    </button>
+                  </span>
+                </div>
               </div>
               <table id="exampleTableFromData" data-mobile-responsive="true"></table>
             </div>
@@ -88,16 +95,15 @@ http://www.w3.org/TR/html4/loo">
             <input class="form-control store_name" type="text" placeholder="店铺名称" />
           </div>
           <div>
-            <span><i class="" style="color: red;">*</i>店长名称</span>
+            <span>店长名称</span>
             <div class="queryStoreManager manager">
             </div>
           </div>
         </div>
         <div class="list_row">
           <div>
-            <span><i class="required">*</i>开店时间</span>
-            <input id="" class="laydate-icon form-control layer-date open_time"
-              placeholder="开店时间"
+            <span>开店时间</span>
+            <input id="" class="laydate-icon form-control layer-date open_time" placeholder="开店时间"
               onclick="laydate({istime: false, format: 'YYYY-MM-DD'})" />
           </div>
           <div>
@@ -135,8 +141,8 @@ http://www.w3.org/TR/html4/loo">
             <span><i class="required">*</i>店铺类型</span>
             <select class="form-control m-b store_type" name="account">
               <option value="">选择店铺类型</option>
-              <option value="1">直营店</option>
-              <option value="2">加盟店</option>
+              <option value="0">直营店</option>
+              <option value="1">加盟店</option>
             </select>
           </div>
         </div>

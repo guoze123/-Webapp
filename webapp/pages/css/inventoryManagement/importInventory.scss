@@ -11,7 +11,7 @@
     }
     select,
     input {
-        width: 170px;
+        width: 130px;
         margin: 0 5px;
     }
 }
@@ -46,6 +46,7 @@
             border-bottom: 1px solid #ccc;
             border-right: 1px solid #ccc;
             padding: 5px;
+            flex-flow: wrap;
             span {
                 width: 100px;
             }

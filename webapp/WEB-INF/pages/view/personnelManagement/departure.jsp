@@ -14,7 +14,7 @@ http://www.w3.org/TR/html4/loo">
   <title></title>
   <meta name="keywords" content="" />
   <meta name="description" content="" />
-  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="shortcut icon" href="${pageContext.request.contextPath}/pages/img/favicon.ico" />
   <link href="${pageContext.request.contextPath}/pages/css/bootstrap.min.css?v=3.3.6" rel="stylesheet" />
   <link href="${pageContext.request.contextPath}/pages/css/font-awesome.css?v=4.4.0" rel="stylesheet" />
   <link href="${pageContext.request.contextPath}/pages/css/plugins/bootstrap-table/bootstrap-table.min.css"
@@ -38,40 +38,20 @@ http://www.w3.org/TR/html4/loo">
         <div class="row row-lg">
           <div class="col-sm-12">
             <div class="example">
-              <div class="searchList" style="float:right;">
-                <!-- <input
-                    id=""
-                    class="laydate-icon form-control layer-date query_startTime"
-                    placeholder="开始时间"
-                    onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
-                  />
-                  <input
-                    id=""
-                    class="laydate-icon form-control layer-date query_stopTime"
-                    placeholder="结束时间"
-                    onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
-                  /> -->
-                <!-- <input
-                    type="text"
-                    class="form-control query_employeeId"
-                    placeholder="员工工号"
-                  /> -->
-                <input type="text" class="form-control query_employeeName" placeholder="员工名称" />
-                <!-- <input
-                    type="text"
-                    class="form-control"
-                    placeholder="员工名称"
-                  /> -->
-                <span>
-                                    <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn"
-                                        style="width:80px;">
-                                        查询
-                                    </button>
-                                    <button type="button" id="eventqueryBtn" class="btn btn-primary addBtn"
-                                        style="width:80px;">
-                                        添加
-                                    </button>
-                </span>
+              <div class="searchList">
+                <div class="left">
+                  <button type="button" id="" class="btn btn-success addBtn" style="width:80px;">
+                    添加
+                  </button>
+                </div>
+                <div class="right">
+                  <input type="text" class="form-control query_employeeName" placeholder="员工名称" />
+                  <span>
+                    <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn" style="width:80px;">
+                      查询
+                    </button>
+                  </span>
+                </div>
               </div>
               <table id="departure" data-mobile-responsive="true"></table>
             </div>
@@ -99,6 +79,19 @@ http://www.w3.org/TR/html4/loo">
           <div style="width: 100%;">
             <span><i class="required">*</i>离职原因</span>
             <input type="text" class="form-control leaveReason" placeholder="离职原因" />
+          </div>
+        </div>
+        <div class="list_row">
+          <div style="width:100%;">
+            <span>离职凭证</span>
+            <div style=" display: flex;align-items: center; height: 110px;">
+              <label class="btn btn-success" for="upload" style="display: inline-block;">
+                <i class="fa fa-upload"></i>&nbsp;&nbsp;<span class="bold">离职凭证</span>
+              </label>
+              <input type="file" name="" id="upload" accept=".jpg" class="uploadimg"
+                style="visibility: hidden; width: 20px; height: 0;" />
+              <img src="" alt="" class="resume" data-action="zoom" />
+            </div>
           </div>
         </div>
       </div>

@@ -23,7 +23,7 @@
 
 .searchList select,
 .searchList input {
-  width: 170px;
+  width: 130px;
   margin: 0 5px;
 }
 
@@ -69,6 +69,8 @@
   border-bottom: 1px solid #ccc;
   border-right: 1px solid #ccc;
   padding: 5px;
+  -ms-flex-flow: wrap;
+      flex-flow: wrap;
 }
 
 .textContent .list_row > div span {

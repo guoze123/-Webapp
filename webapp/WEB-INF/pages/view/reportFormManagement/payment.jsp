@@ -14,7 +14,7 @@ http://www.w3.org/TR/html4/loo">
   <title>支付记录</title>
   <meta name="keywords" content="" />
   <meta name="description" content="" />
-  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="shortcut icon" href="${pageContext.request.contextPath}/pages/img/favicon.ico" />
   <link href="${pageContext.request.contextPath}/pages/css/bootstrap.min.css?v=3.3.6" rel="stylesheet" />
   <link href="${pageContext.request.contextPath}/pages/css/font-awesome.css?v=4.4.0" rel="stylesheet" />
   <link href="${pageContext.request.contextPath}/pages/css/plugins/bootstrap-table/bootstrap-table.min.css"
@@ -32,21 +32,28 @@ http://www.w3.org/TR/html4/loo">
   <div class="wrapper wrapper-content animated fadeInRight">
     <div class="ibox float-e-margins">
       <div class="ibox-title">
-        <h5>支付记录</h5>
+        <h5>AR记录</h5>
         <div class="ibox-tools"></div>
       </div>
       <div class="ibox-content">
         <div class="row row-lg">
           <div class="col-sm-12">
             <div class="example">
-              <div class="searchList" style="float:right;">
-                开始时间：<input id="" class="laydate-icon form-control layer-date query_startTime" placeholder="开始时间" />
-                结束时间：<input id="" class="laydate-icon form-control layer-date query_stopTime" placeholder="结束时间" />
-                <span>
-                  <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn" style="width:80px;">
-                    查询
-                  </button>
-                </span>
+              <div class="searchList">
+                <div class="left"></div>
+                <div class="right">
+                  <!-- <input id="" class="laydate-icon form-control layer-date query_startTime" placeholder="开始时间" />
+                  <input id="" class="laydate-icon form-control layer-date query_stopTime" placeholder="结束时间" /> -->
+                  <span>
+                    <!-- <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn" style="width:80px;">
+                      查询
+                    </button> -->
+                    <button type="button" id="" class="btn btn-success exportBtn" style="width:80px;">
+                      导出
+                    </button>
+                  </span>
+                </div>
+
               </div>
               <table id="payment" data-mobile-responsive="true"></table>
             </div>
@@ -80,7 +87,8 @@ http://www.w3.org/TR/html4/loo">
           <div>
             <span><i class="required">*</i>支付时间</span>
             <input id="" class="laydate-icon form-control layer-date payTime"
-              onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" placeholder="支付时间" />
+              onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss',start:new Date().toLocaleString()})"
+              placeholder="支付时间" />
           </div>
           <div>
             <span><i class="required">*</i>支付金额</span>
@@ -89,7 +97,7 @@ http://www.w3.org/TR/html4/loo">
         </div>
         <div class="list_row">
           <div style="width:100%">
-             <span><i class="required">*</i>手机号</span>
+            <span>手机号</span>
             <input type="text" class="form-control custPhone" placeholder="手机号">
           </div>
         </div>

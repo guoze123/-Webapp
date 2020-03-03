@@ -1,17 +1,21 @@
-(function(document, window, $) {
-  "use strict";
+(function (document, window, $) {
+  ("use strict");
   var isadd = false;
-  $(".query_startTime ,.query_endTime,.costTime").datepicker({
+  $(".costTime").datepicker({
     todayBtn: "linked",
     keyboardNavigation: false,
     forceParse: false,
     autoclose: true,
-
     format: "yyyy-mm-dd"
   });
+  dateRange(
+    ".query_startTime",
+    ".query_endTime"
+  );
+  queryCostType();
+  // queryDepartment();
+  queryStore();
   function initFn() {
-    queryCostType();
-    queryDepartment();
     $("#spending").bootstrapTable({
       method: "post",
       url: base + "/cost/queryCost", //请求路径
@@ -26,8 +30,11 @@
       search: false, // 是否展示搜索
       height: $(window).height() - 150,
       showLoading: true,
+      sortable: true,
+      sortOrder: "asc", //排序方式
       queryParams: queryParams,
-      contentType: "application/x-www-form-urlencoded",
+      contentType:
+        "application/x-www-form-urlencoded",
       columns: [
         // {
         //   title: "开支id",
@@ -35,49 +42,74 @@
         // },
         {
           title: "开支时间",
-          field: "costTime"
+          field: "costTime",
+          sortable: true
         },
         {
-          title: "开支的店铺",
-          field: "ownerName"
+          title: "核算单元",
+          field: "ownerName",
+          sortable: true
         },
         {
           title: "开支类型",
-          field: "costTypeName"
+          field: "costTypeName",
+          sortable: true
         },
         {
           title: "开支金额",
-          field: "costAmount"
+          field: "costAmount",
+          sortable: true
+        },
+        {
+          title: "备注信息",
+          field: "remark"
         },
         {
           title: "发票",
-        //   field: "receiptPic",
-          formatter: function(value, row) {
+          //   field: "receiptPic",
+          formatter: function (value, row) {
             return `<img  class="viewImg" src="${base +
               "/uploadImgs/" +
               row.costId +
-              ".jpg"}"  style="width:50px;height:50px">`;
+              ".jpg" +
+              "?t=" +
+              new Date().valueOf()}"  style="width:50px;height:50px">`;
           },
           events: {
-            "click .viewImg": function(e, v, row) {
-              let url = base + "/uploadImgs/" + row.costId + ".jpg";
+            "click .viewImg": function (
+              e,
+              v,
+              row
+            ) {
+              let url =
+                base +
+                "/uploadImgs/" +
+                row.costId +
+                ".jpg?" +
+                "t=" +
+                new Date().valueOf();
               let image = new Image();
               image.src = url;
-              image.onload = function() {
+              image.onload = function () {
                 var width = image.width;
                 var height = image.height;
                 if (width > height) {
-                  height = (800 / width) * height;
+                  height =
+                    (800 / width) * height;
                   width = 800;
                 } else {
-                  width = (500 / height) * width;
+                  width =
+                    (500 / height) * width;
                   height = 500;
                 }
                 layer.open({
                   type: 1,
                   title: false,
                   closeBtn: 1,
-                  area: [width + "px", height + "px"],
+                  area: [
+                    width + "px",
+                    height + "px"
+                  ],
                   skin: "layui-layer-nobg", //没有背景色
                   shadeClose: true,
                   content: `<img src="${url}" style="width:${width}px; height:${height}px "/>`
@@ -86,10 +118,7 @@
             }
           }
         },
-        {
-          title: "备注信息",
-          field: "remark"
-        },
+
         {
           title: "操作",
           field: "publicationTime",
@@ -101,7 +130,9 @@
   }
 
   function operation(vlaue, row) {
-    let purviewList = getQueryString("purview").split(",");
+    let purviewList = getQueryString(
+      "purview"
+    ).split(",");
     let html = "";
     if (purviewList.includes("3")) {
       html += ` <button type="button" id="edit" class="btn btn-info btn-sm editBtn">修改</button>`;
@@ -109,98 +140,142 @@
     return html;
   }
   var operateEvents = {
-    "click #edit": function(e, v, row) {
+    "click #edit": function (e, v, row) {
       $(".costTime").val(row.costTime);
       $(".ownerId").val(row.ownerId);
+      $(".ownerId").trigger("chosen:updated");
       $(".costTypeId").val(row.costTypeId);
-      $(".costTypeId").trigger("chosen:updated");
+      $(".costTypeId").trigger(
+        "chosen:updated"
+      );
       $(".costAmount").val(row.costAmount);
       $(".receiptPic").val(row.receiptPic);
       $(".remark").val(row.remark);
-      $(".remark").attr("data_costId", row.costId);
-     
+      $(".remark").attr(
+        "data_costId",
+        row.costId
+      );
+
       isadd = false;
       open_html(
         "修改信息",
         "#editData",
-        function() {
+        function () {
           $("#editData input").val("");
           $("#editData select").val("");
-          $(".costTypeId").trigger("chosen:updated");
+          $(".ownerId").trigger(
+            "chosen:updated"
+          );
+          $(".costTypeId").trigger(
+            "chosen:updated"
+          );
           $("#editData img").attr("src", "");
         },
-        function() {
+        function () {
           confirmFn();
         },
-        function() {
+        function () {
           closeFn();
         }
       );
-     
+      $(".ownerId").chosen();
     }
   };
   //查询条件
   function queryParams() {
     return {
       jsonStr: JSON.stringify({
-        startTime: $(".searchList .query_startTime")
+        startTime: $(
+          ".searchList .query_startTime"
+        )
           .val()
-          .trim()?$(".searchList .query_startTime").val().trim():undefined,
+          .trim()
+          ? $(".searchList .query_startTime")
+            .val()
+            .trim()
+          : undefined,
         endTime: $(".searchList .query_endTime")
           .val()
-          .trim() ?$(".searchList .query_endTime").val().trim():undefined,
-        costTypeId: $(".searchList .query_costTypeId")
+          .trim()
+          ? $(".searchList .query_endTime")
+            .val()
+            .trim()
+          : undefined,
+        costTypeId: $(
+          ".searchList .query_costTypeId"
+        )
           .val()
-          .trim()?$(".searchList .query_costTypeId").val().trim():undefined,
-        ownerName: $(".searchList .query_ownerName")
+          .trim()
+          ? $(".searchList .query_costTypeId")
+            .val()
+            .trim()
+          : undefined,
+        ownerName: $(
+          ".searchList .query_ownerName"
+        )
           .val()
-          .trim()?$(".searchList .query_ownerName").val().trim():undefined
+          .trim()
+          ? $(".searchList .query_ownerName")
+            .val()
+            .trim()
+          : undefined
       })
     };
   }
 
   initFn();
-  document.getElementById("spending").addEventListener(
-    "error",
-    function(event) {
-      var ev = event || window.event;
-      var elem = ev.target;
-      if (elem.tagName.toLowerCase() == "img") {
-        elem.src = base + "/pages/img/noImg.png";
-        $(elem).css({
-          visibility:"hidden",
-        })
-      }
-    },
-    true
-  );
+  document
+    .getElementById("spending")
+    .addEventListener(
+      "error",
+      function (event) {
+        var ev = event || window.event;
+        var elem = ev.target;
+        if (
+          elem.tagName.toLowerCase() == "img"
+        ) {
+          elem.src =
+            base + "/pages/img/noImg.png";
+          $(elem).css({
+            visibility: "hidden"
+          });
+        }
+      },
+      true
+    );
   // 点击查询按钮
-  $("#eventqueryBtn").click(function() {
-    $("#spending").bootstrapTable("selectPage",1);
+  $("#eventqueryBtn").click(function () {
+    $("#spending").bootstrapTable(
+      "selectPage",
+      1
+    );
     $("#spending").bootstrapTable("refresh");
   });
 
-  $(".addBtn").click(function() {
+  $(".addBtn").click(function () {
     isadd = true;
     open_html(
       "添加开支",
       "#editData",
-      function() {
+      function () {
         $("#editData input").val("");
         $("#editData select").val("");
-        $(".costTypeId").trigger("chosen:updated");
+        $(".ownerId").trigger("chosen:updated");
+        $(".costTypeId").trigger(
+          "chosen:updated"
+        );
         $("#editData img").attr("src", "");
       },
-      function() {
+      function () {
         confirmFn();
       },
-      function() {
+      function () {
         closeFn();
       }
     );
-    
+    $(".ownerId").chosen();
   });
-  $(".uploadimg").change(function() {
+  $(".uploadimg").change(function () {
     uploadFile($(this));
   });
   function closeFn() {
@@ -212,7 +287,7 @@
     $(".required")
       .parent()
       .next()
-      .each(function() {
+      .each(function () {
         if (
           !$(this)
             .val()
@@ -245,21 +320,40 @@
       costId: $(".remark").attr("data_costId")
     };
     if ($(".uploadimg")[0].files[0]) {
-      formdata.append("file", $(".uploadimg")[0].files[0]);
+      formdata.append(
+        "file",
+        $(".uploadimg")[0].files[0]
+      );
     }
-    formdata.append("jsonStr", JSON.stringify(params));
+    formdata.append(
+      "jsonStr",
+      JSON.stringify(params)
+    );
     let url;
     if (isadd) {
       url = "/cost/addCost";
     } else {
       url = "/cost/modifyCost";
     }
-    file_upload(url, formdata, function(res) {
+    file_upload(url, formdata, function (res) {
       console.log(res);
       if (res.resultCode > -1) {
         layer.closeAll("page");
-        $("#spending").bootstrapTable("selectPage",1);
-        $("#spending").bootstrapTable("refresh");
+        $("#spending").bootstrapTable(
+          "selectPage",
+          1
+        );
+        $("#spending").bootstrapTable(
+          "destroy"
+        );
+        initFn();
+        let tipsText;
+        if (isadd) {
+          tipsText = "添加开支信息成功";
+        } else {
+          tipsText = "修改开支信息成功";
+        }
+        tips(tipsText, 6);
       } else {
         let tipsText;
         if (isadd) {
@@ -277,12 +371,42 @@
     ajax_data(
       "/competence/queryDepartment",
       { params: JSON.stringify({}) },
-      function(res) {
-        let option = "<option value=''>选择部门</option>";
-        res.forEach(function(element) {
+      function (res) {
+        let option =
+          "<option value=''>选择部门</option>";
+        res.forEach(function (element) {
           option += `<option value="${element.departmentId}">${element.departmentName}</option>`;
         });
         $(".ownerId").html(option);
+      }
+    );
+  }
+
+  // 查找门店
+  function queryStore() {
+    ajax_data(
+      "/competence/queryStoreInfo",
+      { params: JSON.stringify({}) },
+      function (storeData) {
+        // console.log(res);
+        let option =
+        "<option value=''>选择店铺或部门</option>";
+        storeData.forEach(function (element) {
+          option += `<option value="${element.storeId}">${element.storeName}</option>`;
+        });
+
+        ajax_data(
+          "/competence/queryDepartment",
+          { params: JSON.stringify({}) },
+          function (res) {
+            res.forEach(function (element) {
+              option += `<option value="${element.departmentId}">${element.departmentName}</option>`;
+            });
+            // allStroe = res;
+            $(".ownerId").html(option);
+            $(".ownerId").chosen();
+          }
+        );
       }
     );
   }
@@ -294,10 +418,14 @@
     };
     ajax_data(
       "/cost/queryCostCategory",
-      { params: JSON.stringify(params), async: false },
-      function(res) {
-        let option = "<option value=''>选择开支分类</option>";
-        res.forEach(function(element) {
+      {
+        params: JSON.stringify(params),
+        async: false
+      },
+      function (res) {
+        let option =
+          "<option value=''>选择开支分类</option>";
+        res.forEach(function (element) {
           option += `<option value="${element.categoryId}">${element.categoryName}</option>`;
         });
         $(".query_costTypeId").html(option);
@@ -308,9 +436,20 @@
   }
 
   // 导出
-  $(".exportBtn").click(function() {
-    let form = $('<form id="to_export" style="display:none"></form>').attr({
-      action: base + "/common/exportWaresOrCostData",
+  $(".exportBtn").click(function () {
+    let menuName = $(
+      ".J_menuTab.active",
+      parent.document
+    ).text().trim();
+    let titleName = $(this)
+      .parents(".ibox")
+      .find(".ibox-title h5 ")
+      .text().trim();
+    let form = $(
+      '<form id="to_export" style="display:none"></form>'
+    ).attr({
+      action:
+        base + "/common/exportWaresOrCostData",
       method: "post"
     });
     $("<input>")
@@ -321,18 +460,43 @@
       .attr("name", "jsonStr")
       .val(
         JSON.stringify({
-          startTime: $(".query_startTime")
-            .val()
-            .trim(),
-          endTime: $(".query_endTime")
-            .val()
-            .trim(),
-          costTypeId: $(".costTypeId")
-            .val()
-            .trim(),
-          ownerName: $(".searchList .query_ownerName")
+          startTime: $(
+            ".searchList .query_startTime"
+          )
             .val()
             .trim()
+            ? $(".searchList .query_startTime")
+              .val()
+              .trim()
+            : undefined,
+          endTime: $(
+            ".searchList .query_endTime"
+          )
+            .val()
+            .trim()
+            ? $(".searchList .query_endTime")
+              .val()
+              .trim()
+            : undefined,
+          costTypeId: $(
+            ".searchList .query_costTypeId"
+          )
+            .val()
+            .trim()
+            ? $(".searchList .query_costTypeId")
+              .val()
+              .trim()
+            : undefined,
+          ownerName: $(
+            ".searchList .query_ownerName"
+          )
+            .val()
+            .trim()
+            ? $(".searchList .query_ownerName")
+              .val()
+              .trim()
+            : undefined,
+          fileName: menuName + "-" + titleName+".csv"
         })
       )
       .appendTo(form);

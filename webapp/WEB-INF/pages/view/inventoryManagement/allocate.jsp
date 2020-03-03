@@ -12,13 +12,17 @@ http://www.w3.org/TR/html4/loo">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title></title>
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
     <meta name="keywords" content="" />
     <meta name="description" content="" />
-    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/pages/img/favicon.ico" />
     <link href="${pageContext.request.contextPath}/pages/css/bootstrap.min.css?v=3.3.6" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/pages/css/font-awesome.css?v=4.4.0" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/pages/css/plugins/bootstrap-table/bootstrap-table.min.css"
         rel="stylesheet" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/pages/css/plugins/chosen/chosen.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/pages/css/plugins/datapicker/datepicker3.css">
     <link href="${pageContext.request.contextPath}/pages/css/animate.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/pages/css/style.css?v=4.1.0" rel="stylesheet" />
@@ -32,6 +36,9 @@ http://www.w3.org/TR/html4/loo">
         .fixed-table-container {
             border-bottom: 0px !important;
         }
+        .chosen-container {
+      width: 152px !important;
+    }
     </style>
     <script>
         var base = "${pageContext.request.contextPath}";
@@ -49,22 +56,27 @@ http://www.w3.org/TR/html4/loo">
                 <div class="row row-lg">
                     <div class="col-sm-12">
                         <div class="example">
-                            <div class="searchList" style="float:right;">
-                                日期：<input id="" class="laydate-icon form-control layer-date query_startTime" />
-                                <span>
-                                    <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn"
-                                        style="width:80px;">
-                                        查询
-                                    </button>
-                                    <button type="button" id="eventqueryBtn" class="btn btn-primary addBtn"
+                            <div class="searchList">
+                                <div class="left">
+                                    <button type="button" id="" class="btn btn-success addBtn"
                                         style="width:80px;">
                                         添加
                                     </button>
-                                    <button type="button" id="eventAddBtn" class="btn btn-info exportBtn"
-                                        style="width:80px;" aria-label="Export">
-                                        导出
-                                    </button>
-                                </span>
+                                </div>
+                                <div class="right">
+                                    <input id="" class="laydate-icon form-control layer-date query_startTime"
+                                        placeholder="时间" />
+                                    <span>
+                                        <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn"
+                                            style="width:80px;">
+                                            查询
+                                        </button>
+                                        <button type="button" id="eventAddBtn" class="btn btn-success exportBtn"
+                                            style="width:80px;" aria-label="Export">
+                                            导出
+                                        </button>
+                                    </span>
+                                </div>
                             </div>
                             <table id="importInventory" data-mobile-responsive="true"></table>
                         </div>
@@ -80,7 +92,9 @@ http://www.w3.org/TR/html4/loo">
                 <div class="list_row">
                     <div>
                         <span><i class="required">*</i>订单日期</span>
-                        <input id="" class="laydate-icon form-control layer-date startTime" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" placeholder="订单日期" />
+                        <input id="" class="laydate-icon form-control layer-date startTime"
+                            onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss',start:new Date().toLocaleString()})"
+                            placeholder="订单日期" />
                     </div>
                     <div>
                         <span><i class="required">*</i>应付金额</span>
@@ -131,7 +145,8 @@ http://www.w3.org/TR/html4/loo">
                             <label class="btn btn-success" for="upload" style="display: inline-block;">
                                 <i class="fa fa-upload"></i>&nbsp;&nbsp;<span class="bold">上传图片</span>
                             </label>
-                            <input type="file" name="" id="upload" accept="image/*" class="uploadimg" style="visibility: hidden; width: 20px; height: 0;" />
+                            <input type="file" name="" id="upload" accept="image/*" class="uploadimg"
+                                style="visibility: hidden; width: 20px; height: 0;" />
                             <img src="" alt="" class="picList" data-action="zoom" />
                         </div>
                     </div>
@@ -157,6 +172,7 @@ http://www.w3.org/TR/html4/loo">
     <script
         src="${pageContext.request.contextPath}/pages/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
     <script src="${pageContext.request.contextPath}/pages/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script src="${pageContext.request.contextPath}/pages/js/plugins/chosen/chosen.jquery.js"></script>
     <script src="${pageContext.request.contextPath}/pages/js/plugins/layer/laydate/laydate.js"></script>
     <script src="${pageContext.request.contextPath}/pages/js/plugins/zoom/zoom.js"></script>
     <!-- 自定义js -->

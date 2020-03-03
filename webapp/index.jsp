@@ -6,30 +6,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 %>
 <html>
 <head>
-<script src="${pageContext.request.contextPath}/pages/js/jquery-3.4.1.min.js"></script>
 <script>
-	function commitFunc() {
-	  var formData = {};
-	  var url = "common/exportEntryStockData"
-	  $.ajax({
-	    url: "http://localhost:8080/sipimo/"+url,
-	    dataType: "json",
-	    type: "POST",
-	    async: false,
-	    data: {jsonStr:JSON.stringify(formData)},
-	    //contentType: "application/json;charscontentet=utf-8",
-	    contentType: "application/x-www-form-urlencoded;charset=utf-8",
-	    success: function(data) {
-	      console.log(data);
-	    },
-	    error: function(response) {
-	      console.log(response);
-	    }
-	  });
-	}
+	window.location.href = "${pageContext.request.contextPath}/common/userLogin";
 </script>
 </head>
 <body>
-<button id="btnButton" onclick="commitFunc()">提交</button>
+
 </body>
 </html>

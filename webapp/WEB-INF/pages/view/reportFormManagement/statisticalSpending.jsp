@@ -14,7 +14,7 @@ http://www.w3.org/TR/html4/loo">
   <title>开支统计</title>
   <meta name="keywords" content="" />
   <meta name="description" content="" />
-  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="shortcut icon" href="${pageContext.request.contextPath}/pages/img/favicon.ico" />
   <link href="${pageContext.request.contextPath}/pages/css/bootstrap.min.css?v=3.3.6" rel="stylesheet" />
   <link href="${pageContext.request.contextPath}/pages/css/font-awesome.css?v=4.4.0" rel="stylesheet" />
   <link href="${pageContext.request.contextPath}/pages/css/plugins/bootstrap-table/bootstrap-table.min.css"
@@ -35,24 +35,34 @@ http://www.w3.org/TR/html4/loo">
     <div class="ibox float-e-margins">
       <div class="ibox-title">
         <h5>开支统计</h5>
-        <div class="ibox-tools"></div>
+        <div class="ibox-tools">
+          <button type="button" id="" class="btn btn-success exportBtn exportDetails" style="width:80px;/* margin-bottom: 0; */margin-top: -1pxx;position: absolute;right: 4px;top: -9px;">
+            导出详单
+          </button>
+        </div>
       </div>
       <div class="ibox-content">
         <div class="row row-lg">
           <div class="col-sm-12">
             <div class="example">
-              <div class="searchList " style="float:right;">
-                <input id="" class="laydate-icon form-control layer-date startTime" placeholder="开始时间" />
-                <input id="" class="laydate-icon form-control layer-date endTime" placeholder="结束时间" />
-                <select class="form-control m-b query_costTypeId" name="account">
-                  <option value="">请选择开支分类</option>
-                </select>
-                <input type="text" class="form-control query_ownerName" placeholder="输入部门名称" />
-                <span>
-                  <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn" style="width:80px;">
-                    查询
-                  </button>
-                </span>
+              <div class="searchList">
+                <div class="left"></div>
+                <div class="right">
+                  <input id="" class="laydate-icon form-control layer-date startTime" placeholder="开始时间" />
+                  <input id="" class="laydate-icon form-control layer-date endTime" placeholder="结束时间" />
+                  <select class="form-control m-b query_costTypeId" name="account" style="display: none;">
+                    <option value="">请选择开支分类</option>
+                  </select>
+                  <input type="text" class="form-control query_ownerName" placeholder="核算单元名称" />
+                  <span>
+                    <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn" style="width:80px;">
+                      查询
+                    </button>
+                    <button type="button" id="" class="btn btn-success exportBtn exportTotal" style="width:80px;">
+                      导出
+                    </button>
+                  </span>
+                </div>
               </div>
               <table id="statisticalSpending" data-mobile-responsive="true"></table>
             </div>
@@ -65,7 +75,6 @@ http://www.w3.org/TR/html4/loo">
   <div class="return_borrowed" id="costDetail" style="display: none; margin-bottom: 15px;">
     <div class="return_top">
       <table id="costDetailTable" data-mobile-responsive="true"></table>
-
     </div>
   </div>
   <!-- 全局js -->

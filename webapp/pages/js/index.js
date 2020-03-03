@@ -7,23 +7,27 @@ var role="";
 if (getCookie("phoneNumber") != null) {
   $(".userName").html(getCookie("employeeName"));
   $(".userJob").html(getCookie("job"));
+  $(".employeeId").html(getCookie("employeeId"));
   role=getCookie("role")
 }
-
+var phoneReg = /^1[0-9]{10}$/,
+passwordReg = /^[0-9a-zA-Z]{6,10}$/;
 var user;
 var urlConfig = {
   "1_0": base + "/common/storeManagement", // 店铺管理
   "2_0": base + "/common/entryInventory", // 入库
   "2_1": base + "/common/allocate", // 调拨
   "2_2": base + "/common/salesRecord", // 销售记录
+  "2_3": base + "/common/stock", //库存
   "3_0": base + "/common/onboarding", // 入职
   "3_1": base + "/common/departure", // 离职
   "4_0": base + "/common/spendingManagement", // 开支管理
   "5_0": base + "/common/commodityManagement", // 商品管理
   "6_0": base + "/common/compayStatistical", // 公司
   "6_1": base + "/common/storeStatistical", // 店铺
-  "6_2": base + "/common/paymentStatistical", // 支付情况
-  "6_3": base + "/common/spendingStatistical", // 开支统计
+  "6_2": base + "/common/personal", // 个人营销
+  "6_3": base + "/common/paymentStatistical", // 支付情况
+  "6_4": base + "/common/spendingStatistical", // 开支统计
   "7_0": base + "/common/performance", // 绩效管理
   "7_1": base + "/common/storeTarget", // 店铺目标值
   "7_2": base + "/common/storeGrade", // 店铺等级
@@ -82,7 +86,7 @@ var menuHtml = ``;
 for (let i = 0; i < menuAdmin.length; i++) {
   if(menuAdmin[i].id == "0"){
 if(menuAdmin.length){
-      $("#content-main iframe").attr("src", `main.html?purview=${menuAdmin[i].purview}`);
+      $("#content-main iframe").attr("src", `main.html?purview=${menuAdmin[i].purview}&v=${new Date().valueOf()}`);
 }else{
   $("#content-main iframe").attr("src", "");
 }
@@ -99,7 +103,7 @@ if(menuAdmin.length){
                     <li>
                      <a class="J_menuItem" href="${
                        urlConfig[childrenList[i].url_id]
-                     }?purview=${childrenList[i].purview}" data-index="${
+                     }?purview=${childrenList[i].purview}&v=${new Date().valueOf()}" data-index="${
           childrenList[i].url_id
         }">${childrenList[i].name}</a>
                     </li>
@@ -157,4 +161,63 @@ function logout() {
       }
     }
   );
+}
+
+$("#updata_password").on("click",function () { 
+  layer.open({
+    type: 1,
+    title: "修改密码",
+    maxmin: true,
+    content: $("#updata_password_content",), //这里content
+    area: ["400px", "310px"],
+    end: function() {
+      // 销毁弹出时 执行
+      $("#updata_password_content input").val("");
+    },
+    btn: ["确定", "取消"],
+    yes: function(index, layero) {
+      confirmFn()
+    },
+    btn2: function(index, layero) {
+      layer.closeAll("page");
+    }
+  });
+})
+
+function validationPassword(that) {
+  let errStr =
+      '<span id="password-error" class="has-error  m-b-none"><i class="fa fa-times-circle"></i>6-10位数字字母组成的字符</span>';
+  if ($(that).val()) {
+      if (passwordReg.test($(that).val())) {
+        $(that).parent().next().find(".has-error").remove();
+      } else {
+          $(that).parent().next().html(errStr);
+      }
+  } else {
+    $(that).parent().next().find(".has-error").remove();
+  }
+}
+
+function confirmFn(){ 
+    if( !($(".newPasswd").val().trim() && $(".passwd").val().trim()) ){
+      tips("将信息填写完整",5)
+      return
+    }
+    if($(".newPasswd").val().trim()  ==  $(".passwd").val().trim() ){
+      tips("新旧密码不能相同",5)
+      return
+    }
+    let params={
+      phoneNumber:getCookie("phoneNumber"),
+      basePasswd: $(".passwd").val().trim(),
+      passwd:$(".newPasswd").val().trim()
+    }
+    ajax_data("/personnel/modifyPasswd",{params:JSON.stringify(params)},function (res) {
+      if(res.resultCode > -1){
+        tips("密码修改成功",6)
+        setTimeout(function () { layer.closeAll("page"); },3000)
+      }else{
+        tips("密码修改失败",6)
+      }
+    })
 }

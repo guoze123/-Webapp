@@ -1,5 +1,14 @@
 (function(document, window, $) {
   "use strict";
+  $(".query_startTime").datepicker({
+    startView: 1,
+    todayBtn: "linked",
+    keyboardNavigation: false,
+    forceParse: false,
+    autoclose: true,
+    minViewMode: 1,
+    format: "yyyy-mm"
+  });
   function initFn() {
     $("#storeTarget").bootstrapTable({
       method: "post",
@@ -13,6 +22,8 @@
       showRefresh: false, //刷新按钮
       cache: true, // 禁止数据缓存
       search: false, // 是否展示搜索
+      sortable: true,
+      sortOrder: "asc",//排序方式
       showLoading: true,
       height: $(window).height() - 150,
       queryParams: queryParams,
@@ -20,24 +31,18 @@
       columns: [
         {
           title: "时间",
-          field: "batchno"
+          field: "batchno",
+          sortable: true
         },
         {
           title: "店铺名称",
-          field: "storeName"
+          field: "storeName",
+          sortable: true
         },
         {
-          title: "店铺目标值",
-          // events: operateEvents,
-          formatter: function(value, row, index) {
-            let str = `<div style="display:flex;align-items:center">
-            <input class="form-control inputTargetValue ${"target" +
-              row.storeId}" value="${
-              row.targetValue ? row.targetValue : ""
-            }" style="width:150px;margin-right:5px;" data-index="${index}">
-            </div>`;
-            return str;
-          }
+          title: "店铺目标值(销售额)",
+          field: "targetValue",
+          sortable: true
         }
       ]
     });
@@ -55,13 +60,8 @@
   function queryParams() {
     return {
       jsonStr: JSON.stringify({
-        storeName: $(".storeName")
-          .val()
-          .trim()
-          ? $(".storeName")
-              .val()
-              .trim()
-          : undefined
+        storeName: $(".storeName").val().trim()? $(".storeName").val().trim(): undefined,
+        batchno: $(".query_startTime").val() ? $(".query_startTime").val() :undefined
       })
     };
   }
@@ -139,13 +139,19 @@
 
   // 导出
   $(".exportBtn").click(function() {
+    let menuName= $('.J_menuTab.active', parent.document).text().trim();
+    let titleName=$(this).parents(".ibox").find(".ibox-title h5 ").text().trim();
     let form = $('<form id="to_export" style="display:none"></form>').attr({
       action: base + "/common/exportStoreTargetTemplate",
       method: "post"
     });
     $("<input>")
-      .attr("name", "batchno")
-      .val("")
+      .attr("name", "jsonStr")
+      .val(JSON.stringify({
+        storeName: $(".storeName").val().trim()? $(".storeName").val().trim(): undefined,
+        batchno: $(".query_startTime").val() ? $(".query_startTime").val() :undefined,
+        fileName:menuName+"-"+titleName+".csv"
+      }))
       .appendTo(form);
     $("body").append(form);
     $("#to_export")

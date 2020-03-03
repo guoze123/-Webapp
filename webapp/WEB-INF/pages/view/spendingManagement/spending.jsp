@@ -14,7 +14,7 @@ http://www.w3.org/TR/html4/loo">
     <title></title>
     <meta name="keywords" content="">
     <meta name="description" content="">
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/pages/img/favicon.ico">
     <link href="${pageContext.request.contextPath}/pages/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/pages/css/font-awesome.css?v=4.4.0" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/pages/css/plugins/bootstrap-table/bootstrap-table.min.css"
@@ -26,6 +26,11 @@ http://www.w3.org/TR/html4/loo">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/pages/css/plugins/zoom/zoom.css" />
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/pages/css/spendingManagement/spending.css">
+    <style>
+        .chosen-container {
+            width: 152px !important;
+        }
+    </style>
     <script>
         var base = "${pageContext.request.contextPath}";
     </script>
@@ -43,21 +48,26 @@ http://www.w3.org/TR/html4/loo">
                 <div class="row row-lg">
                     <div class="col-sm-12">
                         <div class="example">
-                            <div class="searchList" style="float:right;">
-                                <input id="" class="laydate-icon form-control query_startTime" placeholder="选择开始时间" />
-                                <input id="" class="laydate-icon form-control query_endTime" placeholder="选择结束时间" />
-                                <select class="form-control m-b query_costTypeId" name="account">
-                                    <option value="">请选择开支分类</option>
-                                </select>
-                                <input type="text" class="form-control query_ownerName" placeholder="输入部门名称">
-                                <span>
-                                    <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn"
-                                        style="width:80px;">查询</button>
-                                    <button type="button" id="" class="btn btn-primary addBtn"
+                            <div class="searchList">
+                                <div class="left">
+                                    <button type="button" id="" class="btn btn-success addBtn"
                                         style="width:80px;">添加</button>
-                                    <button type="button" id="" class="btn btn-success exportBtn"
-                                        style="width:80px;">导出</button>
-                                </span>
+                                </div>
+                                <div class="right">
+                                    <input id="" class="laydate-icon form-control query_startTime"
+                                        placeholder="选择开始时间" />
+                                    <input id="" class="laydate-icon form-control query_endTime" placeholder="选择结束时间" />
+                                    <select class="form-control m-b query_costTypeId" name="account">
+                                        <option value="">请选择开支分类</option>
+                                    </select>
+                                    <input type="text" class="form-control query_ownerName" placeholder="输入核算单元名称">
+                                    <span>
+                                        <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn"
+                                            style="width:80px;">查询</button>
+                                        <!-- <button type="button" id="" class="btn btn-success exportBtn"
+                                            style="width:80px;">导出</button> -->
+                                    </span>
+                                </div>
                             </div>
                             <table id="spending" data-mobile-responsive="true">
                             </table>
@@ -97,7 +107,7 @@ http://www.w3.org/TR/html4/loo">
                 </div>
                 <div class="list_row">
                     <div style="width: 100%;">
-                        <span>备注</span>
+                        <span><i class="required">*</i>备注</span>
                         <input type="text" class="form-control remark" placeholder="备注" />
                     </div>
                 </div>

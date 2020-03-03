@@ -14,7 +14,7 @@ http://www.w3.org/TR/html4/loo">
   <title>入职</title>
   <meta name="keywords" content="" />
   <meta name="description" content="" />
-  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="shortcut icon" href="${pageContext.request.contextPath}/pages/img/favicon.ico" />
   <link href="${pageContext.request.contextPath}/pages/css/bootstrap.min.css?v=3.3.6" rel="stylesheet" />
   <link href="${pageContext.request.contextPath}/pages/css/font-awesome.css?v=4.4.0" rel="stylesheet" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/pages/css/plugins/chosen/chosen.css" />
@@ -29,6 +29,10 @@ http://www.w3.org/TR/html4/loo">
     .chosen-container {
       width: 152px !important;
     }
+    .ibox-content{
+      padding-top: 0;
+      padding-bottom: 0;
+    }
   </style>
   <script>
     var base = "${pageContext.request.contextPath}";
@@ -37,36 +41,67 @@ http://www.w3.org/TR/html4/loo">
 
 <body class="gray-bg">
   <div class="wrapper wrapper-content animated fadeInRight">
-    <div class="ibox float-e-margins">
-      <div class="ibox-title">
-        <h5>人员管理</h5>
-        <div class="ibox-tools"></div>
+    <div class="row row-lg">
+      <div class="col-sm-3" style="padding-left: 7px;padding-right: 7px;">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>人员比例</h5>
+            <div class="ibox-tools"></div>
+          </div>
+          <div class="ibox-content">
+            <div id="personnelRatio" style="width: 100%; height: 150px;">
+            </div>
+          </div>
+        </div>
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>人员流动</h5>
+            <div class="ibox-tools"></div>
+          </div>
+          <div class="ibox-content">
+            <div id="personnel" style="width: 100%; height: 250px;"></div>
+          </div>
+        </div>
       </div>
-      <div class="ibox-content">
-        <div class="row row-lg">
-          <div class="col-sm-12">
-            <div class="example">
-              <div class="searchList">
-                <input type="text" class="form-control query_employeeId" placeholder="员工工号" />
-                <input type="text" class="form-control query_employeeName" placeholder="员工姓名" />
-                <select class="form-control m-b query_ownerId">
-                  <option value="">选择店铺</option>
-                </select>
-                <select class="form-control m-b query_activeStatus">
-                  <option value="">选择在职状态</option>
-                  <option value="0">在职</option>
-                  <option value="-1">离职</option>
-                </select>
+      <div class="col-sm-9" style="padding-left: 7px;padding-right: 7px;">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>人员管理</h5>
+            <div class="ibox-tools"></div>
+          </div>
+          <div class="ibox-content">
+            <div class="row row-lg">
+              <div class="col-sm-12">
+                <div class="example">
+                  <div class="searchList" style="margin-top: 10px;">
+                    <div class="left">
+                      <button type="button" id="" class="btn btn-success addBtn" style="width:80px;">
+                        添加
+                      </button>
+                    </div>
+                    <div class="right">
+                      <input type="text" class="form-control query_userinformation" placeholder="员工信息" />
+                      <select class="form-control m-b query_ownerId">
+                        <option value="">选择店铺</option>
+                      </select>
+                      <select class="form-control m-b query_activeStatus">
+                        <option value="">选择在职状态</option>
+                        <option value="0">在职</option>
+                        <option value="-1">离职</option>
+                      </select>
+                      <span style="text-align: right;">
+                        <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn" style="width:80px;">
+                          查询
+                        </button>
+                        <button type="button" id="" class="btn btn-success exportBtn" style="width:80px;">
+                          导出
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                  <table id="employeeInfo" data-mobile-responsive="true"></table>
+                </div>
               </div>
-              <span style="display: block;width: 100%;text-align: right;">
-                <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn" style="width:80px;">
-                  查询
-                </button>
-                <button type="button" id="eventqueryBtn" class="btn btn-primary addBtn" style="width:80px;">
-                  添加
-                </button>
-              </span>
-              <table id="employeeInfo" data-mobile-responsive="true"></table>
             </div>
           </div>
         </div>
@@ -90,24 +125,24 @@ http://www.w3.org/TR/html4/loo">
               <option value="女">女</option>
             </select>
           </div>
-				</div>
-				<div class="list_row">
+        </div>
+        <div class="list_row">
           <div>
             <span><i class="required">*</i>身份证号</span>
             <input class="form-control identityNumber" type="text" placeholder="身份证号" />
-					</div>
-					<div>
-						<span><i class="required">*</i>归属门店</span>
-						<select class="form-control m-b ownerId">
-							<option value="">请选择门店</option>
-						</select>
+          </div>
+          <div>
+            <span><i class="required">*</i>归属门店</span>
+            <select class="form-control m-b ownerId">
+              <option value="">请选择门店</option>
+            </select>
           </div>
         </div>
         <div class="list_row">
           <div>
             <span><i class="required">*</i>入职日期</span>
             <input id="" class="laydate-icon form-control layer-date entryTime"
-							onclick="laydate({istime: false, format: 'YYYY-MM-DD'})" placeholder="入职日期" />
+              onclick="laydate({istime: false, format: 'YYYY-MM-DD'})" placeholder="入职日期" />
           </div>
           <div>
             <span><i class="required">*</i>电话</span>
@@ -141,7 +176,7 @@ http://www.w3.org/TR/html4/loo">
           </div>
         </div>
         <div class="list_row">
-					<div style="width: 100%;">
+          <div style="width: 100%;">
             <span>住址</span>
             <input class="form-control address" type="text" placeholder="住址" />
           </div>
@@ -175,6 +210,7 @@ http://www.w3.org/TR/html4/loo">
     src="${pageContext.request.contextPath}/pages/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
   <script src="${pageContext.request.contextPath}/pages/js/plugins/layer/laydate/laydate.js"></script>
   <script src="${pageContext.request.contextPath}/pages/js/plugins/chosen/chosen.jquery.js"></script>
+  <script src="${pageContext.request.contextPath}/pages/js/plugins/echarts/echarts-all.js"></script>
   <script src="${pageContext.request.contextPath}/pages/js/plugins/zoom/zoom.js"></script>
   <!-- 自定义js -->
   <script src="${pageContext.request.contextPath}/pages/js/content.js?v=1.0.0"></script>

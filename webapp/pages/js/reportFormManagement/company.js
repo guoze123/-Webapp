@@ -1,14 +1,6 @@
-$(function() {
+$(function () {
   var barChart = echarts.init(document.getElementById("echarts-bar-chart"));
-  $(".startTime,.endTime").datepicker({
-    startView: 1,
-    todayBtn: "linked",
-    keyboardNavigation: false,
-    forceParse: false,
-    autoclose: true,
-    minViewMode: 1,
-    format: "yyyy-mm"
-  });
+  monthRange(".startTime", ".endTime");
   var apiMap = {
     company: {
       // 公司
@@ -35,7 +27,7 @@ $(function() {
     let sales = [],
       profit = [],
       batchno = [];
-    ajax_data(urlSales, { params: JSON.stringify(params) }, function(res) {
+    ajax_data(urlSales, { params: JSON.stringify(params) }, function (res) {
       let baroption = {
         title: {
           text: "趋势图"
@@ -74,11 +66,11 @@ $(function() {
       profit = [];
       batchno = [];
       sales = [];
-      res.profit.forEach(function(v, i) {
+      res.profit.forEach(function (v, i) {
         profit.push(v.profit);
         batchno.push(v.batchno);
       });
-      res.sales.forEach(function(v, i) {
+      res.sales.forEach(function (v, i) {
         sales.push(v.sales);
       });
       baroption["series"][0]["data"] = sales;
@@ -90,10 +82,10 @@ $(function() {
   }
 
   init();
-  $(".queryBtn").click(function() {
+  $(".queryBtn").click(function () {
     init();
   });
-  $(".salseType input[type='radio']").change(function() {
+  $(".salseType input[type='radio']").change(function () {
     // 公司：0  直营店：1 加盟店：2
     if (
       $(this)
@@ -112,5 +104,33 @@ $(function() {
     }
     init();
   });
+  // 公司导出
+  $(".exportBtn").click(function () {
+    let menuName = $(".J_menuTab.active", parent.document).text().trim();
+    let titleName = $(this)
+      .parents(".ibox")
+      .find(".ibox-title h5 ")
+      .text().trim();
+    let form = $('<form id="to_export" style="display:none"></form>').attr({
+      action: base + "/common/exportInventoryAnalysis",
+      method: "post"
+    });
+    $("<input>")
+      .attr("name", "jsonStr")
+      .val(
+        JSON.stringify({
+          startTime: $(".startTime").val() ? $(".startTime").val() : undefined,
+          endTime: $(".endTime").val() ? $(".endTime").val() : undefined,
+          reportType: $("input[name='type']:checked").val(),
+          fileName: menuName + "-"+ $(".salseType input[type='radio']:checked").attr("data-name")+ titleName+".csv"
+        })
+      )
+      .appendTo(form);
+    $("body").append(form);
+    $("#to_export")
+      .submit()
+      .remove();
+  });
+
   $(window).resize(barChart.resize);
 });

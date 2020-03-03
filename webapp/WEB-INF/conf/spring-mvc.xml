@@ -38,4 +38,16 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
 		<!-- 上传图片最大大小5M -->
 		<property name="maxUploadSize" value="52424400"></property>
 	</bean>
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/**/common/login" />
+			<mvc:exclude-mapping path="/**/common/register" />
+			<mvc:exclude-mapping path="/**/pages/css/**" />
+			<mvc:exclude-mapping path="/**/pages/fonts/**" />
+			<mvc:exclude-mapping path="/**/pages/img/**" />
+			<mvc:exclude-mapping path="/**/pages/js/**" />
+			<bean class="com.sipimo.utils.AuthInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
 </beans>

@@ -12,9 +12,12 @@ http://www.w3.org/TR/html4/loo">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title></title>
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
     <meta name="keywords" content="" />
     <meta name="description" content="" />
-    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/pages/img/favicon.ico" />
     <link href="${pageContext.request.contextPath}/pages/css/bootstrap.min.css?v=3.3.6" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/pages/css/font-awesome.css?v=4.4.0" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/pages/css/plugins/bootstrap-table/bootstrap-table.min.css"
@@ -51,24 +54,28 @@ http://www.w3.org/TR/html4/loo">
                 <div class="row row-lg">
                     <div class="col-sm-12">
                         <div class="example">
-                            <div class="searchList" style="float:right;">
-                                日期：<input id=""
-                                    class="laydate-icon form-control layer-date open_time query_startTime" /> 订单号：
-                                <input type="text" class="form-control query_ordernum" placeholder="订单号" />
-                                <span>
-                                    <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn"
-                                        style="width:80px;">
-                                        查询
-                                    </button>
-                                    <button type="button" id="" class="btn btn-info exportBtn" style="width:80px;"
-                                        aria-label="Export">
-                                        导出
-                                    </button>
-                                    <button type="button" id="eventAddBtn" class="btn btn-primary addBtn"
+                            <div class="searchList" >
+                                <div class="left">
+                                    <button type="button" id="eventAddBtn" class="btn btn-success addBtn"
                                         style="width:80px;">
                                         添加
                                     </button>
-                                </span>
+                                </div>
+                                <div class="right">
+                                    <input id="" class="laydate-icon form-control layer-date open_time query_startTime"
+                                        placeholder="时间" /> 订单号：
+                                    <input type="text" class="form-control query_ordernum" placeholder="订单号" />
+                                    <span>
+                                        <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn"
+                                            style="width:80px;">
+                                            查询
+                                        </button>
+                                        <button type="button" id="" class="btn btn-success exportBtn" style="width:80px;"
+                                            aria-label="Export">
+                                            导出
+                                        </button>
+                                    </span>
+                                </div>
                             </div>
                             <table id="importInventory" data-mobile-responsive="true"></table>
                         </div>
@@ -84,7 +91,9 @@ http://www.w3.org/TR/html4/loo">
                 <div class="list_row">
                     <div>
                         <span><i class="required">*</i>订单日期</span>
-                        <input id="" class="laydate-icon form-control layer-date startTime" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" placeholder="订单日期" />
+                        <input id="" class="laydate-icon form-control layer-date startTime"
+                            onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss',start:new Date().toLocaleString()})"
+                            placeholder="订单日期" />
                     </div>
                     <div>
                         <span><i class="required">*</i>订单号</span>
@@ -128,7 +137,8 @@ http://www.w3.org/TR/html4/loo">
                             <label class="btn btn-success" for="upload" style="display: inline-block;">
                                 <i class="fa fa-upload"></i>&nbsp;&nbsp;<span class="bold">上传图片</span>
                             </label>
-                            <input type="file" name="" id="upload" accept="image/*" class="uploadimg" style="visibility: hidden; width: 20px; height: 0;" />
+                            <input type="file" name="" id="upload" accept="image/*" class="uploadimg"
+                                style="visibility: hidden; width: 20px; height: 0;" />
                             <img src="" alt="" class="picList" data-action="zoom" />
                         </div>
                     </div>

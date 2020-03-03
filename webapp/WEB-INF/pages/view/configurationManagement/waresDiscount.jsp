@@ -12,9 +12,12 @@ http://www.w3.org/TR/html4/loo">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title></title>
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
     <meta name="keywords" content="" />
     <meta name="description" content="" />
-    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/pages/img/favicon.ico" />
     <link href="${pageContext.request.contextPath}/pages/css/bootstrap.min.css?v=3.3.6" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/pages/css/font-awesome.css?v=4.4.0" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/pages/css/plugins/bootstrap-table/bootstrap-table.min.css"
@@ -38,16 +41,23 @@ http://www.w3.org/TR/html4/loo">
                 <div class="row row-lg">
                     <div class="col-sm-12">
                         <div class="example">
-                            <div class="searchList" style="float:right;">
-                                <span>
-                                    <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn"
-                                        style="width:80px;">
-                                        查询
-                                    </button>
-                                    <button type="button" id="" class="btn btn-success submitBtn" style="width:80px;">
-                                        提交
-                                    </button>
-                                </span>
+                            <div class="searchList" >
+                                <div class="left">
+
+                                </div>
+                                <div class="right">
+                                    商品名称：
+                                    <input type="text" class="waresName form-control" placeholder="商品名称" />
+                                    <span>
+                                        <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn"
+                                            style="width:80px;">
+                                            查询
+                                        </button>
+                                        <button type="button" id="" class="btn btn-success submitBtn" style="width:80px;">
+                                            更新
+                                        </button>
+                                    </span>
+                                </div>
                             </div>
                             <table id="waresDiscount" data-mobile-responsive="true"></table>
                         </div>

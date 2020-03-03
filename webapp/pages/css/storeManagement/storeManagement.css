@@ -16,8 +16,8 @@
           align-items: center;
 }
 
-.searchList .areaSearch select {
-  width: 150px;
+.searchList .areaSearch select, .searchList .areaSearch input {
+  width: 130px;
   margin: 0 5px;
   text-align: center;
 }
