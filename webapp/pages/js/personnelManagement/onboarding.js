@@ -237,12 +237,11 @@ var employeeId="";
 
   // 查询人员比例
   function queryRatio(param) {
-    
     let option = {
+      color : [ '#1a7bb9', "#c3cad0"],
       tooltip: {
         formatter: "{b}:{c}({d}%)"
       },
-
       legend: {
         x: "left",
         orient: "vertical",
@@ -316,12 +315,22 @@ var employeeId="";
         {
           name: "入职",
           type: "bar",
-          data: activeNum
+          data: activeNum,
+          itemStyle:{
+            normal:{
+              color:"#1a7bb9"
+            }
+          }
         },
         {
           name: "离职",
           type: "bar",
-          data: inactived
+          data: inactived,
+          itemStyle:{
+            normal:{
+              color:"#c3cad0"
+            }
+          }
         }
       ]
     };
