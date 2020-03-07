@@ -54,12 +54,22 @@ $(function () {
           {
             name: "销售额",
             type: "line",
-            data: sales
+            data: sales,
+            itemStyle:{
+              normal:{
+                color:"#1a7bb9"
+              }
+            }
           },
           {
             name: "利润",
             type: "line",
-            data: profit
+            data: profit,
+            itemStyle:{
+              normal:{
+                color:"red"
+              }
+            }
           }
         ]
       };

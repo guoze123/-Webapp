@@ -31,7 +31,8 @@ var urlConfig = {
   "7_0": base + "/common/performance", // 绩效管理
   "7_1": base + "/common/storeTarget", // 店铺目标值
   "7_2": base + "/common/storeGrade", // 店铺等级
-  "7_3": base + "/common/waresDiscount" // 商品折扣配置
+  "7_3": base + "/common/waresDiscount", // 商品折扣配置
+  "8_0": base + "/common/opinion" // 意见收集
 };
 ajax_data(
   "/competence/getCompetence",

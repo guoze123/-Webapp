@@ -155,9 +155,14 @@
       ],
       series: [
         {
-          name: "服务次数",
+          name: "销售额",
           type: "bar",
-          data: valueList
+          data: valueList,
+          itemStyle: {
+            normal: {
+              color: "#1a7bb9"
+            }
+          }
         }
       ]
     };
@@ -209,7 +214,12 @@
         {
           name: "服务次数",
           type: "bar",
-          data: valueList
+          data: valueList,
+          itemStyle: {
+            normal: {
+              color: "#1a7bb9"
+            }
+          }
         }
       ]
     };

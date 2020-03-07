@@ -32,39 +32,65 @@ http://www.w3.org/TR/html4/loo">
 
 <body class="gray-bg">
   <div class="wrapper wrapper-content animated fadeInRight">
-    <div class="ibox float-e-margins">
-      <div class="ibox-title">
-        <h5>开支统计</h5>
-        <div class="ibox-tools">
-          <button type="button" id="" class="btn btn-success exportBtn exportDetails" style="width:80px;/* margin-bottom: 0; */margin-top: -1pxx;position: absolute;right: 4px;top: -9px;">
-            导出详单
-          </button>
+    <div class="row row-lg">
+      <div class="col-sm-3" style="padding-left: 7px;padding-right: 7px;">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>部门开支统计</h5>
+            <div class="ibox-tools"></div>
+          </div>
+          <div class="ibox-content">
+            <div id="departmentSpending" style="width: 100%; height: 150px;">
+            </div>
+          </div>
+        </div>
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>店铺开支统计</h5>
+            <div class="ibox-tools"></div>
+          </div>
+          <div class="ibox-content">
+            <div id="storeSpending" style="width: 100%; height: 250px;"></div>
+          </div>
         </div>
       </div>
-      <div class="ibox-content">
-        <div class="row row-lg">
-          <div class="col-sm-12">
-            <div class="example">
-              <div class="searchList">
-                <div class="left"></div>
-                <div class="right">
-                  <input id="" class="laydate-icon form-control layer-date startTime" placeholder="开始时间" />
-                  <input id="" class="laydate-icon form-control layer-date endTime" placeholder="结束时间" />
-                  <select class="form-control m-b query_costTypeId" name="account" style="display: none;">
-                    <option value="">请选择开支分类</option>
-                  </select>
-                  <input type="text" class="form-control query_ownerName" placeholder="核算单元名称" />
-                  <span>
-                    <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn" style="width:80px;">
-                      查询
-                    </button>
-                    <button type="button" id="" class="btn btn-success exportBtn exportTotal" style="width:80px;">
-                      导出
-                    </button>
-                  </span>
+      <div class="col-sm-9" style="padding-left: 7px;padding-right: 7px;">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>开支统计</h5>
+            <div class="ibox-tools">
+              <button type="button" id="" class="btn btn-success exportBtn exportDetails"
+                style="width:80px;/* margin-bottom: 0; */margin-top: -1pxx;position: absolute;right: 4px;top: -9px;">
+                导出详单
+              </button>
+            </div>
+          </div>
+          <div class="ibox-content">
+            <div class="row row-lg">
+              <div class="col-sm-12">
+                <div class="example">
+                  <div class="searchList">
+                    <div class="left"></div>
+                    <div class="right">
+                      <input id="" class="laydate-icon form-control layer-date startTime" placeholder="开始时间" />
+                      <input id="" class="laydate-icon form-control layer-date endTime" placeholder="结束时间" />
+                      <select class="form-control m-b query_costTypeId" name="account" style="display: none;">
+                        <option value="">请选择开支分类</option>
+                      </select>
+                      <input type="text" class="form-control query_ownerName" placeholder="核算单元名称" />
+                      <span>
+                        <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn" style="width:80px;">
+                          查询
+                        </button>
+                        <button type="button" id="" class="btn btn-success exportBtn exportTotal" style="width:80px;">
+                          导出
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                  <table id="statisticalSpending" data-mobile-responsive="true"></table>
                 </div>
               </div>
-              <table id="statisticalSpending" data-mobile-responsive="true"></table>
             </div>
           </div>
         </div>
@@ -86,6 +112,7 @@ http://www.w3.org/TR/html4/loo">
   <script src="${pageContext.request.contextPath}/pages/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
   <script
     src="${pageContext.request.contextPath}/pages/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+  <script src="${pageContext.request.contextPath}/pages/js/plugins/echarts/echarts-all.js"></script>
   <script src="${pageContext.request.contextPath}/pages/js/plugins/layer/laydate/laydate.js"></script>
   <script src="${pageContext.request.contextPath}/pages/js/plugins/datapicker/bootstrap-datepicker.js"></script>
   <script src="${pageContext.request.contextPath}/pages/js/plugins/chosen/chosen.jquery.js"></script>

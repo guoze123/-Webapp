@@ -144,9 +144,6 @@ var employeeId="";
         });
       }
     );
-
-   
-   
   }
   function operation(vlaue, row) {
     let purviewList = getQueryString("purview").split(",");
@@ -541,7 +538,9 @@ var employeeId="";
             });
             // allStroe = res;
             $(".ownerId").html(option);
+            $(".query_ownerId").html(option);
             $(".ownerId").chosen();
+            $(".query_ownerId").chosen();
           }
         );
       }

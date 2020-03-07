@@ -2,8 +2,18 @@
   "use strict";
 
   monthRange(".startTime",".endTime")
-
+  var storeTop5 = echarts.init(document.getElementById("storeTop5"));
+  var storeLast5 = echarts.init(document.getElementById("storeLast5"));
   function initFn() {
+    let data=[
+      {storeName:"test1",avgSales:"100",avgProfit:"50"},
+      {storeName:"test2",avgSales:"100",avgProfit:"50"},
+      {storeName:"test3",avgSales:"100",avgProfit:"50"},
+      {storeName:"test4",avgSales:"100",avgProfit:"50"},
+      {storeName:"test5",avgSales:"100",avgProfit:"50"},
+    ]
+    query_storeTop5(data);
+    query_storeLast5(data);
     $("#storeSales").bootstrapTable({
       method: "post",
       url: base + "/inventory/queryStoreAnalysisTable", //请求路径
@@ -22,9 +32,6 @@
       sortOrder: "asc",//排序方式
       queryParams: queryParams,
       contentType: "application/x-www-form-urlencoded",
-      // responseHandler: function(res) {
-      //     return res.storeAvgData;
-      // },
       columns: [
         {
           title: "时间",
@@ -156,6 +163,129 @@
     };
   }
   initFn();
+  function query_storeTop5(data) {
+    let storeName=[],sales=[],profit=[];
+    data.forEach(function (ele) {
+      storeName.push(ele.storeName)
+      sales.push(ele.avgSales)
+      profit.push(ele.avgProfit)
+    })
+    let option = {
+      tooltip: {
+        trigger: "axis",
+        axisPointer: {
+          // 坐标轴指示器，坐标轴触发有效
+          type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+        }
+      },
+      legend: {
+        data: ["销售额", "利润"]
+      },
+      grid: {
+       x:30,
+       x2:10
+      },
+      xAxis: [
+        {
+          type: "category",
+          data: storeName
+        }
+      ],
+      yAxis: [
+        {
+          type: "value"
+        }
+      ],
+      series: [
+        {
+          name: "销售额",
+          type: "bar",
+          data: sales,
+          itemStyle:{
+            normal:{
+              color:"#1a7bb9"
+            }
+          }
+        },
+        {
+          name: "利润",
+          type: "bar",
+          data: profit,
+          itemStyle:{
+            normal:{
+              color:"#ed5565"
+            }
+          }
+        }
+      ]
+    };
+    storeTop5.clear();
+    storeTop5.setOption(option);
+  }
+  function query_storeLast5(data) {
+    let storeName=[],sales=[],profit=[];
+    data.forEach(function (ele) {
+      storeName.push(ele.storeName)
+      sales.push(ele.avgSales)
+      profit.push(ele.avgProfit)
+    })
+    let option = {
+      tooltip: {
+        trigger: "axis",
+        axisPointer: {
+          // 坐标轴指示器，坐标轴触发有效
+          type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+        }
+      },
+      legend: {
+        data: ["销售额", "利润"]
+      },
+      grid: {
+       x:30,
+       x2:10
+      },
+      xAxis: [
+        {
+          type: "category",
+          data: storeName
+        }
+      ],
+      yAxis: [
+        {
+          type: "value"
+        }
+      ],
+      series: [
+        {
+          name: "销售额",
+          type: "bar",
+          data: sales,
+          itemStyle:{
+            normal:{
+              color:"#1a7bb9"
+            }
+          }
+        },
+        {
+          name: "利润",
+          type: "bar",
+          data: profit,
+          itemStyle:{
+            normal:{
+              color:"#ed5565"
+            }
+          }
+        }
+      ]
+    };
+    storeLast5.clear();
+    storeLast5.setOption(option);
+  }
+
+  $(window).resize(function() {
+    storeTop5.resize();
+    storeLast5.resize();
+  });
   // 点击查询按钮
   $("#eventqueryBtn").click(function() {
     $("#storeSales").bootstrapTable("selectPage",1);
