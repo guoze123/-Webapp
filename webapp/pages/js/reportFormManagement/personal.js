@@ -158,6 +158,7 @@
           name: "销售额",
           type: "bar",
           data: valueList,
+          barWidth:"30px",
           itemStyle: {
             normal: {
               color: "#1a7bb9"
@@ -215,6 +216,7 @@
           name: "服务次数",
           type: "bar",
           data: valueList,
+          barWidth:"30px",
           itemStyle: {
             normal: {
               color: "#1a7bb9"

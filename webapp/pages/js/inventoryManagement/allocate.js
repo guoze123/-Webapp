@@ -430,7 +430,7 @@ var editOption = {};
     } else {
       let formdata = new FormData();
       formdata.append("newJsonStr", JSON.stringify(params));
-      formdata.append("oldJsonStr", JSON.stringify(editOptin));
+      formdata.append("oldJsonStr", JSON.stringify(editOption));
       if ($(".uploadimg")[0].files[0]) {
         formdata.append(
           "file",
@@ -492,7 +492,7 @@ var editOption = {};
     let reg = /^[0-9]{0,8}$/;
     let str = `<span class='red inputErr' style="width:100%;margin-left:${$(this).position().left}px">8位以内的整数</span>`;
     if (reg.test($(this).val().trim())) {
-      if($(this).val().trim() <= $(this).parent().find("select option:selected").attr("data-count")){
+      if( parseInt($(this).val().trim())  <= parseInt($(this).parent().find("select option:selected").attr("data-count"))){
         $(this).parent().find(".inputErr").remove()
       }else{
         if (!($(this).parent().find(".inputErr").length)) {

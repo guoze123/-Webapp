@@ -6,57 +6,76 @@
   monthRange(".startTime", ".endTime")
   function initFn() {
     ajax_data(
-      "/cost/queryCostAnalysis",
-      { params: queryParams(),contentType: "application/x-www-form-urlencoded"},
-      function(res) {
-        queryDepartment();
-        queryStore();
-        $("#statisticalSpending").bootstrapTable({
-         // method: "post",
-         // url: base + "/cost/queryCostAnalysis", //请求路径
-          data: res.tblData,
-          striped: true, //是否显示行间隔色
-          pageNumber: 1, //初始化加载第一页
-          pagination: true, //是否分页
-          sidePagination: "client", //server:服务器端分页|client：前端分页
-          pageSize: 10, //单页记录数
-          pageList: [10, 20, 30], //可选择单页记录数
-          height: $(window).height() - 110,
-          showRefresh: false, //刷新按钮
-          cache: true, // 禁止数据缓存
-          search: false, // 是否展示搜索
-          sortable: true,
-          sortOrder: "asc", //排序方式
-          showLoading: true,
-          contentType: "application/x-www-form-urlencoded",
-          queryParams: queryParams,
-          columns: [
-            {
-              title: "开支时间",
-              field: "batchno",
-              sortable: true
-            },
-            {
-              title: "核算单元",
-              field: "ownerName",
-              sortable: true
-            },
-    
-            {
-              title: "开支金额",
-              field: "amount",
-              sortable: true
-            },
-            {
-              title: "操作",
-              field: "publicationTime",
-              events: operateEvents,
-              formatter: operation //对资源进行操作,
-            }
-          ]
-        });
+      "/cost/reportCostAnalysis",
+      {
+        params: {
+          jsonStr: JSON.stringify({
+            startTime: $(".searchList .startTime")
+              .val()
+              .trim()
+              ? $(".searchList  .startTime")
+                .val()
+                .trim()
+              : undefined, // 开支时间
+            endTime: $(".searchList  .endTime")
+              .val()
+              .trim()
+              ? $(".searchList  .endTime")
+                .val()
+                .trim()
+              : undefined, // 开支时间
+          })
+        }, contentType: "application/x-www-form-urlencoded"
+      },
+      function (res) {
+        queryDepartment(res.departmentData);
+        queryStore(res.storeData);
       }
     );
+
+    $("#statisticalSpending").bootstrapTable({
+      method: "post",
+      url: base + "/cost/queryCostAnalysis", //请求路径
+      striped: true, //是否显示行间隔色
+      pageNumber: 1, //初始化加载第一页
+      pagination: true, //是否分页
+      sidePagination: "client", //server:服务器端分页|client：前端分页
+      pageSize: 10, //单页记录数
+      pageList: [10, 20, 30], //可选择单页记录数
+      height: $(window).height() - 110,
+      showRefresh: false, //刷新按钮
+      cache: true, // 禁止数据缓存
+      search: false, // 是否展示搜索
+      sortable: true,
+      sortOrder: "asc", //排序方式
+      showLoading: true,
+      contentType: "application/x-www-form-urlencoded",
+      queryParams: queryParams,
+      columns: [
+        {
+          title: "开支时间",
+          field: "batchno",
+          sortable: true
+        },
+        {
+          title: "核算单元",
+          field: "ownerName",
+          sortable: true
+        },
+
+        {
+          title: "开支金额",
+          field: "amount",
+          sortable: true
+        },
+        {
+          title: "操作",
+          field: "publicationTime",
+          events: operateEvents,
+          formatter: operation //对资源进行操作,
+        }
+      ]
+    });
     //queryCostType();
   }
   function operation(vlaue, row) {
@@ -162,11 +181,14 @@
 
   // 查询部门的开支
   function queryDepartment(param) {
-    let departmentdata = [{ name: "人事", value: "20" },
-    { name: "招商", value: "20" }, { name: "运营", value: "20" }, { name: "客服", value: "20" }, { name: "综合", value: "20" }]
+    let departmentdata = [];
     let departmentName = [];
-    departmentdata.forEach(function (item) {
-      departmentName.push(item.name)
+    param.forEach(function (item) {
+      departmentName.push(item.ownerName);
+      departmentdata.push({
+        name: item.ownerName,
+        value: item.amount
+      })
     })
     let option = {
       tooltip: {
@@ -205,16 +227,10 @@
   }
   // 查询店铺的开支
   function queryStore(param) {
-    let data = [
-      { name: "test1", value: "20" },
-      { name: "test2", value: "20" },
-      { name: "test3", value: "20" },
-      { name: "test4", value: "20" },
-      { name: "test5", value: "20" }]
     let storeName = [], storeData = [];
-    data.forEach(function (item) {
-      storeName.push(item.name);
-      storeData.push(item.value)
+    param.forEach(function (item) {
+      storeName.push(item.ownerName);
+      storeData.push(item.amount)
     })
 
     let option = {
@@ -224,7 +240,6 @@
           type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
         }
       },
-    
       grid: {
         x: 30,
         x2: 10
@@ -241,20 +256,21 @@
         }
       ],
       series: [{
-          type: "bar",
-          data: storeData,
-          itemStyle: {
-            normal: {
-              color: "#1a7bb9"
-            }
+        type: "bar",
+        barWidth: "30px",
+        data: storeData,
+        itemStyle: {
+          normal: {
+            color: "#1a7bb9"
           }
         }
+      }
       ]
     };
     storeSpending.clear();
     storeSpending.setOption(option);
   }
-  $(window).resize(function() {
+  $(window).resize(function () {
     departmentSpending.resize();
     storeSpending.resize();
   });

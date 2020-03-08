@@ -22,11 +22,6 @@
       queryParams: queryParams,
       columns: [
         {
-          title: "店铺id",
-          field: "storeId",
-          sortable: true
-        },
-        {
           title: "店铺名称",
           field: "storeName",
           sortable: true

@@ -312,6 +312,7 @@ var employeeId="";
         {
           name: "入职",
           type: "bar",
+          barWidth:"30px",
           data: activeNum,
           itemStyle:{
             normal:{
@@ -322,6 +323,7 @@ var employeeId="";
         {
           name: "离职",
           type: "bar",
+          barWidth:"30px",
           data: inactived,
           itemStyle:{
             normal:{

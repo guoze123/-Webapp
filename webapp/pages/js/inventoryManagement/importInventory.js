@@ -1,5 +1,5 @@
 var allwares = ""; //所有商品
-var editOptin = {}; // 存储调拨记录的信息 用于撤回记录
+var editOption = {}; // 存储调拨记录的信息 用于撤回记录
 (function(document, window, $) {
   var isadd = false;
 
@@ -127,7 +127,7 @@ var editOptin = {}; // 存储调拨记录的信息 用于撤回记录
           contentType: "application/x-www-form-urlencoded;charset=utf-8"
         },
         function(res) {
-          editOptin = {
+          editOption = {
             startTime: row.operationDate, // 日期
             ordernum: row.ordernum, //订单号
             totalAmount: row.amount, // 应付
@@ -408,7 +408,7 @@ var editOptin = {}; // 存储调拨记录的信息 用于撤回记录
     } else {
         let formdata = new FormData();
         formdata.append("newJsonStr", JSON.stringify(params));
-        formdata.append("oldJsonStr", JSON.stringify(editOptin));
+        formdata.append("oldJsonStr", JSON.stringify(editOption));
         if ($(".uploadimg")[0].files[0]) {
           formdata.append(
             "file",

@@ -1,19 +1,79 @@
-(function(document, window, $) {
+(function (document, window, $) {
   "use strict";
 
-  monthRange(".startTime",".endTime")
+  monthRange(".startTime", ".endTime")
   var storeTop5 = echarts.init(document.getElementById("storeTop5"));
   var storeLast5 = echarts.init(document.getElementById("storeLast5"));
   function initFn() {
-    let data=[
-      {storeName:"test1",avgSales:"100",avgProfit:"50"},
-      {storeName:"test2",avgSales:"100",avgProfit:"50"},
-      {storeName:"test3",avgSales:"100",avgProfit:"50"},
-      {storeName:"test4",avgSales:"100",avgProfit:"50"},
-      {storeName:"test5",avgSales:"100",avgProfit:"50"},
-    ]
-    query_storeTop5(data);
-    query_storeLast5(data);
+
+    ajax_data(
+      "/inventory/reportStoreAnalysis",
+      {
+        params: {
+          jsonStr: JSON.stringify({
+            reportType: "headData",
+            startTime: $(".startTime")
+              .val()
+              .trim()
+              ? $(".startTime")
+                .val()
+                .trim()
+              : undefined,
+            endTime: $(".endTime")
+              .val()
+              .trim()
+              ? $(".endTime")
+                .val()
+                .trim()
+              : undefined,
+            storeName: $(".query_storeName")
+              .val()
+              .trim()
+              ? $(".query_storeName")
+                .val()
+                .trim()
+              : undefined
+          })
+        }, contentType: "application/x-www-form-urlencoded"
+      },
+      function (res) {
+        query_storeTop5(res);
+      }
+    );
+    ajax_data(
+      "/inventory/reportStoreAnalysis",
+      {
+        params: {
+          jsonStr: JSON.stringify({
+            reportType: "endData",
+            startTime: $(".startTime")
+              .val()
+              .trim()
+              ? $(".startTime")
+                .val()
+                .trim()
+              : undefined,
+            endTime: $(".endTime")
+              .val()
+              .trim()
+              ? $(".endTime")
+                .val()
+                .trim()
+              : undefined,
+            storeName: $(".query_storeName")
+              .val()
+              .trim()
+              ? $(".query_storeName")
+                .val()
+                .trim()
+              : undefined
+          })
+        }, contentType: "application/x-www-form-urlencoded"
+      },
+      function (res) {
+        query_storeLast5(res);
+      }
+    );
     $("#storeSales").bootstrapTable({
       method: "post",
       url: base + "/inventory/queryStoreAnalysisTable", //请求路径
@@ -82,21 +142,21 @@
   }
 
   var operateEvents = {
-    "click #detail": function(e, v, row) {
+    "click #detail": function (e, v, row) {
       ajax_data(
         "/inventory/queryStoreAnalysisDetail",
         {
           params: {
             jsonStr: JSON.stringify({
               storeId: row.storeId,
-              storeName:row.storeName,
-              startTime:row.batchno,
-              endTime:row.batchno
+              storeName: row.storeName,
+              startTime: row.batchno,
+              endTime: row.batchno
             })
           },
           contentType: "application/x-www-form-urlencoded;charset=utf-8"
         },
-        function(res) {
+        function (res) {
           $("#storeDetailTable").bootstrapTable("destroy");
           $("#storeDetailTable").bootstrapTable({
             striped: true, //是否显示行间隔色
@@ -123,13 +183,13 @@
               {
                 title: "实付金额",
                 field: "payedAmount"
-              },{
+              }, {
                 title: "客户类型",
                 field: "custType"
               }
             ]
           });
-          open_html("详情信息", "#storeDetail", function() {});
+          open_html("详情信息", "#storeDetail", function () { });
         }
       );
     }
@@ -142,33 +202,33 @@
           .val()
           .trim()
           ? $(".startTime")
-              .val()
-              .trim()
+            .val()
+            .trim()
           : undefined,
         endTime: $(".endTime")
           .val()
           .trim()
           ? $(".endTime")
-              .val()
-              .trim()
+            .val()
+            .trim()
           : undefined,
         storeName: $(".query_storeName")
           .val()
           .trim()
           ? $(".query_storeName")
-              .val()
-              .trim()
+            .val()
+            .trim()
           : undefined
       })
     };
   }
   initFn();
   function query_storeTop5(data) {
-    let storeName=[],sales=[],profit=[];
+    let storeName = [], sales = [], profit = [];
     data.forEach(function (ele) {
       storeName.push(ele.storeName)
-      sales.push(ele.avgSales)
-      profit.push(ele.avgProfit)
+      sales.push(ele.sales)
+      profit.push(ele.profit)
     })
     let option = {
       tooltip: {
@@ -182,8 +242,8 @@
         data: ["销售额", "利润"]
       },
       grid: {
-       x:30,
-       x2:10
+        x: 30,
+        x2: 10
       },
       xAxis: [
         {
@@ -200,20 +260,22 @@
         {
           name: "销售额",
           type: "bar",
+          barWidth: "30px",
           data: sales,
-          itemStyle:{
-            normal:{
-              color:"#1a7bb9"
+          itemStyle: {
+            normal: {
+              color: "#1a7bb9"
             }
           }
         },
         {
           name: "利润",
           type: "bar",
+          barWidth: "30px",
           data: profit,
-          itemStyle:{
-            normal:{
-              color:"#ed5565"
+          itemStyle: {
+            normal: {
+              color: "#ed5565"
             }
           }
         }
@@ -223,11 +285,11 @@
     storeTop5.setOption(option);
   }
   function query_storeLast5(data) {
-    let storeName=[],sales=[],profit=[];
+    let storeName = [], sales = [], profit = [];
     data.forEach(function (ele) {
       storeName.push(ele.storeName)
-      sales.push(ele.avgSales)
-      profit.push(ele.avgProfit)
+      sales.push(ele.sales)
+      profit.push(ele.profit)
     })
     let option = {
       tooltip: {
@@ -241,8 +303,8 @@
         data: ["销售额", "利润"]
       },
       grid: {
-       x:30,
-       x2:10
+        x: 30,
+        x2: 10
       },
       xAxis: [
         {
@@ -259,20 +321,22 @@
         {
           name: "销售额",
           type: "bar",
+          barWidth: "30px",
           data: sales,
-          itemStyle:{
-            normal:{
-              color:"#1a7bb9"
+          itemStyle: {
+            normal: {
+              color: "#1a7bb9"
             }
           }
         },
         {
           name: "利润",
           type: "bar",
+          barWidth: "30px",
           data: profit,
-          itemStyle:{
-            normal:{
-              color:"#ed5565"
+          itemStyle: {
+            normal: {
+              color: "#ed5565"
             }
           }
         }
@@ -282,22 +346,22 @@
     storeLast5.setOption(option);
   }
 
-  $(window).resize(function() {
+  $(window).resize(function () {
     storeTop5.resize();
     storeLast5.resize();
   });
   // 点击查询按钮
-  $("#eventqueryBtn").click(function() {
-    $("#storeSales").bootstrapTable("selectPage",1);
+  $("#eventqueryBtn").click(function () {
+    $("#storeSales").bootstrapTable("selectPage", 1);
     $("#storeSales").bootstrapTable("refresh");
   });
-  $("#queryStore").click(function() {
+  $("#queryStore").click(function () {
     $("#storeProfit").bootstrapTable("refresh");
   });
   // 导出
-  $(".exportBtn").click(function() {
-    let menuName= $('.J_menuTab.active', parent.document).text().trim();
-    let titleName=$(this).parents(".ibox").find(".ibox-title h5 ").text().trim();
+  $(".exportBtn").click(function () {
+    let menuName = $('.J_menuTab.active', parent.document).text().trim();
+    let titleName = $(this).parents(".ibox").find(".ibox-title h5 ").text().trim();
     let form = $('<form id="to_export" style="display:none"></form>').attr({
       action: base + "/common/exportStoreAnalysis",
       method: "post"
@@ -305,10 +369,10 @@
     $("<input>")
       .attr("name", "jsonStr")
       .val(JSON.stringify({
-        startTime: $(".startTime").val()?$(".startTime").val():undefined,
-        endTime:$(".endTime").val()?$(".endTime").val():undefined,
-        storeName:$(".query_storeName").val().trim()?$(".query_storeName").val().trim():undefined,
-        fileName: menuName + "-" + titleName+".csv"
+        startTime: $(".startTime").val() ? $(".startTime").val() : undefined,
+        endTime: $(".endTime").val() ? $(".endTime").val() : undefined,
+        storeName: $(".query_storeName").val().trim() ? $(".query_storeName").val().trim() : undefined,
+        fileName: menuName + "-" + titleName + ".csv"
       }))
       .appendTo(form);
     $("body").append(form);
