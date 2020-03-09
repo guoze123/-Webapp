@@ -8,7 +8,7 @@
     autoclose: true,
     format: "yyyy-mm-dd"
   });
-  dateRange(
+  monthRange(
     ".query_startTime",
     ".query_endTime"
   );

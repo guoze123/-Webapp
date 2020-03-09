@@ -31,14 +31,14 @@ http://www.w3.org/TR/html4/loo">
 <body class="gray-bg">
   <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row row-lg">
-      <div class="col-sm-3" style="padding-left: 7px;padding-right: 7px;">
+      <div class="col-sm-4" style="padding-left: 7px;padding-right: 7px;">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
             <h5>销售额</h5>
             <div class="ibox-tools"></div>
           </div>
           <div class="ibox-content">
-            <div id="storeTop5" style="width: 100%; height: calc(40vh - 50px );">
+            <div id="storeTop5" style="width: 100%; height: 200px;">
             </div>
           </div>
         </div>
@@ -48,11 +48,11 @@ http://www.w3.org/TR/html4/loo">
             <div class="ibox-tools"></div>
           </div>
           <div class="ibox-content">
-            <div id="storeLast5" style="width: 100%; height: calc(40vh - 50px );"></div>
+            <div id="storeLast5" style="width: 100%; height:200px;"></div>
           </div>
         </div>
       </div>
-      <div class="col-sm-9" style="padding-left: 7px;padding-right: 7px;">
+      <div class="col-sm-8" style="padding-left: 7px;padding-right: 7px;">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
             <h5>店铺销售额</h5>

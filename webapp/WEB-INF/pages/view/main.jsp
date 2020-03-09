@@ -64,7 +64,7 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+pa
                     </button>
                     <button type="button" id="" class="btn btn-success exportBtn yearExport"
                       style="width:80px; margin-bottom: 0;">
-                      导出
+                      导出模板
                     </button>
                   </span>
                 </div>
@@ -105,7 +105,7 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+pa
                     </button>
                     <button type="button" id="" class="btn btn-success exportBtn monthExport"
                       style="width:80px; margin-bottom: 0;">
-                      导出
+                     导出模板
                     </button>
                   </span>
                 </div>

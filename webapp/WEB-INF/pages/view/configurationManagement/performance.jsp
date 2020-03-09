@@ -75,7 +75,7 @@ http://www.w3.org/TR/html4/loose.dtd">
                       查询
                     </button>
                     <button type="button" id="" class="btn btn-success exportBtn" style="width:80px;">
-                      导出
+                      导出模板
                     </button>
                   </span>
                 </div>

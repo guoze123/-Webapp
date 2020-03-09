@@ -32,7 +32,7 @@ http://www.w3.org/TR/html4/loo">
   <div class="wrapper wrapper-content animated fadeInRight">
     <div class="ibox float-e-margins">
       <div class="ibox-title">
-        <h5>AR记录</h5>
+        <h5>应收账款</h5>
         <div class="ibox-tools"></div>
       </div>
       <div class="ibox-content">

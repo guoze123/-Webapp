@@ -242,7 +242,9 @@
         data: ["销售额", "利润"]
       },
       grid: {
-        x: 30,
+        x: 45,
+        y: 30,
+        y2: 20,
         x2: 10
       },
       xAxis: [
@@ -260,7 +262,6 @@
         {
           name: "销售额",
           type: "bar",
-          barWidth: "30px",
           data: sales,
           itemStyle: {
             normal: {
@@ -271,7 +272,6 @@
         {
           name: "利润",
           type: "bar",
-          barWidth: "30px",
           data: profit,
           itemStyle: {
             normal: {
@@ -303,7 +303,9 @@
         data: ["销售额", "利润"]
       },
       grid: {
-        x: 30,
+        x: 45,
+        y: 30,
+        y2: 20,
         x2: 10
       },
       xAxis: [
@@ -321,7 +323,6 @@
         {
           name: "销售额",
           type: "bar",
-          barWidth: "30px",
           data: sales,
           itemStyle: {
             normal: {
@@ -332,7 +333,6 @@
         {
           name: "利润",
           type: "bar",
-          barWidth: "30px",
           data: profit,
           itemStyle: {
             normal: {

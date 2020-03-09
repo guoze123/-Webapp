@@ -36,7 +36,7 @@
   };
   function quarterRange(start,end) { 
     $(start).datepicker({
-      startDate:new Date( (new Date().getFullYear()-2)+"-01-01"),
+      startDate:new Date((new Date().getFullYear()-2)+"-01-01"),
       endDate: new Date(),
       clearBtn: true,
       startView: 1,
@@ -52,7 +52,7 @@
     });
     //结束时间
     $(end).datepicker({
-        startDate:new Date( (new Date().getFullYear()-2)+"-01-01"),
+        startDate:new Date((new Date().getFullYear()-2)+"-01-01"),
         endDate: new Date(),
         clearBtn: true,
         startView: 1,

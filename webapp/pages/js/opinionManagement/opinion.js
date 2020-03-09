@@ -1,10 +1,10 @@
 "use strict";
-(function(document, window, $) {
+(function (document, window, $) {
   monthRange(".startTime", ".endTime");
   function initFn() {
     $("#opinion").bootstrapTable({
       method: "post",
-      url: base + "/testJson/queryEmployeeInfo.json",
+      url: base + "/competence/queryFeedBack",
       striped: true,
       pageNumber: 1,
       pagination: true,
@@ -23,7 +23,13 @@
       columns: [
         {
           title: "时间",
-          field: "batchno",
+          field: "operaterDate",
+          width: "200px",
+          sortable: true
+        },
+        {
+          title: "手机号",
+          field: "telephone",
           width: "150px",
           sortable: true
         },
@@ -36,30 +42,30 @@
     });
   }
   function queryParams() {
-    return{
-      jsonStr:JSON.stringify({
-        startTime: $(".startTime").val().trim()?$(".startTime").val().trim():undefined,
-        endTime: $(".endTime").val().trim()?$(".endTime").val().trim():undefined,
+    return {
+      jsonStr: JSON.stringify({
+        startTime: $(".startTime").val().trim() ? $(".startTime").val().trim() : undefined,
+        endTime: $(".endTime").val().trim() ? $(".endTime").val().trim() : undefined,
       })
     }
   }
   initFn();
 
-  $("#eventqueryBtn").click(function() {
+  $("#eventqueryBtn").click(function () {
     $("#opinion").bootstrapTable("refresh");
   });
   // 导出
-  $(".exportBtn").click(function() {
+  $(".exportBtn").click(function () {
     let menuName = $(".J_menuTab.active", parent.document)
       .text()
       .trim();
     let titleName = $(this)
       .parents(".ibox")
-      .find(".ibox-title h5 ")
+      .find(".ibox-title h5")
       .text()
       .trim();
     let form = $('<form id="to_export" style="display:none"></form>').attr({
-      action: base + "",
+      action: base + "/common/exportFeedBack",
       method: "post"
     });
     $("<input>")
