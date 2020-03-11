@@ -141,8 +141,8 @@ http://www.w3.org/TR/html4/loo">
             <span><i class="required">*</i>店铺类型</span>
             <select class="form-control m-b store_type" name="account">
               <option value="">选择店铺类型</option>
-              <option value="0">直营店</option>
-              <option value="1">加盟店</option>
+              <option value="1">直营店</option>
+              <option value="2">加盟店</option>
             </select>
           </div>
         </div>

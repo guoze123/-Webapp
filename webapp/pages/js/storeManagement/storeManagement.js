@@ -1,7 +1,7 @@
 (function(document, window, $) {
   "use strict";
 
-  var store_type = { "1": "直营店", "2": "加盟店" };
+  var store_type = {"0":"公司","1": "直营店", "2": "加盟店" };
   var store_status = { "0": "待定", "1": "营业", "-1": "停业" };
   var isadd = false; // 判断是添加还是修改
   var storeId = "";

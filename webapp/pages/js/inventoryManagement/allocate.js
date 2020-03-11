@@ -402,9 +402,8 @@ var editOption = {};
         .trim(), // 备注
       waresList: waresList, // 商品
       entryType: 2,
-      transferType:
-        $(".shipper option:selected").attr("data-type") +
-        $(".consignee option:selected").attr("data-type")
+      transferType:(parseInt($(".shipper option:selected").attr("data-type")))+""+(parseInt($(".consignee option:selected").attr("data-type")))
+       
     };
     let formdata = new FormData();
     formdata.append("jsonStr", JSON.stringify(params));

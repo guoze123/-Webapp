@@ -33,7 +33,7 @@ http://www.w3.org/TR/html4/loo">
 <body class="gray-bg">
   <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row row-lg">
-      <div class="col-sm-3" style="padding-left: 7px;padding-right: 7px;">
+      <div class="col-sm-4" style="padding-left: 7px;padding-right: 7px;">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
             <h5>部门开支统计</h5>
@@ -54,7 +54,7 @@ http://www.w3.org/TR/html4/loo">
           </div>
         </div>
       </div>
-      <div class="col-sm-9" style="padding-left: 7px;padding-right: 7px;">
+      <div class="col-sm-8" style="padding-left: 7px;padding-right: 7px;">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
             <h5>开支统计</h5>
