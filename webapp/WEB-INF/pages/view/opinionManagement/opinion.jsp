@@ -20,6 +20,11 @@
     <link href="${pageContext.request.contextPath}/pages/css/animate.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/pages/css/style.css?v=4.1.0" rel="stylesheet" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/pages/css/opinionManagement/opinion.css" />
+    <style>
+        th{
+            font-size: 13px !important;
+        }
+    </style>
     <script>
     var base = "${pageContext.request.contextPath}";
   </script>

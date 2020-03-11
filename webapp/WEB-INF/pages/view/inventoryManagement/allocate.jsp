@@ -125,7 +125,7 @@ http://www.w3.org/TR/html4/loo">
                         </select>
                     </div>
                 </div>
-                <div class="list_row commodity">
+                <div class="list_row commodity firstGroup">
                     <div style="width: 100%;">
                         <span><i class="required">*</i>商品名称</span>
                         <select class="form-control name">

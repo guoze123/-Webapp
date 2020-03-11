@@ -325,6 +325,7 @@ var editOption = {};
       }
       allwares = res;
       $(".commodity select").html(option);
+      $(".commodity .number").html("");
     })
   })
 
@@ -542,7 +543,7 @@ function deleteCommodity(that) {
     .remove();
 }
 
-// 查找门店
+// 查找门店a
 function queryStore() {
   ajax_data(
     "/competence/queryStoreInfo",
