@@ -27,6 +27,11 @@
           sortable: true
         },
         {
+          title: "收款方",
+          field: "toName",
+          sortable: true
+        },
+        {
           title: "应付金额",
           field: "totalAmount",
           sortable: true
@@ -44,6 +49,11 @@
         {
           title: "延期时间",
           field: "delayDays",
+          sortable: true
+        },
+        {
+          title: "欠款方",
+          field: "fromName",
           sortable: true
         },
         {
