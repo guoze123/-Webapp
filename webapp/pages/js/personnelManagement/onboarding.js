@@ -464,7 +464,7 @@ var employeeId="";
         } else {
           tipsText = "修改人员信息成功";
         }
-        tips(tipsText, 5);
+        tips(tipsText, 6);
       } else {
         let tipsText;
         if (isadd) {

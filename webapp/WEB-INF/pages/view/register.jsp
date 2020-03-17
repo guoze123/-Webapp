@@ -73,7 +73,7 @@ http://www.w3.org/TR/html4/loose.dtd">
           oninput="validationPhone(this)" />
         <div class="errHeight phoneErr"></div>
         <div class="verifyCodeContent">
-          <input type="text" placeholder="输入验证码" class="form-control verifyCode">
+          <input type="text" placeholder="输入验证码" style="color:#333333;" autocomplete="off" class="form-control verifyCode">
           <button id="code" class="btn btn-success" onclick="codeButton()">获取验证码</button>
         </div>
         <input type="password" class="form-control pword" autocomplete="off" placeholder="密码"
@@ -167,7 +167,8 @@ http://www.w3.org/TR/html4/loose.dtd">
       $(".pword").val().trim() &&
       $(".confirmPasswd").val().trim() &&
       $(".phoneNumber").val().trim() &&
-      $(".employeeId").val().trim()
+      $(".employeeId").val().trim() &&
+      $(".verifyCode").val().trim()
     ) {
       if ($(".pword").val().trim() !== $(".confirmPasswd").val().trim()) {
         tips("密码填写不一致", 5);

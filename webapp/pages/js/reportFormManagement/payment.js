@@ -21,14 +21,10 @@
       showLoading: true,
       queryParams: queryParams,
       columns: [
-        {
-          title: "店铺名称",
-          field: "storeName",
-          sortable: true
-        },
+     
         {
           title: "收款方",
-          field: "toName",
+          field: "toStoreName",
           sortable: true
         },
         {
@@ -53,7 +49,7 @@
         },
         {
           title: "欠款方",
-          field: "fromName",
+          field: "fromStoreName",
           sortable: true
         },
         {
