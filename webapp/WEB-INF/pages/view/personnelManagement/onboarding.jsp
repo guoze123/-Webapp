@@ -29,7 +29,8 @@ http://www.w3.org/TR/html4/loo">
     .chosen-container {
       width: 152px !important;
     }
-    .ibox-content{
+
+    .ibox-content {
       padding-top: 0;
       padding-bottom: 0;
     }
@@ -132,10 +133,9 @@ http://www.w3.org/TR/html4/loo">
             <input class="form-control identityNumber" type="text" placeholder="身份证号" />
           </div>
           <div>
-            <span><i class="required">*</i>归属门店</span>
-            <select class="form-control m-b ownerId">
-              <option value="">请选择门店</option>
-            </select>
+            <span>出生日期</span>
+            <input id="" class="laydate-icon form-control layer-date birthday"
+              onclick="laydate({istime: false, format: 'YYYY-MM-DD'})" placeholder="出生日期" />
           </div>
         </div>
         <div class="list_row">
@@ -151,14 +151,26 @@ http://www.w3.org/TR/html4/loo">
         </div>
         <div class="list_row">
           <div>
-            <span>职务</span>
-            <input class="form-control job" type="text" placeholder="职务" />
+            <span><i class="required">*</i>归属门店</span>
+            <select class="form-control m-b ownerId">
+              <option value="">请选择门店</option>
+            </select>
           </div>
           <div>
             <span><i class="required">*</i>角色</span>
             <select class="form-control m-b role">
               <option value="">请选择角色</option>
             </select>
+          </div>
+        </div>
+        <div class="list_row">
+          <div>
+            <span>职务</span>
+            <input class="form-control job" type="text" placeholder="职务" />
+          </div>
+          <div>
+            <span>晋升职位</span>
+            <input class="form-control promotion" type="text" placeholder="晋升职位" />
           </div>
         </div>
         <div class="list_row">
@@ -176,9 +188,13 @@ http://www.w3.org/TR/html4/loo">
           </div>
         </div>
         <div class="list_row">
-          <div style="width: 100%;">
+          <div>
             <span>住址</span>
             <input class="form-control address" type="text" placeholder="住址" />
+          </div>
+          <div>
+            <span>工作经历</span>
+            <input class="form-control workExperience" type="text" placeholder="工作经历" />
           </div>
         </div>
         <div class="list_row"></div>

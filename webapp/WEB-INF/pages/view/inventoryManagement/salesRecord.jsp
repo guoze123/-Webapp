@@ -152,6 +152,7 @@ http://www.w3.org/TR/html4/loo">
                     <div>
                         <span>客户类型</span>
                         <select name="" id="" class="form-control custType">
+                            <option value="">选择客户类型</option>
                             <option value="0">老客户</option>
                             <option value="1">新客户</option>
                         </select>

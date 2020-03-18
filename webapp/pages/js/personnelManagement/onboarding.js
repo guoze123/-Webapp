@@ -7,24 +7,24 @@ function open_html1(title, ht_id, fn, yesFn, closeFn) {
     maxmin: true,
     content: $(ht_id), //这里content
     area: [h_w, h_h],
-    end: function() {
+    end: function () {
       // 销毁弹出时 执行
       if (!!fn) {
         fn();
       }
     },
     btn: ["确定", "取消"],
-    yes: function(index, layero) {
+    yes: function (index, layero) {
       yesFn();
     },
-    btn2: function(index, layero) {
+    btn2: function (index, layero) {
       closeFn();
     }
   });
 }
-var employeeId="";
+var employeeId = "";
 
-(function(document, window, $) {
+(function (document, window, $) {
   "use strict";
   var isadd = false;
   var allStroe = [];
@@ -36,111 +36,111 @@ var employeeId="";
   function initFn() {
     ajax_data(
       "/personnel/queryEmployeeInfo",
-      { params: JSON.stringify(queryParams())},
-      function(res) {
+      { params: JSON.stringify(queryParams()) },
+      function (res) {
         queryRatio(res.activeCnt);
         queryPersonnel(res.flowCnt)
         $("#employeeInfo").bootstrapTable({
           // method: "post",
           // url: base + "/personnel/queryEmployeeInfo", //请求路径
-           data: res.tblData,
-           striped: true, //是否显示行间隔色
-           pageNumber: 1, //初始化加载第一页
-           pagination: true, //是否分页
-           sidePagination: "client", //server:服务器端分页|client：前端分页
-           pageSize: 10, //单页记录数
-           pageList: [10, 20, 30], //可选择单页记录数
-           showRefresh: false, //刷新按钮
-           cache: true, // 禁止数据缓存
-           search: false, // 是否展示搜索
-           sortable: true, //是否启用排序
-           sortOrder: "asc",//排序方式
-           height: $(window).height() - 110,
-           showLoading: true,
-           columns: [
-             {
-               title: "员工工号",
-               field: "employeeId",
-               sortable: true
-             },
-             {
-               title: "员工姓名",
-               field: "employeeName",
-               sortable: true
-             },
-             {
-               title: "性别",
-               field: "employeeSex",
-               sortable: true
-             },
-             {
-                 title: "归属部门",
-                 field: "ownerName",
-                 sortable: true
-               },
-             {
-               title: "身份证号",
-               field: "identityNumber",
-               sortable: true
-             },
-             {
-               title: "入职时间",
-               field: "entryTime",
-               sortable: true
-             },
-             {
-               title: "电话",
-               field: "telephone",
-               sortable: true
-             },
-             {
-               title: "职务名称",
-               field: "job",
-               sortable: true
-             },
-             {
-               title: "简历",
-               formatter: function(value, row) {
-                 return `<img  class="viewImg" src="${base +
-                   "/uploadImgs/" +
-                   row.telephone +
-                   ".jpg"+"?t="+new Date().valueOf()}"  style="width:50px;height:50px">`;
-               },
-               events: {
-                 "click .viewImg": function(e, v, row) {
-                   let url = base + "/uploadImgs/" + row.telephone + ".jpg?"+"t="+new Date().valueOf();
-                   let image = new Image();
-                   image.src = url;
-                   image.onload = function() {
-                     var width = image.width;
-                     var height = image.height;
-                     if (width > height) {
-                       height = (800 / width) * height;
-                       width = 800;
-                     } else {
-                       width = (500 / height) * width;
-                       height = 500;
-                     }
-                     layer.open({
-                       type: 1,
-                       title: false,
-                       closeBtn: 1,
-                       area: [width + "px", height + "px"],
-                       skin: "layui-layer-nobg", //没有背景色
-                       shadeClose: true,
-                       content: `<img src="${url}" style="width:${width}px; height:${height}px "/>`
-                     });
-                   };
-                 }
-               }
-             },
-             {
-               title: "操作",
-               field: "publicationTime",
-               events: operateEvents,
-               formatter: operation //对资源进行操作,
-             }
-           ]
+          data: res.tblData,
+          striped: true, //是否显示行间隔色
+          pageNumber: 1, //初始化加载第一页
+          pagination: true, //是否分页
+          sidePagination: "client", //server:服务器端分页|client：前端分页
+          pageSize: 10, //单页记录数
+          pageList: [10, 20, 30], //可选择单页记录数
+          showRefresh: false, //刷新按钮
+          cache: true, // 禁止数据缓存
+          search: false, // 是否展示搜索
+          sortable: true, //是否启用排序
+          sortOrder: "asc",//排序方式
+          height: $(window).height() - 110,
+          showLoading: true,
+          columns: [
+            {
+              title: "员工工号",
+              field: "employeeId",
+              sortable: true
+            },
+            {
+              title: "员工姓名",
+              field: "employeeName",
+              sortable: true
+            },
+            {
+              title: "性别",
+              field: "employeeSex",
+              sortable: true
+            },
+            {
+              title: "归属部门",
+              field: "ownerName",
+              sortable: true
+            },
+            {
+              title: "身份证号",
+              field: "identityNumber",
+              sortable: true
+            },
+            {
+              title: "入职时间",
+              field: "entryTime",
+              sortable: true
+            },
+            {
+              title: "电话",
+              field: "telephone",
+              sortable: true
+            },
+            {
+              title: "职务名称",
+              field: "job",
+              sortable: true
+            },
+            {
+              title: "简历",
+              formatter: function (value, row) {
+                return `<img  class="viewImg" src="${base +
+                  "/uploadImgs/" +
+                  row.telephone +
+                  ".jpg" + "?t=" + new Date().valueOf()}"  style="width:50px;height:50px">`;
+              },
+              events: {
+                "click .viewImg": function (e, v, row) {
+                  let url = base + "/uploadImgs/" + row.telephone + ".jpg?" + "t=" + new Date().valueOf();
+                  let image = new Image();
+                  image.src = url;
+                  image.onload = function () {
+                    var width = image.width;
+                    var height = image.height;
+                    if (width > height) {
+                      height = (800 / width) * height;
+                      width = 800;
+                    } else {
+                      width = (500 / height) * width;
+                      height = 500;
+                    }
+                    layer.open({
+                      type: 1,
+                      title: false,
+                      closeBtn: 1,
+                      area: [width + "px", height + "px"],
+                      skin: "layui-layer-nobg", //没有背景色
+                      shadeClose: true,
+                      content: `<img src="${url}" style="width:${width}px; height:${height}px "/>`
+                    });
+                  };
+                }
+              }
+            },
+            {
+              title: "操作",
+              field: "publicationTime",
+              events: operateEvents,
+              formatter: operation //对资源进行操作,
+            }
+          ]
         });
       }
     );
@@ -154,9 +154,9 @@ var employeeId="";
     return html;
   }
   var operateEvents = {
-    "click #edit": function(e, v, row) {
+    "click #edit": function (e, v, row) {
       isadd = false;
-      employeeId=row.employeeId;
+      employeeId = row.employeeId;
       $(".employeeName").val(row.employeeName); //姓名
       $(".employeeSex").val(row.employeeSex); //性别
       $(".identityNumber").val(row.identityNumber); //身份证
@@ -169,19 +169,22 @@ var employeeId="";
       $(".education").val(row.education); // 学历8
       $(".ownerId").val(`${row.ownerId}`); //店铺id
       $(".ownerId").trigger("chosen:updated");
+      $(".birthday").val(row.birthday);
+      $(".promotion").val(row.promotion);
+      $(".workExperience").val(row.workExperience);
       open_html1(
         "修改信息",
         "#editData",
-        function() {
+        function () {
           $("#editData input").val("");
           $("#editData select").val("");
           $(".ownerId").trigger("chosen:updated");
           $("#editData img").attr("src", "");
         },
-        function() {
+        function () {
           confirmBtn();
         },
-        function() {
+        function () {
           layer.closeAll("page");
         }
       );
@@ -195,15 +198,15 @@ var employeeId="";
         .val()
         .trim()
         ? $(".query_ownerId")
-            .val()
-            .trim()
+          .val()
+          .trim()
         : undefined,
       activeStatus: $(".query_activeStatus")
         .val()
         .trim()
         ? $(".query_activeStatus")
-            .val()
-            .trim()
+          .val()
+          .trim()
         : undefined
     };
   }
@@ -211,7 +214,7 @@ var employeeId="";
     let userValue = $(".query_userinformation")
       .val()
       .trim();
-    if(userValue) {
+    if (userValue) {
       if (/^[0-9]{5}$/.test(userValue)) {
         return {
           employeeId: userValue
@@ -235,7 +238,7 @@ var employeeId="";
   // 查询人员比例
   function queryRatio(param) {
     let option = {
-      color : [ '#1a7bb9', "#c3cad0"],
+      color: ['#1a7bb9', "#c3cad0"],
       tooltip: {
         formatter: "{b}:{c}({d}%)"
       },
@@ -251,7 +254,7 @@ var employeeId="";
       },
       series: [
         {
-         
+
           type: "pie",
           radius: "70%",
           itemStyle: {
@@ -276,7 +279,7 @@ var employeeId="";
   }
   // 查询 每个月的 入职离职人数
   function queryPersonnel(data) {
-    let time=[],activeNum=[],inactived=[];
+    let time = [], activeNum = [], inactived = [];
     data.forEach(function (ele) {
       time.push(ele.batchno)
       activeNum.push(ele.entryUser)
@@ -294,8 +297,8 @@ var employeeId="";
         data: ["入职", "离职"]
       },
       grid: {
-       x:30,
-       x2:10
+        x: 30,
+        x2: 10
       },
       xAxis: [
         {
@@ -312,22 +315,22 @@ var employeeId="";
         {
           name: "入职",
           type: "bar",
-          barWidth:"30px",
+          barWidth: "30px",
           data: activeNum,
-          itemStyle:{
-            normal:{
-              color:"#1a7bb9"
+          itemStyle: {
+            normal: {
+              color: "#1a7bb9"
             }
           }
         },
         {
           name: "离职",
           type: "bar",
-          barWidth:"30px",
+          barWidth: "30px",
           data: inactived,
-          itemStyle:{
-            normal:{
-              color:"#c3cad0"
+          itemStyle: {
+            normal: {
+              color: "#c3cad0"
             }
           }
         }
@@ -337,50 +340,50 @@ var employeeId="";
     personnel.setOption(option);
   }
 
-  $(window).resize(function() {
+  $(window).resize(function () {
     personnelRatio.resize();
     personnel.resize();
   });
   document.getElementById("employeeInfo").addEventListener(
     "error",
-    function(event) {
+    function (event) {
       var ev = event || window.event;
       var elem = ev.target;
       if (elem.tagName.toLowerCase() == "img") {
         elem.src = base + "/pages/img/noImg.png";
         $(elem).css({
-          visibility:"hidden"
+          visibility: "hidden"
         })
       }
     },
     true
   );
   // 点击查询按钮
-  $("#eventqueryBtn").click(function() {
+  $("#eventqueryBtn").click(function () {
     $("#employeeInfo").bootstrapTable("destroy");
     initFn();
   });
 
-  $(".uploadimg").change(function() {
+  $(".uploadimg").change(function () {
     uploadFile($(this));
   });
   // 添加人员
-  $(".addBtn").click(function() {
+  $(".addBtn").click(function () {
     isadd = true;
     open_html1(
       "添加人员",
       "#editData",
-      function(params) {
+      function (params) {
         $("#editData input").val("");
         $("#editData select").val("");
         $(".ownerId").trigger("chosen:updated");
         //$(".chosen-single span").html("")
         $("#editData img").attr("src", "");
       },
-      function() {
+      function () {
         confirmBtn();
       },
-      function() {
+      function () {
         layer.closeAll("page");
       }
     );
@@ -391,7 +394,7 @@ var employeeId="";
     $(".required")
       .parent()
       .next()
-      .each(function() {
+      .each(function () {
         if (
           !$(this)
             .val()
@@ -405,7 +408,7 @@ var employeeId="";
       return;
     }
     let params = {
-      employeeId: isadd?undefined:employeeId,
+      employeeId: isadd ? undefined : employeeId,
       employeeName: $(".employeeName")
         .val()
         .trim(), //姓名
@@ -438,7 +441,11 @@ var employeeId="";
         .trim(), //状态 在离
       education: $(".education")
         .val()
-        .trim() // 学历
+        .trim(), // 学历
+      birthday: $(".birthday").val().trim(),
+      promotion: $(".promotion").val().trim(),
+      workExperience: $(".workExperience").val().trim()
+
     };
     let formdata = new FormData();
     if ($(".uploadimg")[0].files[0]) {
@@ -452,7 +459,7 @@ var employeeId="";
       url = "/personnel/modifyEmployeeInfo";
     }
 
-    file_upload(url, formdata, function(res) {
+    file_upload(url, formdata, function (res) {
       console.log(res);
       if (res.resultCode > -1) {
         layer.closeAll("page");
@@ -477,9 +484,9 @@ var employeeId="";
     });
   }
   // 人员导出
-  $(".exportBtn").click(function() {
-    let menuName= $('.J_menuTab.active', parent.document).text().trim();
-    let titleName=$(this).parents(".ibox").find(".ibox-title h5 ").text().trim();
+  $(".exportBtn").click(function () {
+    let menuName = $('.J_menuTab.active', parent.document).text().trim();
+    let titleName = $(this).parents(".ibox").find(".ibox-title h5 ").text().trim();
     let form = $('<form id="to_export" style="display:none"></form>').attr({
       action: base + "/common/exportEmployee",
       method: "post"
@@ -489,7 +496,7 @@ var employeeId="";
       .val(
         JSON.stringify({
           ...queryParams(),
-          fileName:menuName+"-"+titleName+".csv"
+          fileName: menuName + "-" + titleName + ".csv"
         })
       )
       .appendTo(form);
@@ -504,10 +511,10 @@ var employeeId="";
     ajax_data(
       "/common/getCompetence",
       { params: {}, contentType: "application/x-www-form-urlencoded" },
-      function(res) {
+      function (res) {
         console.log(res);
         let option = "<option value=''>选择角色</option>";
-        res.obj.forEach(function(element) {
+        res.obj.forEach(function (element) {
           option += `<option value="${element.id}">${element.name}</option>`;
         });
 
@@ -526,7 +533,7 @@ var employeeId="";
       function (storeData) {
         // console.log(res);
         let option =
-        "<option value=''>选择店铺或部门</option>";
+          "<option value=''>选择店铺或部门</option>";
         storeData.forEach(function (element) {
           option += `<option value="${element.storeId}">${element.storeName}</option>`;
         });
