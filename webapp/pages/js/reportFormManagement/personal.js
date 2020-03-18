@@ -1,6 +1,6 @@
 (function (document, window, $) {
   "use strict";
-  monthRange(".startTime", ".endTime");
+  dateRange(".startTime", ".endTime");
   var sales_bar = echarts.init(document.getElementById("sales_bar"));
   var serving_bar = echarts.init(document.getElementById("serving_bar"));
   function initFn() {
