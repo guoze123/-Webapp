@@ -21,7 +21,7 @@ var editOption = {}; // 存储调拨记录的信息 用于撤回记录
       pageNumber: 1, //初始化加载第一页
       pagination: true, //是否分页
       sidePagination: "client", //server:服务器端分页|client：前端分页
-      pageSize: 10, //单页记录数
+      pageSize: 20, //单页记录数
       pageList: [10, 20, 30], //可选择单页记录数
       showRefresh: false, //刷新按钮
       cache: true, // 禁止数据缓存

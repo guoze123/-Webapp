@@ -210,6 +210,10 @@ http://www.w3.org/TR/html4/loose.dtd">
       $(".btn-register").trigger("click");
     }
   });
+
+  window.onload=function(){
+    $("input").val("")
+  }
 </script>
 
 </html>

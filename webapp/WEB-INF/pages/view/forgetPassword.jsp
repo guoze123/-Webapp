@@ -197,6 +197,10 @@
             $(".btn-login").trigger("click");
         }
     });
+
+    window.onload=function(){
+        $("input").val("")
+    }
 </script>
 
 </html>
