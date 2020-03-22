@@ -1,8 +1,10 @@
 var userEditOption = {};
 var storeEditOption = {};
+var allwares = ""; //所有商品
 (function (document, window, $) {
   "use strict";
   queryStore();
+  queryWaresInfo();
   monthRange(".query_startTime", ".query_stopTime");
   function initFn() {
     // down_list(".detailAddress", "url", "选择地址");
@@ -96,42 +98,118 @@ var storeEditOption = {};
 
   var operateEvents = {
     "click #edit": function (e, v, row) {
-      storeEditOption = {
-        stockId: row.stockId,
-        operationDate: row.operationDate, //录入时间
-        sellers: row.sellers, //销售员
-        storeId: row.storeId, //店铺id
-        totalAmount: row.totalAmount, //本次应付金额
-        payedAmount: row.payedAmount, //本次实付金额
-        custType: row.custType, //客户类型
-        remark: row.remark,
-        entryType: 1
-      };
-      $("#editData .stockId").val(row.stockId);
-      $("#editData .operationDate").val(row.operationDate);
-      $("#editData .sellers").val(row.sellers);
-      $("#editData .totalAmount").val(row.totalAmount);
-      $("#editData .payedAmount").val(row.payedAmount);
-      $("#editData .remark").val(row.remark);
-      $("#editData .custType").val(row.custType);
-      $("#editData .storeId").val(row.storeId);
-      $("#editData .storeId").trigger("chosen:updated");
-      open_html(
-        "修改信息",
-        "#editData",
-        function () {
-          $("#editData input").val("");
-          $("#editData select").val("");
+      ajax_data(
+        "/inventory/querySaleDetail",
+        {
+          params: {
+            stockId: row.stockId,
+            startTime: $(".searchList .query_startTime")
+              .val()
+              .trim()
+              ? $(".searchList .query_startTime")
+                .val()
+                .trim()
+              : undefined,
+            endTime: $(".searchList .query_stopTime")
+              .val()
+              .trim()
+              ? $(".searchList .query_stopTime")
+                .val()
+                .trim()
+              : undefined
+          },
+          contentType: "application/x-www-form-urlencoded;charset=utf-8"
+        },
+        function (res) {
+          $("#editData .commodity").remove();
+          function allWares(selectId) {
+            let option = "<option value='' data-id=''>选择商品名称</option>";
+            if (allwares.length) {
+              allwares.forEach(function (item, index) {
+                option += `<option value="${item.waresName}" data-id="${
+                  item.waresId
+                  }" ${item.waresId == selectId ? "selected" : ""} >${
+                  item.waresName
+                  }</option>`;
+              });
+            }
+            return option;
+          }
+          if (res.length > 0) {
+            let str = "", str1 = "";
+            for (let i = 0; i < res.length; i++) {
+              if (res[i].isGift == "0") {
+                str += `<div class="list_row commodity newShop">
+                <div style="width: 100%;">
+                <span><i class="required">*</i>商品名称</span>
+                <select class="form-control name" isGift='${res[i].isGift}'>
+                ${allWares(res[i].waresId)}
+                </select>
+                <span style="margin-left: 10px;"><i class="required">*</i>商品数量</span>
+                <input type="text" placeholder="商品数量" class="form-control number" value="${
+                  res[i].waresCount
+                  }">
+                <button style=" margin-left: 10px;" onclick="deleteCommodity(this)">删除商品</button>
+                </div></div>
+                        `;
+              } else {
+                str1 += `<div class="list_row commodity newShop">
+                <div style="width: 100%;">
+                <span><i class="required">*</i>商品名称</span>
+                <select class="form-control name">
+                ${allWares(res[i].waresId)}
+                </select>
+                <span style="margin-left: 10px;"><i class="required">*</i>商品数量</span>
+                <input type="text" placeholder="商品数量" class="form-control number" value="${
+                  res[i].waresCount
+                  }">
+                <button style=" margin-left: 10px;" onclick="deleteCommodity(this)">删除商品</button>
+                </div></div>
+                        `;
+              }
+            }
+            $(".storeNotGift").after(str);
+            $(".storeIsGift").after(str1);
+          }
+
+          storeEditOption = {
+            stockId: row.stockId,
+            startTime: row.operationDate, //录入时间
+            sellers: row.sellers, //销售员
+            storeId: row.storeId, //店铺id
+            totalAmount: row.totalAmount, //本次应付金额
+            payedAmount: row.payedAmount, //本次实付金额
+            custType: row.custType, //客户类型
+            remark: row.remark,
+            waresList: res,
+            entryType: 1
+          };
+          $("#editData .stockId").val(row.stockId);
+          $("#editData .operationDate").val(row.operationDate);
+          $("#editData .sellers").val(row.sellers);
+          $("#editData .totalAmount").val(row.totalAmount);
+          $("#editData .payedAmount").val(row.payedAmount);
+          $("#editData .remark").val(row.remark);
+          $("#editData .custType").val(row.custType);
+          $("#editData .storeId").val(row.storeId);
           $("#editData .storeId").trigger("chosen:updated");
-        },
-        function () {
-          confirmFn();
-        },
-        function () {
-          closeFn();
-        }
-      );
-      $("#editData .storeId").chosen({});
+          open_html(
+            "修改信息",
+            "#editData",
+            function () {
+              $("#editData input").val("");
+              $("#editData select").val("");
+              $("#editData .storeId").trigger("chosen:updated");
+            },
+            function () {
+              confirmFn();
+            },
+            function () {
+              closeFn();
+            }
+          );
+          $("#editData .storeId").chosen({});
+        });
     },
     "click #detail": function (e, v, row) {
       ajax_data(
@@ -194,42 +272,119 @@ var storeEditOption = {};
 
   var userOperateEvents = {
     "click #editUserDataBtn": function (e, v, row) {
-      userEditOption = {
-        stockId: row.stockId,
-        operationDate: row.operationDate, //录入时间
-        sellers: row.sellers, //销售员
-        storeId: row.storeId, //店铺id
-        totalAmount: row.totalAmount, //本次应付金额
-        payedAmount: row.payedAmount, //本次实付金额
-        custType: row.custType, //客户类型
-        remark: row.remark,
-        entryType: 1
-      };
-      $("#editUserData .stockId").val(row.stockId);
-      $("#editUserData .operationDate").val(row.operationDate);
-      $("#editUserData .sellers").val(row.sellers);
-      $("#editUserData .totalAmount").val(row.totalAmount);
-      $("#editUserData .payedAmount").val(row.payedAmount);
-      $("#editUserData .remark").val(row.remark);
-      $("#editUserData .custType").val(row.custType);
-      $("#editUserData .storeId").val(row.storeId);
-      $("#editUserData .storeId").trigger("chosen:updated");
-      open_html(
-        "修改信息",
-        "#editUserData",
-        function () {
-          $("#editUserData input").val("");
-          $("#editUserData select").val("");
+
+      ajax_data(
+        "/inventory/querySaleDetail",
+        {
+          params: {
+            stockId: row.stockId,
+            startTime: $(".searchList .query_startTime")
+              .val()
+              .trim()
+              ? $(".searchList .query_startTime")
+                .val()
+                .trim()
+              : undefined,
+            endTime: $(".searchList .query_stopTime")
+              .val()
+              .trim()
+              ? $(".searchList .query_stopTime")
+                .val()
+                .trim()
+              : undefined
+          },
+          contentType: "application/x-www-form-urlencoded;charset=utf-8"
+        },
+        function (res) {
+          $("#editUserData .commodity").remove();
+          function allWares(selectId) {
+            let option = "<option value='' data-id=''>选择商品名称</option>";
+            if (allwares.length) {
+              allwares.forEach(function (item, index) {
+                option += `<option value="${item.waresName}" data-id="${
+                  item.waresId
+                  }" ${item.waresId == selectId ? "selected" : ""} >${
+                  item.waresName
+                  }</option>`;
+              });
+            }
+            return option;
+          }
+          if (res.length > 0) {
+            let str = "", str1 = "";
+            for (let i = 0; i < res.length; i++) {
+              if (res[i].isGift == "0") {
+                str += `<div class="list_row commodity newShop">
+                <div style="width: 100%;">
+                <span><i class="required">*</i>商品名称</span>
+                <select class="form-control name" isGift='${res[i].isGift}'>
+                ${allWares(res[i].waresId)}
+                </select>
+                <span style="margin-left: 10px;"><i class="required">*</i>商品数量</span>
+                <input type="text" placeholder="商品数量" class="form-control number" value="${
+                  res[i].waresCount
+                  }">
+                <button style=" margin-left: 10px;" onclick="deleteCommodity(this)">删除商品</button>
+                </div></div>
+                        `;
+              } else {
+                str1 += `<div class="list_row commodity newShop">
+                <div style="width: 100%;">
+                <span><i class="required">*</i>商品名称</span>
+                <select class="form-control name">
+                ${allWares(res[i].waresId)}
+                </select>
+                <span style="margin-left: 10px;"><i class="required">*</i>商品数量</span>
+                <input type="text" placeholder="商品数量" class="form-control number" value="${
+                  res[i].waresCount
+                  }">
+                <button style=" margin-left: 10px;" onclick="deleteCommodity(this)">删除商品</button>
+                </div></div>
+                        `;
+              }
+            }
+            $(".userNotGift").after(str);
+            $(".userIsGift").after(str1);
+          }
+          userEditOption = {
+            stockId: row.stockId,
+            startTime: row.operationDate, //录入时间
+            sellers: row.sellers, //销售员
+            storeId: row.storeId, //店铺id
+            totalAmount: row.totalAmount, //本次应付金额
+            payedAmount: row.payedAmount, //本次实付金额
+            custType: row.custType, //客户类型
+            remark: row.remark,
+            waresList: res,
+            entryType: 1
+          };
+          $("#editUserData .stockId").val(row.stockId);
+          $("#editUserData .operationDate").val(row.operationDate);
+          $("#editUserData .sellers").val(row.sellers);
+          $("#editUserData .totalAmount").val(row.totalAmount);
+          $("#editUserData .payedAmount").val(row.payedAmount);
+          $("#editUserData .remark").val(row.remark);
+          $("#editUserData .custType").val(row.custType);
+          $("#editUserData .storeId").val(row.storeId);
           $("#editUserData .storeId").trigger("chosen:updated");
-        },
-        function () {
-          userConfirmFn();
-        },
-        function () {
-          closeFn();
-        }
-      );
-      $("#editUserData .storeId").chosen({});
+          open_html(
+            "修改信息",
+            "#editUserData",
+            function () {
+              $("#editUserData input").val("");
+              $("#editUserData select").val("");
+              $("#editUserData .storeId").trigger("chosen:updated");
+            },
+            function () {
+              userConfirmFn();
+            },
+            function () {
+              closeFn();
+            }
+          );
+          $("#editUserData .storeId").chosen({});
+
+        });
     },
     "click #userDetailBtn": function (e, v, row) {
       ajax_data(
@@ -456,11 +611,48 @@ var storeEditOption = {};
     layer.closeAll("page");
   }
   function confirmFn() {
+    let required = true;
+    $("#editData .required")
+      .parent()
+      .next()
+      .each(function () {
+        if (
+          !$(this)
+            .val()
+            .trim()
+        ) {
+          required = false;
+        }
+      });
+    if (!required) {
+      tips(requiredText, 5);
+      return;
+    }
+
+    let waresList = [];
+    $("#editData .commodity").each(function() {
+      let wares = {};
+      wares["waresName"] = $(this)
+        .find(".name")
+        .val()
+        .trim();
+      wares["waresCount"] = $(this)
+        .find(".number")
+        .val()
+        .trim();
+      wares["waresId"] = $(this)
+        .find(".name option:selected")
+        .attr("data-id");
+      wares["isGift"] = $(this).find(".name").attr("isGift");
+      waresList.push(wares);
+    });
+
+
     let params = {
       stockId: $("#editData .stockId")
         .val()
         .trim(),
-      operationDate: $("#editData .operationDate")
+      startTime: $("#editData .operationDate")
         .val()
         .trim(), //录入时间
       sellers: $("#editData .sellers")
@@ -481,7 +673,8 @@ var storeEditOption = {};
       remark: $("#editData .remark")
         .val()
         .trim(),
-      entryType: 1
+      entryType: 1,
+      waresList: waresList
     };
 
     ajax_data("/inventory/modifyEntryStock", {
@@ -504,11 +697,44 @@ var storeEditOption = {};
   }
 
   function userConfirmFn() {
+    $("#editUserData .required")
+      .parent()
+      .next()
+      .each(function () {
+        if (
+          !$(this)
+            .val()
+            .trim()
+        ) {
+          required = false;
+        }
+      });
+    if (!required) {
+      tips(requiredText, 5);
+      return;
+    }
+    let waresList = [];
+    $("#editUserData .commodity").each(function() {
+      let wares = {};
+      wares["waresName"] = $(this)
+        .find(".name")
+        .val()
+        .trim();
+      wares["waresCount"] = $(this)
+        .find(".number")
+        .val()
+        .trim();
+      wares["waresId"] = $(this)
+        .find(".name option:selected")
+        .attr("data-id");
+      wares["isGift"] =  $(this).find(".name").attr("isGift");
+      waresList.push(wares);
+    });
     let params = {
       stockId: $("#editUserData .stockId")
         .val()
         .trim(),
-      operationDate: $("#editUserData .operationDate")
+      startTime: $("#editUserData .operationDate")
         .val()
         .trim(), //录入时间
       sellers: $("#editUserData .sellers")
@@ -529,9 +755,10 @@ var storeEditOption = {};
       remark: $("#editUserData .remark")
         .val()
         .trim(),
-      entryType: 1
+      entryType: 1,
+      waresList: waresList
     };
-  
+
     ajax_data("/inventory/modifyEntryStock", {
       params: {
         oldJsonStr: JSON.stringify(userEditOption),
@@ -624,4 +851,48 @@ function queryStore() {
       $("#editUserData .storeId").chosen();
     }
   );
+}
+
+function queryWaresInfo() {
+  let url = "/configuration/queryWaresInfo";
+  ajax_data(url, { params: JSON.stringify({}) }, function (res) {
+    allwares = res;
+  });
+}
+
+function addCommodity(that, param,isGift) {
+  let option = "<option value=''>选择商品名称</option>";
+  if (allwares.length) {
+    allwares.forEach(function (item, index) {
+      option += `<option value="${item.waresName}" data-id="${item.waresId}">${item.waresName}</option>`;
+    });
+  }
+  let strHtml = `<div class="list_row commodity newShop">
+            <div style="width: 100%;">
+            <span><i class="required">*</i>商品名称</span>
+            <select class="form-control name" isGift='${isGift}'>
+            ${option}
+            </select>
+            <span style="margin-left: 10px;"><i class="required">*</i>商品数量</span>
+            <input type="text" placeholder="商品数量" class="form-control number">
+            <button style=" margin-left: 10px;" onclick="deleteCommodity(this)">删除商品</button>
+            </div></div>
+              `;
+  if (param == "storeNotGift") {
+    $(".storeIsGift").before(strHtml);
+  } else if (param == "storeIsGift") {
+    $(".storeIsGift").parent().append(strHtml);
+  } else if (param == "userNotGift") {
+    $(".userIsGift").before(strHtml);
+  } else if (param == "userIsGift") {
+    $(".userIsGift").parent().append(strHtml);
+  }
+
+}
+
+function deleteCommodity(that) {
+  $(that)
+    .parent()
+    .parent()
+    .remove();
 }

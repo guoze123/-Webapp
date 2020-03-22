@@ -146,16 +146,28 @@ http://www.w3.org/TR/html4/loo">
                 </div>
                 <div class="list_row">
                     <div>
-                        <span><i class="required">*</i>备注</span>
+                        <span>备注</span>
                         <input type="text" class="form-control remark" placeholder="备注" />
                     </div>
                     <div>
                         <span>客户类型</span>
                         <select name="" id="" class="form-control custType">
                             <option value="">选择客户类型</option>
-                            <option value="0">老客户</option>
-                            <option value="1">新客户</option>
+                            <option value="老客户">老客户</option>
+                            <option value="新客户">新客户</option>
                         </select>
+                    </div>
+                </div>
+                <div class="list_row  storeNotGift" >
+                    <div style="width: 100%;">
+                        <span>商品：</span>
+                        <button onclick="addCommodity(this,'storeNotGift',0)">添加商品</button>
+                    </div>
+                </div>
+                <div class="list_row storeIsGift">
+                    <div style="width: 100%;">
+                        <span>赠品：</span>
+                        <button onclick="addCommodity(this,'storeIsGift',1)">添加商品</button>
                     </div>
                 </div>
             </div>
@@ -209,15 +221,27 @@ http://www.w3.org/TR/html4/loo">
                 </div>
                 <div class="list_row">
                     <div>
-                        <span><i class="required">*</i>备注</span>
+                        <span>备注</span>
                         <input type="text" class="form-control remark" placeholder="备注" />
                     </div>
                     <div>
                         <span>客户类型</span>
                         <select name="" id="" class="form-control custType">
-                            <option value="0">老客户</option>
-                            <option value="1">新客户</option>
+                            <option value="老客户">老客户</option>
+                            <option value="新客户">新客户</option>
                         </select>
+                    </div>
+                </div>
+                <div class="list_row  userNotGift" >
+                    <div style="width: 100%;">
+                        <span>商品：</span>
+                        <button onclick="addCommodity(this,'userNotGift',0)">添加商品</button>
+                    </div>
+                </div>
+                <div class="list_row userIsGift">
+                    <div style="width: 100%;">
+                        <span>赠品：</span>
+                        <button onclick="addCommodity(this,'userIsGift',1)">添加商品</button>
                     </div>
                 </div>
             </div>

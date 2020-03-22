@@ -28,9 +28,18 @@
           sortable: true
         },
         {
+          title: "提交人",
+          field: "employeeName",
+          sortable: true
+        },
+        {
           title: "手机号",
           field: "telephone",
-          width: "150px",
+          sortable: true
+        },
+        {
+          title: "店铺名称",
+          field: "ownerName",
           sortable: true
         },
         {

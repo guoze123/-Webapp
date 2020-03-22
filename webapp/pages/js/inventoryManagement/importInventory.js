@@ -459,7 +459,7 @@ var editOption = {}; // 存储调拨记录的信息 用于撤回记录
   });
 
   $(".actualAmount").on("input", function() {
-    let reg = /^[0-9]{0,8}$/;
+    let reg = /^[0-9\-]{0,8}$/;
     let str = `<span class='red inputErr' style="width:100%; margin-left:${
       $(this).position().left
     }px">8位以内的整数</span>`;
@@ -487,7 +487,7 @@ var editOption = {}; // 存储调拨记录的信息 用于撤回记录
     }
   });
   $(".textContent").on("input", ".number", function() {
-    let reg = /^[0-9]{0,8}$/;
+    let reg = /^[0-9\-]{0,8}$/;
     let str = `<span class='red inputErr' style="width:100%;margin-left:${
       $(this).position().left
     }px">8位以内的整数</span>`;

@@ -30,11 +30,16 @@
       contentType: "application/x-www-form-urlencoded",
       queryParams: queryParams,
       columns: [
-        // {
-        //   title: "店铺名称",
-        //   field: "ownerName",
-        //   sortable: true,
-        // },
+        {
+          title: "店铺编号",
+          field: "ownerId",
+          sortable: true,
+        },
+        {
+          title: "店铺名称",
+          field: "ownerName",
+          sortable: true,
+        },
         {
           title: "商品编号",
           field: "waresId",

@@ -478,7 +478,7 @@ var editOption = {};
   });
 
   $(".actualAmount,.handleAmount").on("input", function () {
-    let reg = /^[0-9]{0,8}$/;
+    let reg = /^[0-9\-]{0,8}$/;
     let str = `<span class='red inputErr' style="width:100%; margin-left:${$(this).position().left}px">8位以内的整数</span>`;
     if (reg.test($(this).val().trim())) {
       $(this).parent().find(".inputErr").remove()
@@ -489,16 +489,16 @@ var editOption = {};
     }
   })
   $(".textContent").on("input", ".number", function () {
-    let reg = /^[0-9]{0,8}$/;
+    let reg = /^[0-9\-]{0,8}$/;
     let str = `<span class='red inputErr' style="width:100%;margin-left:${$(this).position().left}px">8位以内的整数</span>`;
     if (reg.test($(this).val().trim())) {
-      if( parseInt($(this).val().trim())  <= parseInt($(this).parent().find("select option:selected").attr("data-count"))){
-        $(this).parent().find(".inputErr").remove()
-      }else{
-        if (!($(this).parent().find(".inputErr").length)) {
-          $(this).parent().append(`<span class='red inputErr' style="width:100%;margin-left:${$(this).position().left}px">商品数量不足</span>`)
-        }
-      }
+      // if( parseInt($(this).val().trim())  <= parseInt($(this).parent().find("select option:selected").attr("data-count"))){
+      //   $(this).parent().find(".inputErr").remove()
+      // }else{
+      //   if (!($(this).parent().find(".inputErr").length)) {
+      //     $(this).parent().append(`<span class='red inputErr' style="width:100%;margin-left:${$(this).position().left}px">商品数量不足</span>`)
+      //   }
+      // }
     } else {
       if (!($(this).parent().find(".inputErr").length)) {
         $(this).parent().append(str)
