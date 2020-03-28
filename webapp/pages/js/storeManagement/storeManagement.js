@@ -1,7 +1,7 @@
-(function (document, window, $) {
+(function(document, window, $) {
   "use strict";
 
-  var store_type = { "0": "公司", "1": "直营店", "2": "加盟店" };
+  var store_type = {"0":"公司","1": "直营店", "2": "加盟店" };
   var store_status = { "0": "待定", "1": "营业", "-1": "停业" };
   var isadd = false; // 判断是添加还是修改
   var storeId = "";
@@ -42,7 +42,7 @@
         {
           title: "店铺类型",
           field: "storeType",
-          formatter: function (vlaue, row) {
+          formatter: function(vlaue, row) {
             return store_type[row.storeType];
           },
           sortable: true
@@ -55,7 +55,7 @@
         {
           title: "店铺状态",
           field: "openStatus",
-          formatter: function (value, row) {
+          formatter: function(value, row) {
             return store_status[row.openStatus];
           },
           sortable: true
@@ -82,7 +82,7 @@
     return html;
   }
   var operateEvents = {
-    "click #edit": function (e, v, row) {
+    "click #edit": function(e, v, row) {
       isadd = false;
       storeId = row.storeId;
       $(".store_name").val(row.storeName);
@@ -100,20 +100,20 @@
       open_html(
         "修改店铺信息",
         "#editData",
-        function () {
+        function() {
           $("#editData input").val("");
           $("#editData select").val("");
         },
-        function () {
+        function() {
           confirmFn();
         },
-        function () {
+        function() {
           closeFn();
         }
       );
     },
-    "click #delete": function (e, v, row) {
-      firm("提示", "是否删除", function () {
+    "click #delete": function(e, v, row) {
+      firm("提示", "是否删除", function() {
         layer.closeAll("page");
         ajax_data(
           "/competence/deleteStoreInfo",
@@ -121,11 +121,11 @@
             params: { storeId: row.storeId },
             contentType: "application/x-www-form-urlencoded;charset=utf-8"
           },
-          function (res) {
+          function(res) {
             console.log(res);
             if (res.resultCode > -1) {
               tips("删除成功", 6);
-              $("#exampleTableFromData").bootstrapTable("selectPage", 1);
+              $("#exampleTableFromData").bootstrapTable("selectPage",1);
               $("#exampleTableFromData").bootstrapTable("refresh"); //刷新url！
             } else {
               tips("删除失败", 5);
@@ -142,55 +142,55 @@
         .val()
         .trim()
         ? $(".query_province")
-          .val()
-          .trim()
+            .val()
+            .trim()
         : undefined,
       cityId: $(".query_city")
         .val()
         .trim()
         ? $(".query_city")
-          .val()
-          .trim()
+            .val()
+            .trim()
         : undefined,
       areaId: $(".query_county")
         .val()
         .trim()
         ? $(".query_county")
-          .val()
-          .trim()
+            .val()
+            .trim()
         : undefined,
       storeName: $(".query_StoreName")
         .val()
         .trim()
         ? $(".query_StoreName")
-          .val()
-          .trim()
+            .val()
+            .trim()
         : undefined
     };
   }
   initFn();
   // 点击查询按钮
-  $("#eventqueryBtn").click(function () {
-    $("#exampleTableFromData").bootstrapTable("selectPage", 1);
+  $("#eventqueryBtn").click(function() {
+    $("#exampleTableFromData").bootstrapTable("selectPage",1);
     $("#exampleTableFromData").bootstrapTable("refresh");
   });
   // window.onload=function(params) {
   //   $("#exampleTableFromData").bootstrapTable("refresh");
   // }
 
-  $(".addBtn").click(function () {
+  $(".addBtn").click(function() {
     isadd = true;
     open_html(
       "添加店铺",
       "#editData",
-      function () {
+      function() {
         $("#editData input").val("");
         $("#editData select").val("");
       },
-      function () {
+      function() {
         confirmFn();
       },
-      function () {
+      function() {
         closeFn();
       }
     );
@@ -204,7 +204,7 @@
     $(".required")
       .parent()
       .next()
-      .each(function () {
+      .each(function() {
         if (
           !$(this)
             .val()
@@ -269,11 +269,11 @@
       url = "/competence/modifyStoreInfo";
     }
 
-    ajax_data(url, { params: JSON.stringify(params) }, function (res) {
+    ajax_data(url, { params: JSON.stringify(params) }, function(res) {
       console.log(res);
       if (res.resultCode > -1) {
         layer.closeAll("page");
-        $("#exampleTableFromData").bootstrapTable("selectPage", 1);
+        $("#exampleTableFromData").bootstrapTable("selectPage",1);
         $("#exampleTableFromData").bootstrapTable("refresh");
       } else {
         let tipsText;
@@ -289,7 +289,7 @@
   queryProvince();
   // 查询省份
   function queryProvince() {
-    ajax_data("/configuration/queryProvince", { params: {} }, function (res) {
+    ajax_data("/configuration/queryProvince", { params: {} }, function(res) {
       var option = '<option value="">选择省份</option>';
       for (let i in res) {
         option += `<option value="${res[i].id}">${res[i].name}</option>`;
@@ -302,14 +302,14 @@
   function queryCity(dom, params) {
     ajax_data(
       "/configuration/queryCity",
-      { params: params, async: false, contentType: "application/x-www-form-urlencoded" },
-      function (res) {
+      { params: params, async: false,contentType: "application/x-www-form-urlencoded"},
+      function(res) {
         var option = '<option value="">选择城市</option>';
         for (let i in res) {
           option += `<option value="${res[i].id}">${res[i].name}</option>`;
         }
         $(dom).html(option);
-        $(dom).change(function () {
+        $(dom).change(function() {
           if (
             $(this)
               .val()
@@ -322,7 +322,7 @@
           let newParams = params;
           newParams["cityId"] = parseInt($(this)
             .val()
-            .trim());
+          .trim());
           queryCounty($(this).next(), newParams);
         });
       }
@@ -333,8 +333,8 @@
   function queryCounty(dom, params) {
     ajax_data(
       "/configuration/queryArea",
-      { params: params, async: false, contentType: "application/x-www-form-urlencoded" },
-      function (res) {
+      { params: params, async: false, contentType: "application/x-www-form-urlencoded"},
+      function(res) {
         var option = '<option value="">选择区县</option>';
         for (let i in res) {
           option += `<option value="${res[i].id}">${res[i].name}</option>`;
@@ -343,24 +343,24 @@
       }
     );
   }
-  $(".query_province").change(function () {
-
-    $(".query_city").html('<option value="">选择城市</option>');
-    $(".query_county").html('<option value="">选择区县</option>');
-
+  $(".query_province").change(function() {
+   
+      $(".query_city").html('<option value="">选择城市</option>');
+      $(".query_county").html('<option value="">选择区县</option>');
+    
     queryCity(".query_city", {
       provinceId: parseInt($(this)
         .val()
-        .trim())
+      .trim())
     });
   });
-  $(".params_province").change(function () {
-    $(".params_city").html('<option value="">选择城市</option>');
-    $(".params_area").html('<option value="">选择区县</option>');
+  $(".params_province").change(function() {
+      $(".params_city").html('<option value="">选择城市</option>');
+      $(".params_area").html('<option value="">选择区县</option>');
     queryCity(".params_city", {
-      provinceId: parseInt($(this)
+      provinceId:  parseInt($(this)
         .val()
-        .trim())
+      .trim())
     });
   });
 })(document, window, jQuery);

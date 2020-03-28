@@ -9,15 +9,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="${pageContext.request.contextPath}/pages/js/jquery-3.4.1.min.js"></script>
 <script>
 	function commitFunc() {
-	  var formData = {};
-	  var url = "inventory/queryPersonalMarketing"
+	  var formData = {phoneNumber:18191550638,passwd:123456};
+	  var url = "applets/mobileRegister"
 	  //var url = "feedback/feedback.txt"
 	  $.ajax({
 	    url: "http://localhost:8080/sipimo/"+url,
 	    //dataType: "json",
 	    type: "POST",
 	    async: false,
-	    data: {jsonStr:JSON.stringify(formData)},
+	    data: JSON.stringify(formData),
 	    //data: formData,
 	    //contentType: "application/json;charscontentet=utf-8",
 	    contentType: "application/x-www-form-urlencoded;charset=utf-8",
@@ -30,31 +30,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  });
 	}
 	
-	//function exportFun() {
-		// 导出
-		$(".exportBtn").click(function() {
-		  //let menuName= $('.J_menuTab.active', parent.document).text();
-		  //let titleName=$(this).parents(".ibox").find(".ibox-title h5 ").text();
-		  let form = $('<form id="to_export" style="display:none"></form>').attr({
-		    action: "/sipimo" + "/common/exportWaresData",
-		    method: "post"
-		  });
-		  $("<input>")
-	      .attr("name", "jsonStr")
-	      .val(JSON.stringify({
-	        fileName:"exportFileName.csv"
-	      }))
-	      .appendTo(form);
-	    $("body").append(form);
-	    $("#to_export")
-	      .submit()
-	      .remove();
-	  });
-	//}
+	function exportFunc() {
+		let form = $('<form id="to_export" style="display:none"></form>').attr({
+		      action: "http://localhost:8080/sipimo" + "/common/exportPlanTemplate",
+		      method: "post"
+		    });
+		    $("<input>")
+		      .attr("name", "jsonStr")
+		      .val(JSON.stringify({
+		        planType:"0",
+		        fileName:"export.csv"
+		      }))
+		      .appendTo(form);
+		    $("body").append(form);
+		    $("#to_export")
+		      .submit()
+		      .remove();
+	}
 </script>
 </head>
 <body>
 <button id="btnButton" onclick="commitFunc()">提交</button>
-<button class="exportBtn">导出</button>
+<button id="btnButton" onclick="exportFunc()">导出</button>
 </body>
 </html>

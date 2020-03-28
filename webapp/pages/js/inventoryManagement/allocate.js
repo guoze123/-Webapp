@@ -61,6 +61,11 @@ var editOption = {};
           sortable: true,
         },
         {
+          title: "支付类型",
+          field: "payType",
+          sortable: true,
+        },
+        {
           title: "备注",
           field: "remark",
           sortable: true,
@@ -133,6 +138,7 @@ var editOption = {};
           contentType: "application/x-www-form-urlencoded;charset=utf-8"
         },
         function (res) {
+          let pay_types=["现金","微信","支付宝","刷卡","购物卡","其他"]
           editOption = {
             startTime: row.operationDate, // 日期
             totalAmount: row.amount, // 应付
@@ -143,7 +149,8 @@ var editOption = {};
             waresList: res, // 商品
             stockId: row.stockId,
             entryType: 2,
-            transferType: row.transferType
+            transferType: row.transferType,
+            payType:  pay_types.indexOf(row.payType) > -1 ? pay_types.indexOf(row.payType):"0"
           };
           $(".startTime").val(row.operationDate); // 日期
           $(".handleAmount").val(row.amount); // 应付
@@ -153,6 +160,7 @@ var editOption = {};
           $(".remark").val(row.remark); // 备注
           $(".consignee,.shipper").trigger("chosen:updated");
           $(".shipper").trigger("change");
+          $(".payType input[type='radio']")[ pay_types.indexOf(row.payType) > -1 ? pay_types.indexOf(row.payType) : 0].checked=true;
           function selectWares(selectId) {
             let option = "<option value='' data-id=''>选择商品名称</option>";
             if (allwares.length) {
@@ -209,6 +217,7 @@ var editOption = {};
               $("#editData img").attr("src", "");
               $(".consignee,.shipper").trigger("chosen:updated");
               $(".inputErr").remove();
+              $(".payType input[type='radio']")[0].checked=true;
             },
             function () {
               confirmFn();
@@ -298,6 +307,7 @@ var editOption = {};
         $("#editData img").attr("src", "");
         $(".consignee,.shipper").trigger("chosen:updated");
         $(".inputErr").remove();
+        $(".payType input[type='radio']")[0].checked=true;
       },
       function () {
         confirmFn();
@@ -403,6 +413,7 @@ var editOption = {};
         .trim(), // 备注
       waresList: waresList, // 商品
       entryType: 2,
+      payType:$(".payType input[type='radio']:checked").val().trim(),
       transferType:(parseInt($(".shipper option:selected").attr("data-type")))+""+(parseInt($(".consignee option:selected").attr("data-type")))
        
     };

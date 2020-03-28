@@ -24,7 +24,7 @@
      
         {
           title: "收款方",
-          field: "toStoreName",
+          field: "fromStoreName",
           sortable: true
         },
         {
@@ -48,8 +48,13 @@
           sortable: true
         },
         {
-          title: "欠款方",
-          field: "fromStoreName",
+          title: "付款方",
+          field: "toStoreName",
+          sortable: true
+        },
+        {
+          title: "支付时间",
+          field: "paymentTime",
           sortable: true
         },
         {
@@ -124,9 +129,9 @@
     },
     "click #paymentBtn": function(e, v, row) {
       $("#keepPaying .storckId").val(row.stockId);
-      $("#keepPaying .storeName").val(row.storeName);
+      $("#keepPaying .storeName").val(row.toStoreName);
       $("#keepPaying .totalAmount").val(row.totalAmount);
-      $("#keepPaying .storeId").val(row.storeId);
+      $("#keepPaying .storeId").val(row.toStoreId);
       open_html(
         "继续支付",
         "#keepPaying",

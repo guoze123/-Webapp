@@ -31,11 +31,6 @@
       queryParams: queryParams,
       columns: [
         {
-          title: "店铺编号",
-          field: "ownerId",
-          sortable: true,
-        },
-        {
           title: "店铺名称",
           field: "ownerName",
           sortable: true,

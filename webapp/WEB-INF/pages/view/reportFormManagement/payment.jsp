@@ -119,6 +119,7 @@ http://www.w3.org/TR/html4/loo">
             <div><input type="radio" name="payType" value="2" id="" style="width: 20px;">支付宝</div>
             <div><input type="radio" name="payType" value="3" id="" style="width: 20px;">刷卡</div>
             <div><input type="radio" name="payType" value="4" id="" style="width: 20px;">购物卡</div>
+            <div><input type="radio" name="payType" value="5" id="" style="width: 20px;">其他</div>
           </div>
         </div>
       </div>

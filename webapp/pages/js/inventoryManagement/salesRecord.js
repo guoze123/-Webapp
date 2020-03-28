@@ -44,15 +44,20 @@ var allwares = ""; //所有商品
           sortable: true
         },
         {
-          title: "本次应付金额",
+          title: "应付金额",
           field: "totalAmount",
           sortable: true
         },
         {
-          title: "本次实付金额",
+          title: "实付金额",
           field: "payedAmount",
           sortable: true
         },
+        {
+	      title: "支付类型",
+	      field: "payType",
+	      sortable: true
+	    },
         {
           title: "客户类型",
           field: "custType"

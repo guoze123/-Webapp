@@ -33,8 +33,13 @@
           sortOrder: "asc", //排序方式
           columns: [
             {
-              title: "时间",
-              field: "batchno",
+              title: "开始时间",
+              field: "startTime",
+              sortable: true
+            },
+            {
+              title: "结束时间",
+              field: "endTime",
               sortable: true
             },
             {

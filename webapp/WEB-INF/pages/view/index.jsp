@@ -187,7 +187,7 @@
   </div>
   <div class="footer" style="text-align: center;">
     <div>
-      © 2014-2015 京公网安备11000002000001号 
+                         陕ICP备20001778号-1
     </div>
   </div>
   <div id="updata_password_content" style="display: none; margin-bottom: 15px;">

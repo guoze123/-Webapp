@@ -58,8 +58,7 @@ http://www.w3.org/TR/html4/loo">
                         <div class="example">
                             <div class="searchList">
                                 <div class="left">
-                                    <button type="button" id="" class="btn btn-success addBtn"
-                                        style="width:80px;">
+                                    <button type="button" id="" class="btn btn-success addBtn" style="width:80px;">
                                         添加
                                     </button>
                                 </div>
@@ -123,6 +122,17 @@ http://www.w3.org/TR/html4/loo">
                         <select name="" id="" class="form-control m-b consignee">
                             <option value="">选择收货方</option>
                         </select>
+                    </div>
+                </div>
+                <div class="list_row">
+                    <div style="width: 100%; height: 45px;" class="payType">
+                        <span>支付类型</span>
+                        <div><input type="radio" name="payType" value="0" checked id="" style="width: 20px;">现金</div>
+                        <div> <input type="radio" name="payType" value="1" id="" style="width: 20px;">微信</div>
+                        <div><input type="radio" name="payType" value="2" id="" style="width: 20px;">支付宝</div>
+                        <div><input type="radio" name="payType" value="3" id="" style="width: 20px;">刷卡</div>
+                        <div><input type="radio" name="payType" value="4" id="" style="width: 20px;">购物卡</div>
+                        <div><input type="radio" name="payType" value="5" id="" style="width: 20px;">其他</div>
                     </div>
                 </div>
                 <div class="list_row commodity firstGroup">
