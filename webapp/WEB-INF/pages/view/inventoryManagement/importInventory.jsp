@@ -92,7 +92,7 @@ http://www.w3.org/TR/html4/loo">
                     <div>
                         <span><i class="required">*</i>订单日期</span>
                         <input id="" class="laydate-icon form-control layer-date startTime"
-                            onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss',start:new Date().toLocaleString()})"
+                            onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss',start:new Date().toLocaleString('chinese',{hour12:false})})"
                             placeholder="订单日期" />
                     </div>
                     <div>

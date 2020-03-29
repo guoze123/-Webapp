@@ -1,6 +1,6 @@
 (function(document, window, $) {
   "use strict";
-  monthRange(".query_startTime", ".query_stopTime");
+  dateRange(".query_startTime", ".query_endTime");
   function initFn() {
     $("#payment").bootstrapTable({
       method: "post",
@@ -71,7 +71,11 @@
     let purviewList = getQueryString("purview").split(",");
     let html = "";
     if (purviewList.includes("3")) {
-      html += `<button type="button" id="paymentBtn" class="btn btn-info btn-sm paymentBtn" style="margin-right: 10px;">继续支付</button>`;
+      if(row.balance > 0){
+        html += `<button type="button" id="paymentBtn" class="btn btn-info btn-sm paymentBtn" style="margin-right: 10px;">继续支付</button>`;
+      }else{
+        html += ``;
+      }
     }
     if (purviewList.includes("4")) {
       html += `<button type="button" id="detailBtn" class="btn btn-info btn-sm detailBtn">支付详情</button>`;
@@ -118,6 +122,10 @@
               {
                 title: "支付时间",
                 field: "paymentTime"
+              },
+              {
+                title: "支付类型",
+                field: "payType"
               }
             ]
           });
@@ -150,7 +158,11 @@
 
   function queryParams() {
     return {
-      
+      jsonStr: JSON.stringify({
+        toStoreName: $(".query_toStoreName").val().trim() ?　$(".query_toStoreName").val().trim():undefined,
+        startTime: $(".query_startTime").val().trim() ? $(".query_startTime").val().trim():undefined,
+        endTime: $(".query_endTime").val().trim() ? $(".query_endTime").val().trim():undefined,
+      })
     };
   }
   initFn();

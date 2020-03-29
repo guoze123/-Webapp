@@ -42,12 +42,13 @@ http://www.w3.org/TR/html4/loo">
               <div class="searchList">
                 <div class="left"></div>
                 <div class="right">
-                  <!-- <input id="" class="laydate-icon form-control layer-date query_startTime" placeholder="开始时间" />
-                  <input id="" class="laydate-icon form-control layer-date query_stopTime" placeholder="结束时间" /> -->
+                  <input id="" class="laydate-icon form-control layer-date query_startTime" placeholder="开始时间">
+                  <input id="" class="laydate-icon form-control layer-date query_endTime" placeholder="结束时间"> 
+                  <input type="text" class="form-control query_toStoreName" placeholder="付款方名称" />
                   <span>
-                    <!-- <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn" style="width:80px;">
+                    <button type="button" id="eventqueryBtn" class="btn btn-success queryBtn" style="width:80px;">
                       查询
-                    </button> -->
+                    </button>
                     <button type="button" id="" class="btn btn-success exportBtn" style="width:80px;">
                       导出
                     </button>
@@ -87,7 +88,7 @@ http://www.w3.org/TR/html4/loo">
           <div>
             <span><i class="required">*</i>支付时间</span>
             <input id="" class="laydate-icon form-control layer-date payTime"
-              onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss',start:new Date().toLocaleString()})"
+              onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss',start:new Date().toLocaleString('chinese',{hour12:false})})"
               placeholder="支付时间" />
           </div>
           <div>

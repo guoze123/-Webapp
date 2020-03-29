@@ -116,7 +116,7 @@ http://www.w3.org/TR/html4/loo">
                     <div>
                         <span><i class="required">*</i>录入时间</span>
                         <input class="form-control operationDate laydate-icon layer-date"
-                            onclick="laydate({istime: true, format: 'YYYY-MM-DD HH:MM:SS'})" type="text"
+                            onclick="laydate({istime: true, format: 'YYYY-MM-DD HH:MM:SS',start:new Date().toLocaleString('chinese',{hour12:false})})" type="text"
                             placeholder="录入时间" />
                     </div>
                 </div>
@@ -191,7 +191,7 @@ http://www.w3.org/TR/html4/loo">
                     <div>
                         <span><i class="required">*</i>录入时间</span>
                         <input class="form-control operationDate laydate-icon layer-date"
-                            onclick="laydate({istime: true, format: 'YYYY-MM-DD HH:MM:SS',start:new Date().toLocaleString()})"
+                            onclick="laydate({istime: true, format: 'YYYY-MM-DD HH:MM:SS',start:new Date().toLocaleString('chinese',{hour12:false})})"
                             type="text" placeholder="录入时间" />
                     </div>
                 </div>
