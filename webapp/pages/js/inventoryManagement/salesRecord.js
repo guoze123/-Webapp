@@ -1,6 +1,14 @@
 var userEditOption = {};
 var storeEditOption = {};
 var allwares = ""; //所有商品
+var pay_type={
+  "0":"现金",
+  "1":"微信",
+  "2":"支付宝",
+  "3":"刷卡",
+  "4":"购物卡",
+  "5":"其他",
+}
 (function (document, window, $) {
   "use strict";
   queryStore();
@@ -176,7 +184,28 @@ var allwares = ""; //所有商品
             $(".storeNotGift").after(str);
             $(".storeIsGift").after(str1);
           }
+          // 支付方式列表
+          if(row.paywayList.length > 0){
+            let str="";
+            for(let k=0; k < row.paywayList.length; k++){
+              str+= `
+                    <div class="actual_payment">
+                    <span> <i class="required">*</i>选择支付方式：</span>
+                    <select name="" id="" class="form-control" style="margin-right: 5px;">
+                      ${all_pay_type(row.paywayList[k].paymentway)}
+                    </select>
+                    <span><i class="required">*</i>支付金额：</span>
+                    <input type="text" name="" id="" class="form-control" style="width: 150px;" value="${row.paywayList[k].amount}">
+                    ${
+                      k == 0 ? '<button style="margin-left: 5px;" onclick="add_pay(this)">添加</button>':'<button style="margin-left: 5px;" onclick="del_pay(this)">删除</button>'
+                    }
+                </div>
+                    `
+            }
 
+            $("#editData .actual_payment_content").html(str);
+
+          }
           storeEditOption = {
             stockId: row.stockId,
             startTime: row.operationDate, //录入时间
@@ -187,7 +216,8 @@ var allwares = ""; //所有商品
             custType: row.custType, //客户类型
             remark: row.remark,
             waresList: res,
-            entryType: 1
+            entryType: 1,
+            paywayList:row.paywayList
           };
           $("#editData .stockId").val(row.stockId);
           $("#editData .operationDate").val(row.operationDate);
@@ -277,7 +307,6 @@ var allwares = ""; //所有商品
 
   var userOperateEvents = {
     "click #editUserDataBtn": function (e, v, row) {
-
       ajax_data(
         "/inventory/querySaleDetail",
         {
@@ -351,6 +380,29 @@ var allwares = ""; //所有商品
             $(".userNotGift").after(str);
             $(".userIsGift").after(str1);
           }
+
+           // 支付方式列表
+           if(row.paywayList.length > 0){
+            let str="";
+            for(let k=0; k < row.paywayList.length; k++){
+              str+= `
+                    <div class="actual_payment">
+                    <span> <i class="required">*</i>选择支付方式：</span>
+                    <select name="" id="" class="form-control" style="margin-right: 5px;">
+                      ${all_pay_type(row.paywayList[k].paymentway)}
+                    </select>
+                    <span><i class="required">*</i>支付金额：</span>
+                    <input type="text" name="" id="" class="form-control" style="width: 150px;" value="${row.paywayList[k].amount}">
+                    ${
+                      k == 0 ? '<button style="margin-left: 5px;" onclick="add_pay(this)">添加</button>':'<button style="margin-left: 5px;" onclick="del_pay(this)">删除</button>'
+                    }
+                </div>
+                    `
+            }
+            $("#editUserData .actual_payment_content").html(str);
+
+          }
+
           userEditOption = {
             stockId: row.stockId,
             startTime: row.operationDate, //录入时间
@@ -361,7 +413,8 @@ var allwares = ""; //所有商品
             custType: row.custType, //客户类型
             remark: row.remark,
             waresList: res,
-            entryType: 1
+            entryType: 1,
+            paywayList:row.paywayList
           };
           $("#editUserData .stockId").val(row.stockId);
           $("#editUserData .operationDate").val(row.operationDate);
@@ -651,6 +704,14 @@ var allwares = ""; //所有商品
       wares["isGift"] = $(this).find(".name").attr("isGift");
       waresList.push(wares);
     });
+    // 获取表单中 支付方式和支付金额
+    let  paywayList =[];
+    $("#editData .actual_payment").each(function() {
+      let payway={};
+      payway['paymentway']=$(this).find('select').val();
+      payway['amount']=$(this).find('input').val();
+      paywayList.push(payway)
+    })
 
 
     let params = {
@@ -679,7 +740,8 @@ var allwares = ""; //所有商品
         .val()
         .trim(),
       entryType: 1,
-      waresList: waresList
+      waresList: waresList,
+      paywayList:paywayList
     };
 
     ajax_data("/inventory/modifyEntryStock", {
@@ -702,6 +764,7 @@ var allwares = ""; //所有商品
   }
 
   function userConfirmFn() {
+    let required = true;
     $("#editUserData .required")
       .parent()
       .next()
@@ -735,6 +798,15 @@ var allwares = ""; //所有商品
       wares["isGift"] =  $(this).find(".name").attr("isGift");
       waresList.push(wares);
     });
+
+    // 获取表单中 支付方式和支付金额
+    let  paywayList =[];
+    $("#editUserData .actual_payment").each(function() {
+      let payway={};
+      payway['paymentway']=$(this).find('select').val();
+      payway['amount']=$(this).find('input').val();
+      paywayList.push(payway)
+    })
     let params = {
       stockId: $("#editUserData .stockId")
         .val()
@@ -761,7 +833,8 @@ var allwares = ""; //所有商品
         .val()
         .trim(),
       entryType: 1,
-      waresList: waresList
+      waresList: waresList,
+      paywayList:paywayList
     };
 
     ajax_data("/inventory/modifyEntryStock", {
@@ -900,4 +973,40 @@ function deleteCommodity(that) {
     .parent()
     .parent()
     .remove();
+}
+
+ // 添加支付方式
+ function add_pay(that){
+  let str=`
+        <div class="actual_payment">
+        <span> <i class="required">*</i>选择支付方式：</span>
+        <select name="" id="" class="form-control" style="margin-right: 5px;">
+            <option value="0">现金</option>
+            <option value="1">微信</option>
+            <option value="2">支付宝</option>
+            <option value="3">刷卡</option>
+            <option value="4">购物卡</option>
+            <option value="5">其他</option>
+        </select>
+        <span><i class="required">*</i>
+        支付金额：</span>
+        <input type="text" name="" id="" class="form-control" style="width: 150px;">
+        <button style="margin-left: 5px;" onclick="del_pay(this)">删除</button>
+    </div>
+  `
+  $(that).parent().parent().append(str)
+
+}
+
+function all_pay_type(checkType) {
+  let str="";
+  for(let s in pay_type){
+    str+=`<option value="${$}" ${ checkType == s ? "selected" : "" } >${pay_type[s]}</option> `
+  }
+  return str
+}
+
+// 删除支付方式
+function del_pay(that) {
+  $(that).parent().remove()
 }

@@ -39,6 +39,11 @@ http://www.w3.org/TR/html4/loo">
         .fixed-table-container {
             padding-bottom: 37px !important;
         }
+        .actual_payment{
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
     </style>
     <script>
         var base = "${pageContext.request.contextPath}";
@@ -136,16 +141,6 @@ http://www.w3.org/TR/html4/loo">
                 </div>
                 <div class="list_row">
                     <div>
-                        <span><i class="required">*</i>本次应付金额</span>
-                        <input type="text" class="form-control totalAmount" placeholder="本次应付金额" />
-                    </div>
-                    <div>
-                        <span><i class="required">*</i>本次实付金额</span>
-                        <input type="text" class="form-control payedAmount" placeholder="本次应付金额" />
-                    </div>
-                </div>
-                <div class="list_row">
-                    <div>
                         <span>备注</span>
                         <input type="text" class="form-control remark" placeholder="备注" />
                     </div>
@@ -158,6 +153,21 @@ http://www.w3.org/TR/html4/loo">
                         </select>
                     </div>
                 </div>
+                <div class="list_row">
+                    <div style="width: 100%;">
+                        <span><i class="required">*</i>本次应付金额</span>
+                        <input type="text" class="form-control totalAmount" placeholder="本次应付金额" />
+                    </div>
+                   
+                </div>
+                <div class="list_row">
+                    <div style="width: 100%;">
+                        <span>本次实付金额</span>
+                        <div class="actual_payment_content">
+                        </div>
+                    </div>
+                </div>
+               
                 <div class="list_row  storeNotGift" >
                     <div style="width: 100%;">
                         <span>商品：</span>
@@ -210,13 +220,17 @@ http://www.w3.org/TR/html4/loo">
                     </div>
                 </div>
                 <div class="list_row">
-                    <div>
+                    <div style="width: 100%;">
                         <span><i class="required">*</i>本次应付金额</span>
                         <input type="text" class="form-control totalAmount" placeholder="本次应付金额" />
                     </div>
-                    <div>
-                        <span><i class="required">*</i>本次实付金额</span>
-                        <input type="text" class="form-control payedAmount" placeholder="本次应付金额" />
+                   
+                </div>
+                <div class="list_row">
+                    <div style="width: 100%;">
+                        <span>本次实付金额</span>
+                        <div class="actual_payment_content">
+                        </div>
                     </div>
                 </div>
                 <div class="list_row">
