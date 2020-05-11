@@ -87,7 +87,7 @@ http://www.w3.org/TR/html4/loo">
         <div class="list_row">
           <div>
             <span><i class="required">*</i>支付时间</span>
-            <input id="" class="laydate-icon form-control layer-date payTime"
+            <input id="" class="laydate-icon form-control layer-date payTime" type="text"
               onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss',start:new Date().toLocaleString('chinese',{hour12:false})})"
               placeholder="支付时间" />
           </div>

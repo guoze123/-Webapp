@@ -211,7 +211,7 @@ var editOption = {};
             "修改信息",
             "#editData",
             function (params) {
-              $("#editData input").val("");
+              $("#editData input[type='text']").val("");
               $("#editData select").val("");
               $("#editData .newShop").remove();
               $("#editData img").attr("src", "");
@@ -301,7 +301,7 @@ var editOption = {};
       "添加",
       "#editData",
       function () {
-        $("#editData input").val("");
+        $("#editData input[type='text']").val("");
         $("#editData select").val("");
         $("#editData .newShop").remove();
         $("#editData img").attr("src", "");

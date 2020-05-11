@@ -8,7 +8,7 @@ var pay_type={
   "3":"刷卡",
   "4":"购物卡",
   "5":"其他",
-}
+};
 (function (document, window, $) {
   "use strict";
   queryStore();
@@ -708,12 +708,10 @@ var pay_type={
     let  paywayList =[];
     $("#editData .actual_payment").each(function() {
       let payway={};
-      payway['paymentway']=$(this).find('select').val();
+      payway['paymentway']=$(this).find("option:selected").attr("value");
       payway['amount']=$(this).find('input').val();
       paywayList.push(payway)
     })
-
-
     let params = {
       stockId: $("#editData .stockId")
         .val()
@@ -1001,7 +999,7 @@ function deleteCommodity(that) {
 function all_pay_type(checkType) {
   let str="";
   for(let s in pay_type){
-    str+=`<option value="${$}" ${ checkType == s ? "selected" : "" } >${pay_type[s]}</option> `
+    str+=`<option value="${s}" ${ checkType == s ? "selected" : "" } >${pay_type[s]}</option> `
   }
   return str
 }

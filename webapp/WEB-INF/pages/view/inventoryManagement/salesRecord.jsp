@@ -154,11 +154,14 @@ http://www.w3.org/TR/html4/loo">
                     </div>
                 </div>
                 <div class="list_row">
-                    <div style="width: 100%;">
+                    <div >
                         <span><i class="required">*</i>本次应付金额</span>
                         <input type="text" class="form-control totalAmount" placeholder="本次应付金额" />
                     </div>
-                   
+                    <div >
+                        <span>本次实付总金额</span>
+                        <input type="text" class="form-control payedAmount" disabled placeholder="本次实付总金额" />
+                    </div>
                 </div>
                 <div class="list_row">
                     <div style="width: 100%;">
@@ -220,11 +223,14 @@ http://www.w3.org/TR/html4/loo">
                     </div>
                 </div>
                 <div class="list_row">
-                    <div style="width: 100%;">
+                    <div >
                         <span><i class="required">*</i>本次应付金额</span>
                         <input type="text" class="form-control totalAmount" placeholder="本次应付金额" />
                     </div>
-                   
+                    <div >
+                        <span>本次实付总金额</span>
+                        <input type="text" class="form-control payedAmount" disabled placeholder="本次实付总金额" />
+                    </div>
                 </div>
                 <div class="list_row">
                     <div style="width: 100%;">
